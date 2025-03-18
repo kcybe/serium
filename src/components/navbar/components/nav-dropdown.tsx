@@ -14,11 +14,13 @@ import {
   History,
   Settings,
   Home,
+  LogOut,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "@/hooks/use-translation";
 import { useSettings } from "@/hooks/use-settings";
+import { signOutAction } from "@/lib/auth-actions";
 
 interface NavItem {
   labelKey: string;
@@ -46,7 +48,7 @@ const navItems: NavItem[] = [
     labelKey: "general.settings",
     href: "/settings",
     icon: <Settings className="h-4 w-4 mr-2" />,
-  },
+  }
 ];
 
 // Home item defined separately since it's used as the default
@@ -54,6 +56,12 @@ const homeItem: NavItem = {
   labelKey: "general.home",
   href: "/",
   icon: <Home className="h-4 w-4 mr-2" />,
+};
+
+const signOutItem: NavItem = {
+  labelKey: "general.signOut",
+  href: "/sign-out", // Fixed typo in href
+  icon: <LogOut className="h-4 w-4 mr-2" />,
 };
 
 export function NavDropdown() {
@@ -107,6 +115,15 @@ export function NavDropdown() {
             </Link>
           </DropdownMenuItem>
         ))}
+        
+        <DropdownMenuItem key={signOutItem.href} onClick={signOutAction} asChild>
+          <form
+            className={'flex items-center w-full text-destructive'}
+          >
+            {signOutItem.icon}
+            {t(signOutItem.labelKey)}
+          </form>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

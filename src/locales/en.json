@@ -10,6 +10,7 @@
     "categoryLabel": "Category",
     "statusLabel": "Status",
     "locationLabel": "Location",
+    "signOut": "Sign Out",
     "form": {
       "sku": "SKU",
       "name": "Name",

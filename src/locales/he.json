@@ -10,6 +10,7 @@
     "categoryLabel": "קטגוריה",
     "statusLabel": "סטטוס",
     "locationLabel": "מיקום",
+    "signOut": "התנתק",
     "form": {
       "sku": "מק״ט",
       "name": "שם",

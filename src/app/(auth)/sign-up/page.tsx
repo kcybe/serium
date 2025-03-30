@@ -27,6 +27,7 @@ import Link from "next/link";
 import { formSchema } from "@/lib/auth-schema";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -37,6 +38,8 @@ export default function SignUp() {
       password: "",
     },
   });
+
+  const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { username, email, password } = values;
@@ -51,7 +54,7 @@ export default function SignUp() {
           password: password,
           username: username,
           name: username, // Assuming 'name' can be the same as 'username'
-          callbackURL: "/sign-in", // Redirect to sign-in page after sign-up
+          callbackURL: "/inventory", // Redirect to sign-in page after sign-up
         },
         {
           onRequest: () => {
@@ -60,6 +63,8 @@ export default function SignUp() {
           onSuccess: () => {
             form.reset();
             toast.success("Signed up successfully!", { id: authToast });
+            // Redirect to sign-in page after successful sign-up
+            router.push("/inventory");
           },
           onError: (ctx) => {
             toast.error(ctx.error.message, { id: authToast });

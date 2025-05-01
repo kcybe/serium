@@ -23,8 +23,6 @@ interface InventoryFiltersProps {
 export function InventoryFilters({
   data,
   settings,
-  searchValue,
-  searchParam,
   selectedCategories,
   selectedStatuses,
   onSearchChange,

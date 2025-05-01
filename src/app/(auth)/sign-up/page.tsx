@@ -11,13 +11,12 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -30,6 +29,8 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export default function SignUp() {
+  const [signUpLoading, setSignUpLoading] = useState(false)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,14 +60,17 @@ export default function SignUp() {
         {
           onRequest: () => {
             // No additional action needed here since loading toast is already shown
+            setSignUpLoading(true)
           },
           onSuccess: () => {
             form.reset();
             toast.success("Signed up successfully!", { id: authToast });
+            setSignUpLoading(false)
             // Redirect to sign-in page after successful sign-up
             router.push("/inventory");
           },
           onError: (ctx) => {
+            setSignUpLoading(false)
             toast.error(ctx.error.message, { id: authToast });
           },
         }
@@ -131,8 +135,12 @@ export default function SignUp() {
                   </FormItem>
                 )}
               />
-              <Button className="w-full space-y-4" type="submit">
-                Submit
+              <Button 
+                className="w-full space-y-4" 
+                type="submit"
+                disabled={signUpLoading}
+              >
+                {signUpLoading ? "Signing up..." : "Sign Up"}
               </Button>
             </form>
           </Form>

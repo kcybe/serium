@@ -6,8 +6,9 @@ export async function middleware(request: NextRequest) {
         // Optionally pass config if cookie name, prefix or useSecureCookies option is customized in auth config.
 		cookieName: "session_token",
 		cookiePrefix: "better-auth",
-		useSecureCookies: true,
     });
+
+  console.info(sessionCookie)
  
 	if (!sessionCookie) {
 		return NextResponse.redirect(new URL("/sign-in", request.url));

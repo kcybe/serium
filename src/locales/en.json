@@ -11,6 +11,7 @@
     "statusLabel": "Status",
     "locationLabel": "Location",
     "signOut": "Sign Out",
+    "signingOut": "Signing Out...",
     "form": {
       "sku": "SKU",
       "name": "Name",
@@ -251,5 +252,8 @@
     "generateBarcode": "Generate Barcode",
     "edit": "Edit",
     "delete": "Delete"
+  },
+  "profile": {
+    "yourProfile": "Your Profile"
   }
 }

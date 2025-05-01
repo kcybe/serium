@@ -28,11 +28,6 @@ export function BackupSettings({ settings, onSettingsImported }: BackupSettingsP
         db.inventory.toArray(),
         db.history.toArray()
       ])
-      const backup = {
-        settings,
-        inventory,
-        history: historyLogs
-      }
       exportToJson(
         { settings, inventory, history: historyLogs },
         `inventory-backup-${new Date().toISOString().split('T')[0]}.json`
@@ -79,7 +74,7 @@ export function BackupSettings({ settings, onSettingsImported }: BackupSettingsP
       
       toast.success(t('toast.fullBackupRestored'))
     } catch (error) {
-      toast.error(t('toast.invalidBackupFile'))
+      toast.error(t('toast.invalidBackupFile') + error)
     }
   }
 

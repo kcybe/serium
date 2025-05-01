@@ -1,4 +1,3 @@
-import { SiteSettings } from '@/types/settings'
 import en from '@/locales/en.json'
 import he from '@/locales/he.json'
 

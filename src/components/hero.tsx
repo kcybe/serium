@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button"
 import { pixelifySans } from "@/lib/fonts"
-import { Particles } from "@/components/particles"
 import Link from "next/link"
 
 export function Hero() {

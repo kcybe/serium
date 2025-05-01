@@ -11,7 +11,7 @@ export function HistoryAlert({ enabled, t }: HistoryAlertProps) {
   if (enabled) return null;
 
   return (
-    <div className="w-full max-w-7xl mx-auto">
+    <div className="w-full mx-auto">
       <Alert variant="destructive">
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>{t("history.disabledTitle")}</AlertTitle>

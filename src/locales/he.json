@@ -11,6 +11,7 @@
     "statusLabel": "סטטוס",
     "locationLabel": "מיקום",
     "signOut": "התנתק",
+    "signingOut": "מתנתק...",
     "form": {
       "sku": "מק״ט",
       "name": "שם",
@@ -252,5 +253,8 @@
     "edit": "ערוך",
     "delete": "מחק",
     "verify": "אשר"
+  },
+  "profile": {
+    "yourProfile": "הפרופיל שלך"
   }
 }

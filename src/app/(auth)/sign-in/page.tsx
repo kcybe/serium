@@ -11,13 +11,12 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -29,6 +28,8 @@ import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 
 export default function SignIn() {
+  const [signInLoading, setSignInLoading] = useState(false)
+
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
@@ -53,13 +54,16 @@ export default function SignIn() {
         {
           onRequest: () => {
             // No additional action needed here since loading toast is already shown
+            setSignInLoading(true)
           },
           onSuccess: () => {
             form.reset();
             toast.success("Signed in successfully!", { id: authToast });
+            setSignInLoading(false)
           },
           onError: (ctx) => {
             toast.error(ctx.error.message, { id: authToast });
+            setSignInLoading(false)
           },
         }
       );
@@ -112,8 +116,12 @@ export default function SignIn() {
                   </FormItem>
                 )}
               />
-              <Button className="w-full space-y-4" type="submit">
-                Submit
+              <Button 
+                className="w-full space-y-4" 
+                type="submit"
+                disabled={signInLoading}
+              >
+                {signInLoading ? "Signing in..." : "Sign In"}
               </Button>
             </form>
           </Form>

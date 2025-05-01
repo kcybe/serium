@@ -40,7 +40,7 @@ export default function SettingsPage() {
     };
 
     loadSettings();
-  }, []);
+  });
 
   const handleSubmit = async (values: SiteSettings) => {
     try {

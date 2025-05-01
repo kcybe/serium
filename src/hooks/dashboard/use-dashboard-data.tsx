@@ -55,7 +55,7 @@ export function useInventoryData() {
     }
     
     loadData()
-  }, [])
+  })
 
   const processInventoryData = (inventory: InventoryItem[]) => {
     const categories = new Map<string, number>()

@@ -54,7 +54,7 @@ export function InventoryContainer() {
       <HistoryAlert enabled={historyEnabled} t={t} />
 
       <div className="flex justify-center">
-        <Card className="w-full max-w-7xl">
+        <Card className="w-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
             <CardTitle>
               <InventoryHeader settings={settings} />

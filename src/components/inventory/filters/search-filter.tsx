@@ -51,10 +51,6 @@ export function SearchFilter({
   const [searchValue, setSearchValue] = useState<string>("")
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-  const [barcodeBuffer, setBarcodeBuffer] = useState<{ buffer: string; lastKeyTime: number }>({
-    buffer: '',
-    lastKeyTime: 0
-  })
 
   // Refs to always have the latest data and verify callback.
   const dataRef = useRef(data);

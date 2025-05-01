@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import React from "react"
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState } from "react"
 
 interface ParticlesProps {
   count?: number
@@ -18,10 +18,8 @@ interface ParticlesProps {
 }
 
 const Particle = React.memo(({ 
-  id,
   color,
   size,
-  speed,
   range,
   opacity,
   shape,
@@ -97,6 +95,8 @@ const Particle = React.memo(({
     />
   )
 })
+
+Particle.displayName = "Particle"
 
 export function Particles({
   count = 100,

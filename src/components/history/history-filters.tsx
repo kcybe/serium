@@ -13,7 +13,6 @@ interface HistoryFiltersProps {
 }
 
 export function HistoryFilters({
-  filter,
   onSearchChange,
   onActionChange,
   selectedAction,

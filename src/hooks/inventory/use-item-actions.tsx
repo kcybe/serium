@@ -1,11 +1,9 @@
 // src/app/inventory/hooks/use-item-actions.tsx
-import { useState } from "react";
 import { toast } from "sonner";
 import { db } from "@/lib/services/db";
 import { historyService } from "@/lib/services/history";
 import { inventoryService } from "@/lib/services/inventory";
 import { type InventoryItem } from "@/types/inventory";
-import { type SiteSettings } from "@/types/settings";
 
 export function useItemActions(
   data: InventoryItem[],

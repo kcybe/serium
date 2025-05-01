@@ -5,7 +5,7 @@ export default function HistoryPage() {
   return (
     <PageTransition>
       <div className="flex justify-center p-8">
-        <div className="w-full max-w-7xl">
+        <div className="w-full">
           <HistoryContainer />
         </div>
       </div>

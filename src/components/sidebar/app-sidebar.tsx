@@ -9,6 +9,7 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -19,6 +20,7 @@ import {
 import UserDetails from "./user-details";
 import { ThemeToggle } from "./theme-toggle";
 import { cn } from "@/lib/utils";
+import SidebarLogo from "./sidebar-logo";
 
 // Menu items.
 const items = [
@@ -55,6 +57,9 @@ export function AppSidebar() {
 
   return (
     <Sidebar variant="floating" collapsible="icon">
+      <SidebarHeader>
+        <SidebarLogo />
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>

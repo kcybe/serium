@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { Button } from "../ui/button";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { LogOut } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function SignOutButton() {
   const router = useRouter();
@@ -34,17 +35,16 @@ export default function SignOutButton() {
   };
 
   return (
-    <Button
-      variant={"destructive"}
-      size={"sm"}
-      className="w-full"
+    <div
       onClick={handleSignOut}
-      disabled={isLoading} // Disable button while signing out
-      // Remove asChild if Button doesn't require it for text children
-      // Remove isLoading prop if the Button doesn't use it internally
-      // when children are manually changed based on loading state.
+      className={cn(
+        "flex w-full cursor-pointer items-center gap-2 px-2 py-1.5 text-sm text-red-500",
+        "hover:bg-red-500/10 focus:bg-red-500/10",
+        isLoading && "opacity-50 pointer-events-none"
+      )}
     >
+      <LogOut size={16} />
       {isLoading ? "Signing out..." : "Sign out"}
-    </Button>
+    </div>
   );
 }

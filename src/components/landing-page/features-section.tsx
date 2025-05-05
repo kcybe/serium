@@ -5,7 +5,7 @@ export default function FeaturesSection() {
   return (
     <>
       <section id="features" className="py-16 md:py-24">
-        <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-7xl px-6 ">
           <div className="text-center">
             <h2 className="text-4xl font-bold text-balance sm:text-5xl">
               Key Features
@@ -17,7 +17,7 @@ export default function FeaturesSection() {
           </div>
 
           {/* Feature Grid using Shadcn Cards with Glowing Blobs */}
-          <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 ">
             {/* --- Feature 1 --- */}
             {/* Relative container for positioning the blob */}
             <div className="relative">
@@ -31,7 +31,7 @@ export default function FeaturesSection() {
                 // Adjust gradient colors (from-primary/20, to-blue-400/10 etc.)
               />
               {/* The Card (ensure it has a background color to sit above the blob) */}
-              <Card className="text-center h-full">
+              <Card className="text-center h-full hover:scale-105 transition-transform duration-300 ease-in-out">
                 {" "}
                 {/* Added h-full for consistent height if needed */}
                 <CardHeader>
@@ -58,7 +58,7 @@ export default function FeaturesSection() {
                 aria-hidden="true"
                 className="absolute -inset-3 -z-10 rounded-full bg-gradient-to-br from-cyan-400/10 via-primary/15 to-green-400/10 opacity-50 blur-3xl pointer-events-none"
               />
-              <Card className="text-center h-full">
+              <Card className="text-center h-full hover:scale-105 transition-transform duration-300 ease-in-out">
                 <CardHeader>
                   <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <ScanBarcode className="h-6 w-6" />
@@ -83,7 +83,7 @@ export default function FeaturesSection() {
                 aria-hidden="true"
                 className="absolute -inset-1 -z-10 rounded-full bg-gradient-to-br from-violet-500/15 to-primary/15 opacity-60 blur-3xl pointer-events-none"
               />
-              <Card className="text-center h-full">
+              <Card className="text-center h-full hover:scale-105 transition-transform duration-300 ease-in-out">
                 <CardHeader>
                   <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <BarChartBig className="h-6 w-6" />

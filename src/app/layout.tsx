@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/app/providers/theme-provider";
-import Navbar from "@/components/nav/navbar";
 import { Toaster } from "sonner";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import { cookies } from "next/headers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,15 +24,18 @@ export const metadata: Metadata = {
     "Serium Inventory Manager is a tool for managing your inventory.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen`}
       >
         <ThemeProvider
           attribute="class"
@@ -38,9 +43,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
-          <Toaster />
+          <SidebarProvider defaultOpen={defaultOpen}>
+            <div className="flex w-full">
+              <AppSidebar />
+              {children}
+              <Toaster />
+            </div>
+          </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>

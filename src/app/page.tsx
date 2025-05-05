@@ -6,17 +6,19 @@ import FeaturesSection from "@/components/landing-page/features-section";
 
 export default function HomePage() {
   return (
-    <main>
-      {/* Hero Section (keep as is from previous version) */}
-      <HeroSection />
+    <main className="flex flex-col items-center w-full">
+      <div className="w-full max-w-7xl">
+        {/* Hero Section (keep as is from previous version) */}
+        <HeroSection />
 
-      {/* Fading Separator (keep as is) */}
-      <div className="mx-auto my-12 h-px w-full max-w-7xl bg-gradient-to-r from-transparent via-border to-transparent dark:via-border" />
+        {/* Fading Separator (keep as is) */}
+        <div className="mx-auto my-12 h-px w-full max-w-7xl bg-gradient-to-r from-transparent via-border to-transparent dark:via-border" />
 
-      {/* Features Section */}
-      <FeaturesSection />
+        {/* Features Section */}
+        <FeaturesSection />
 
-      {/* Add other sections like Call to Action, Footer etc. here */}
+        {/* Add other sections like Call to Action, Footer etc. here */}
+      </div>
     </main>
   );
 }

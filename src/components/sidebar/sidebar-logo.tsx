@@ -13,6 +13,8 @@ const pageTitles: Record<string, string> = {
   "/search": "Search",
   "/settings": "Settings",
   "/inventory": "Inventory",
+  "/sign-in": "Sign In",
+  "/sign-up": "Sign Up",
 };
 
 export default function SidebarLogo() {

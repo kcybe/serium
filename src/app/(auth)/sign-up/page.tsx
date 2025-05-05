@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import LoadingButton from "@/components/loading-btn";
 
 import Link from "next/link";
-import { signInSchema } from "@/lib/zod";
+import { signUpSchema } from "@/lib/zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -29,56 +29,83 @@ import { toast } from "sonner";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function SignIn() {
+export default function SignUp() {
   const router = useRouter();
-  const [signingIn, setSigningIn] = useState(false);
+  const [signingUp, setSigningUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const form = useForm<z.infer<typeof signInSchema>>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof signInSchema>) => {
-    await authClient.signIn.email(
+  const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
+    await authClient.signUp.email(
       {
         email: values.email,
         password: values.password,
+        name: values.name,
       },
       {
-        onRequest: () => setSigningIn(true),
+        onRequest: () => {
+          setSigningUp(true);
+        },
         onSuccess: () => {
-          toast("Signed in", {
-            description: "You have been signed in successfully.",
+          toast("Account created", {
+            description: "Your account has been created.",
           });
           router.push("/");
           router.refresh();
         },
         onError: (ctx) => {
-          toast.error("Sign in failed", {
+          console.log("error", ctx);
+          toast.error("Something went wrong", {
             description: ctx.error.message ?? "Something went wrong.",
           });
         },
       }
     );
-    setSigningIn(false);
+    setSigningUp(false);
   };
 
   return (
     <div className="grow flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
+          <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
           <CardDescription>
-            Enter your email and password to sign in.
+            Fill the form below to create your account.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/* Name */}
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Serium"
+                        {...field}
+                        autoComplete="off"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               {/* Email */}
               <FormField
                 control={form.control}
@@ -134,16 +161,52 @@ export default function SignIn() {
                 )}
               />
 
-              <LoadingButton pending={signingIn} span="Signing in">
-                Sign in
+              {/* Confirm Password */}
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          type={showConfirmPassword ? "text" : "password"}
+                          placeholder="••••••••"
+                          {...field}
+                          autoComplete="off"
+                        />
+                        <button
+                          type="button"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                          onClick={() =>
+                            setShowConfirmPassword((prev) => !prev)
+                          }
+                          tabIndex={-1}
+                          aria-label="Toggle confirm password visibility"
+                        >
+                          {showConfirmPassword ? (
+                            <EyeOff className="h-5 w-5" />
+                          ) : (
+                            <Eye className="h-5 w-5" />
+                          )}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <LoadingButton pending={signingUp} span="Signing up">
+                Sign up
               </LoadingButton>
             </form>
           </Form>
-
           <div className="mt-4 text-center text-sm">
-            Don’t have an account?{" "}
-            <Link href={"/sign-up"} className="hover:underline">
-              Sign up
+            Already have an account?{" "}
+            <Link href={"/sign-in"} className="hover:underline">
+              Sign in
             </Link>
           </div>
         </CardContent>

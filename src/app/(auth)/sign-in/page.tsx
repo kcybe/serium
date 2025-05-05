@@ -17,20 +17,22 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import LoadingButton from "@/components/loading-btn";
+
+import Link from "next/link";
 import { signInSchema } from "@/lib/zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
-import Link from "next/link";
-import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
+import { Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function SignIn() {
   const router = useRouter();
   const [signingIn, setSigningIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -40,30 +42,23 @@ export default function SignIn() {
     },
   });
 
-  const fieldLabels: Record<keyof z.infer<typeof signInSchema>, string> = {
-    email: "Email",
-    password: "Password",
-  };
-
-  const handleCredentialsSignIn = async (
-    values: z.infer<typeof signInSchema>
-  ) => {
+  const onSubmit = async (values: z.infer<typeof signInSchema>) => {
     await authClient.signIn.email(
       {
         email: values.email,
         password: values.password,
       },
       {
-        onRequest: () => {
-          setSigningIn(true);
-        },
-        onSuccess: async () => {
+        onRequest: () => setSigningIn(true),
+        onSuccess: () => {
+          toast("Signed in", {
+            description: "You have been signed in successfully.",
+          });
           router.push("/");
           router.refresh();
         },
         onError: (ctx) => {
-          console.log(ctx);
-          toast.error("Something went wrong", {
+          toast.error("Sign in failed", {
             description: ctx.error.message ?? "Something went wrong.",
           });
         },
@@ -78,49 +73,75 @@ export default function SignIn() {
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
           <CardDescription>
-            Enter your email and password to log in to your account.
+            Enter your email and password to sign in.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(handleCredentialsSignIn)}
-              className="space-y-6"
-            >
-              {["email", "password"].map((field) => (
-                <FormField
-                  control={form.control}
-                  key={field}
-                  name={field as keyof z.infer<typeof signInSchema>}
-                  render={({ field: fieldProps }) => (
-                    <FormItem>
-                      <FormLabel>
-                        {fieldLabels[field as keyof typeof fieldLabels]}
-                      </FormLabel>
-                      <FormControl>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/* Email */}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="serium@example.com"
+                        {...field}
+                        autoComplete="off"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Password */}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <div className="relative">
                         <Input
-                          type={field === "password" ? "password" : "email"}
-                          placeholder={`Enter your ${fieldLabels[
-                            field as keyof typeof fieldLabels
-                          ].toLowerCase()}`}
-                          {...fieldProps}
-                          autoComplete={
-                            field === "password" ? "current-password" : "email"
-                          }
+                          type={showPassword ? "text" : "password"}
+                          placeholder="••••••••"
+                          {...field}
+                          autoComplete="off"
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ))}
+                        <button
+                          type="button"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                          onClick={() => setShowPassword((prev) => !prev)}
+                          tabIndex={-1}
+                          aria-label="Toggle password visibility"
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-5 w-5" />
+                          ) : (
+                            <Eye className="h-5 w-5" />
+                          )}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <LoadingButton pending={signingIn} span="Signing in">
                 Sign in
               </LoadingButton>
             </form>
           </Form>
+
           <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{" "}
+            Don’t have an account?{" "}
             <Link href={"/sign-up"} className="hover:underline">
               Sign up
             </Link>

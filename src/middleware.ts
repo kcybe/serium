@@ -4,30 +4,36 @@ import type { auth } from "@/lib/auth";
 
 type Session = typeof auth.$Infer.Session;
 
-const publicRoutes = ["/", "/sign-in", "/sign-up"];
+const PUBLIC_ROUTES = ["/", "/sign-in", "/sign-up"] as const;
+const DEFAULT_AUTH_REDIRECT = "/inventories";
+const DEFAULT_UNAUTH_REDIRECT = "/sign-in";
 
 export default async function authMiddleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
-  const isPublicRoute = publicRoutes.includes(path);
+  const isPublicRoute = PUBLIC_ROUTES.includes(
+    path as (typeof PUBLIC_ROUTES)[number]
+  );
 
   const { data: session } = await betterFetch<Session>(
     "/api/auth/get-session",
     {
       baseURL: process.env.BETTER_AUTH_URL,
       headers: {
-        //get the cookie from the request
         cookie: request.headers.get("cookie") || "",
       },
     }
   );
 
+  // Handle unauthenticated users
   if (!session) {
-    if (isPublicRoute) return NextResponse.next();
-    return NextResponse.redirect(new URL("/sign-in", request.url));
+    return isPublicRoute
+      ? NextResponse.next()
+      : NextResponse.redirect(new URL(DEFAULT_UNAUTH_REDIRECT, request.url));
   }
 
+  // Handle authenticated users on public routes
   if (isPublicRoute && path !== "/") {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL(DEFAULT_AUTH_REDIRECT, request.url));
   }
 
   return NextResponse.next();

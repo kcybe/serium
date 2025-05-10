@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "sonner";
-import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import Providers from "./providers/providers";
-import { cookies } from "next/headers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,17 +26,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = cookies();
-  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen`}
       >
-        <Providers defaultSidebarOpen={defaultOpen}>
+        <Providers>
           <div className="flex w-full">
-            <AppSidebar />
             {children}
             <Toaster />
           </div>

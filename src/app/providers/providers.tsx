@@ -2,16 +2,9 @@
 
 import React, { ReactNode, useState } from "react";
 import { ThemeProvider } from "./theme-provider";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-export default function Providers({
-  children,
-  defaultSidebarOpen,
-}: {
-  children: ReactNode;
-  defaultSidebarOpen: boolean;
-}) {
+export default function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
@@ -22,9 +15,7 @@ export default function Providers({
         enableSystem
         disableTransitionOnChange
       >
-        <SidebarProvider defaultOpen={defaultSidebarOpen}>
-          {children}
-        </SidebarProvider>
+        {children}
       </ThemeProvider>
     </QueryClientProvider>
   );

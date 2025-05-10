@@ -12,7 +12,7 @@ const pageTitles: Record<string, string> = {
   "/calendar": "Calendar",
   "/search": "Search",
   "/settings": "Settings",
-  "/inventory": "Inventory",
+  "/inventories": "Inventories",
   "/sign-in": "Sign In",
   "/sign-up": "Sign Up",
 };

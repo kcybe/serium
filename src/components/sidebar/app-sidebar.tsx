@@ -6,7 +6,6 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarRail,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import UserDetails from "./user-details";
@@ -18,7 +17,7 @@ import SidebarItems from "./sidebar-items";
 
 export function AppSidebar() {
   return (
-    <Sidebar variant="floating" collapsible="icon">
+    <Sidebar variant="inset">
       <SidebarHeader>
         <SidebarLogo />
       </SidebarHeader>
@@ -33,7 +32,6 @@ export function AppSidebar() {
           <UserDetails />
         </SidebarMenu>
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   );
 }

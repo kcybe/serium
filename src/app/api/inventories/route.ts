@@ -16,7 +16,7 @@ export async function GET() {
     where: { email: user.email },
     include: {
       inventories: {
-        include: { items: false },
+        include: { items: true },
       },
     },
   });

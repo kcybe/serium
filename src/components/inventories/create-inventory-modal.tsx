@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { useState } from "react";
 import { Button } from "../ui/button";
+import { DiamondPlus } from "lucide-react";
 
 export function CreateInventoryModal() {
   const [open, setOpen] = useState(false);
@@ -30,7 +31,10 @@ export function CreateInventoryModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>+ New Inventory</Button>
+        <Button>
+          <DiamondPlus />
+          New Inventory
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

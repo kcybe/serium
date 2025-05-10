@@ -4,11 +4,11 @@ import type { auth } from "@/lib/auth";
 
 type Session = typeof auth.$Infer.Session;
 
-const authRoutes = ["/sign-in", "/sign-up"];
+const publicRoutes = ["/", "/sign-in", "/sign-up"];
 
 export default async function authMiddleware(request: NextRequest) {
-  const pathName = request.nextUrl.pathname;
-  const isAuthRoute = authRoutes.includes(pathName);
+  const path = request.nextUrl.pathname;
+  const isPublicRoute = publicRoutes.includes(path);
 
   const { data: session } = await betterFetch<Session>(
     "/api/auth/get-session",
@@ -22,13 +22,11 @@ export default async function authMiddleware(request: NextRequest) {
   );
 
   if (!session) {
-    if (isAuthRoute) {
-      return NextResponse.next();
-    }
+    if (isPublicRoute) return NextResponse.next();
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  if (isAuthRoute) {
+  if (isPublicRoute && path !== "/") {
     return NextResponse.redirect(new URL("/", request.url));
   }
 

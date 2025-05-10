@@ -1,53 +1,85 @@
-import React from "react";
-import { Button } from "../ui/button";
+import { useEffect, useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { MoveRight, PhoneCall } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
-export default function HeroSection() {
+export function HeroSection() {
+  const [titleNumber, setTitleNumber] = useState(0);
+  const titles = useMemo(
+    () => ["fast", "secure", "efficient", "powerful", "simple"],
+    []
+  );
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (titleNumber === titles.length - 1) {
+        setTitleNumber(0);
+      } else {
+        setTitleNumber(titleNumber + 1);
+      }
+    }, 2000);
+    return () => clearTimeout(timeoutId);
+  }, [titleNumber, titles]);
+
   return (
-    <>
-      <section>
-        <div className="pb-24 pt-16 md:pb-32 lg:pb-48 lg:pt-24">
-          <div className="relative mx-auto flex max-w-7xl flex-col px-6 lg:block">
-            <div className="mx-auto max-w-lg text-center lg:ml-0 lg:w-1/2 lg:text-left">
-              <h1 className="mt-0 max-w-2xl text-balance text-5xl font-medium md:text-6xl lg:mt-0 xl:text-7xl">
-                Track Smarter with Serium
-              </h1>
-              <p className="mt-6 max-w-2xl text-pretty text-lg text-muted-foreground lg:mt-8">
-                Serium is the modern inventory management tool that makes
-                tracking equipment, tools, and assets effortless — so your team
-                can stay organized and move faster.
-              </p>
-              <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
-                <Button asChild size="lg" className="px-5 text-base">
-                  <Link href="/inventories">
-                    <span className="text-nowrap">Get started</span>
-                    <ArrowRight size={18} className="ml-2" />
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="ghost"
-                  className="px-5 text-base"
-                >
-                  <Link href="#features">
-                    <span className="text-nowrap">Explore Features</span>
-                  </Link>
-                </Button>
-              </div>
-            </div>
-            {/* Using the fixed image positioning from the user's last code */}
-            <img
-              className="-z-10 pointer-events-none order-first ml-auto h-56 w-full object-cover invert sm:h-96 lg:absolute lg:inset-0 lg:-right-20 lg:-top-96 lg:order-last lg:h-max lg:w-2/3 lg:object-contain dark:mix-blend-lighten dark:invert-0"
-              src="https://ik.imagekit.io/lrigu76hy/tailark/abstract-bg.jpg?updatedAt=1745733473768"
-              alt="Abstract Object"
-              height="4000"
-              width="3000"
-            />
+    <div className="w-full">
+      <div className="container mx-auto">
+        <div className="flex gap-8 py-20 lg:py-40 items-center justify-center flex-col">
+          <div>
+            <Button variant="secondary" size="sm" className="gap-4">
+              <Link href={"#features"} className="flex items-center gap-2">
+                Learn why Serium stands out <MoveRight className="w-4 h-4" />
+              </Link>
+            </Button>
+          </div>
+          <div className="flex gap-4 flex-col">
+            <h1 className="text-5xl md:text-7xl max-w-2xl tracking-tighter text-center font-regular">
+              <span className="text-spektr-cyan-50">
+                Inventory <br />
+                management made
+              </span>
+              <span className="relative flex w-full justify-center overflow-hidden text-center md:pb-4 md:pt-1">
+                &nbsp;
+                {titles.map((title, index) => (
+                  <motion.span
+                    key={index}
+                    className="absolute font-semibold"
+                    initial={{ opacity: 0, y: "-100" }}
+                    transition={{ type: "spring", stiffness: 50 }}
+                    animate={
+                      titleNumber === index
+                        ? {
+                            y: 0,
+                            opacity: 1,
+                          }
+                        : {
+                            y: titleNumber > index ? -150 : 150,
+                            opacity: 0,
+                          }
+                    }
+                  >
+                    {title}
+                  </motion.span>
+                ))}
+              </span>
+            </h1>
+
+            <p className="text-lg md:text-xl leading-relaxed tracking-tight text-muted-foreground max-w-2xl text-center">
+              Serium helps you stay in control of your inventory, eliminate
+              chaos, and save time with a modern, intuitive system built for
+              small and growing businesses.
+            </p>
+          </div>
+          <div className="flex flex-row gap-3">
+            <Button size="lg" className="gap-4" asChild>
+              <Link href={"/inventories"} className="flex items-center gap-2">
+                Get started <MoveRight className="w-4 h-4" />
+              </Link>
+            </Button>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </div>
   );
 }

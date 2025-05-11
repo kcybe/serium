@@ -18,15 +18,15 @@ export default async function InventoriesLayout({
 
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
-      <div className="flex h-screen w-full">
+      <div className="flex h-screen w-full overflow-hidden">
         <AppSidebar />
-        <SidebarInset>
-          <div className="flex items-center gap-2 m-2">
+        <SidebarInset className="flex flex-col overflow-hidden">
+          <div className="flex items-center gap-2 m-2 flex-shrink-0">
             <SidebarTrigger className="m-2" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <InventoryBreadcrumb />
           </div>
-          {children}
+          <div className="flex-1 overflow-auto">{children}</div>
         </SidebarInset>
       </div>
     </SidebarProvider>

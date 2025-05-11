@@ -16,15 +16,15 @@ export default function InventoryPage() {
   if (!inventory) return <div>Error loading inventory</div>;
 
   return (
-    <div className="p-6 space-y-6 w-full">
-      <Card>
-        <CardHeader>
+    <div className="p-6 h-full">
+      <Card className="h-full flex flex-col">
+        <CardHeader className="flex-shrink-0">
           <div className="flex justify-between items-center">
             <h1 className="text-xl font-semibold">{inventory.name}</h1>
             <AddItemModal inventoryId={inventory.id} />
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex-1 overflow-auto pt-1">
           <DataTable columns={columns} data={inventory.items} />
         </CardContent>
       </Card>

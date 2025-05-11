@@ -4,6 +4,7 @@ import React from "react";
 import { HeroSection } from "@/components/landing-page/hero-section";
 import FeaturesSection from "@/components/landing-page/features-section";
 import { Navbar } from "@/components/landing-page/nav/navbar";
+import { BlurFade } from "@/components/animations/blur-fade";
 
 export default function HomePage() {
   return (
@@ -18,7 +19,9 @@ export default function HomePage() {
           <div className="mx-auto my-12 h-px w-full max-w-7xl bg-gradient-to-r from-transparent via-border to-transparent dark:via-border" />
 
           {/* Features Section */}
-          <FeaturesSection />
+          <BlurFade delay={0.25} inView>
+            <FeaturesSection />
+          </BlurFade>
 
           {/* Add other sections like Call to Action, Footer etc. here */}
         </div>

@@ -107,7 +107,7 @@ export const columns: ColumnDef<Item>[] = [
                   await navigator.clipboard.writeText(item.serialNumber || "");
                   toast.success("Serial number copied to clipboard");
                 } catch (error) {
-                  toast.error("Failed to copy serial number");
+                  toast.error("Failed to copy serial number " + error);
                 }
               }}
             >

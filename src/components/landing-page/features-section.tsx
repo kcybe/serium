@@ -1,4 +1,4 @@
-import { Activity, ScanBarcode, BarChartBig } from "lucide-react";
+import { Activity, ScanBarcode, BarChartBig, ShieldCheck } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 
 export default function FeaturesSection() {
@@ -8,18 +8,42 @@ export default function FeaturesSection() {
         <div className="mx-auto max-w-7xl px-6 ">
           <div className="text-center">
             <h2 className="text-4xl font-bold text-balance sm:text-5xl">
-              Key Features
+              Core Principles & Features
             </h2>
             <p className="mt-4 text-lg text-pretty text-muted-foreground md:text-xl lg:mx-auto lg:max-w-3xl">
-              Discover the powerful features that make Serium the best inventory
-              manager for your team.
+              Serium is built on transparency and user empowerment. Explore the
+              features that make it a reliable, offline-first solution.
             </p>
           </div>
 
           {/* Feature Grid using Shadcn Cards with Glowing Blobs */}
-          <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 ">
-            {/* --- Feature 1 --- */}
-            {/* Relative container for positioning the blob */}
+          <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:mt-16 md:grid-cols-2 lg:grid-cols-4">
+            {/* --- Feature 1: Offline First & Data Ownership --- */}
+            <div className="relative">
+              <div
+                aria-hidden="true"
+                className="absolute -inset-2 -z-10 rounded-full bg-gradient-to-br from-green-400/20 to-emerald-600/10 opacity-60 blur-3xl pointer-events-none"
+              />
+              <Card className="text-center h-full hover:scale-105 transition-transform duration-300 ease-in-out">
+                <CardHeader>
+                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <ShieldCheck className="h-6 w-6" />
+                  </div>
+                  <CardTitle className="text-xl font-semibold text-balance">
+                    Offline First & Your Data
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-base text-pretty text-muted-foreground">
+                    Serium runs locally using Next.js, Prisma (SQLite), and
+                    BetterAuth. This means no external servers, full data
+                    privacy, and true offline capability.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* --- Feature 2 --- */}
             <div className="relative">
               {/* The Blob */}
               <div
@@ -32,26 +56,24 @@ export default function FeaturesSection() {
               />
               {/* The Card (ensure it has a background color to sit above the blob) */}
               <Card className="text-center h-full hover:scale-105 transition-transform duration-300 ease-in-out">
-                {" "}
-                {/* Added h-full for consistent height if needed */}
                 <CardHeader>
                   <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <Activity className="h-6 w-6" />
                   </div>
                   <CardTitle className="text-xl font-semibold text-balance">
-                    Real-Time Tracking
+                    Local Real-Time Tracking
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-base text-pretty text-muted-foreground">
-                    Keep track of your equipment and assets in real time,
-                    ensuring your team always knows what’s available.
+                    Track assets locally in real-time. Your data stays on your
+                    device, ensuring privacy and speed.
                   </p>
                 </CardContent>
               </Card>
             </div>
 
-            {/* --- Feature 2 --- */}
+            {/* --- Feature 3 --- */}
             <div className="relative">
               {/* The Blob - different gradient */}
               <div
@@ -64,19 +86,19 @@ export default function FeaturesSection() {
                     <ScanBarcode className="h-6 w-6" />
                   </div>
                   <CardTitle className="text-xl font-semibold text-balance">
-                    Easy Barcode Scanning
+                    Barcode Scanning
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-base text-pretty text-muted-foreground">
-                    Scan barcodes effortlessly using our mobile app to quickly
-                    log items and update inventory status on the go.
+                    Effortlessly scan barcodes with your device to log items and
+                    manage inventory status quickly.
                   </p>
                 </CardContent>
               </Card>
             </div>
 
-            {/* --- Feature 3 --- */}
+            {/* --- Feature 4 --- */}
             <div className="relative">
               {/* The Blob - another gradient variation */}
               <div
@@ -89,7 +111,7 @@ export default function FeaturesSection() {
                     <BarChartBig className="h-6 w-6" />
                   </div>
                   <CardTitle className="text-xl font-semibold text-balance">
-                    Detailed Analytics
+                    Local Analytics
                   </CardTitle>
                 </CardHeader>
                 <CardContent>

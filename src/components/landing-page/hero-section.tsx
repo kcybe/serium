@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { MoveRight, PhoneCall } from "lucide-react";
+import { MoveRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { BlurFade } from "../animations/blur-fade";
@@ -8,7 +8,7 @@ import { BlurFade } from "../animations/blur-fade";
 export function HeroSection() {
   const [titleNumber, setTitleNumber] = useState(0);
   const titles = useMemo(
-    () => ["fast", "secure", "efficient", "powerful", "simple"],
+    () => ["free", "open-source", "offline-first", "efficient", "simple"],
     []
   );
 
@@ -39,10 +39,10 @@ export function HeroSection() {
 
           <div className="flex gap-4 flex-col">
             <BlurFade delay={0.25 * 1.5} inView>
-              <h1 className="text-5xl md:text-7xl max-w-2xl tracking-tighter text-center font-regular">
+              <h1 className="text-5xl md:text-7xl max-w-3xl tracking-tighter text-center font-regular">
                 <span className="text-spektr-cyan-50">
-                  Inventory <br />
-                  management made
+                  Serium <br />
+                  Inventory Management
                 </span>
                 <span className="relative flex w-full justify-center overflow-hidden text-center md:pb-4 md:pt-1">
                   &nbsp;
@@ -72,19 +72,30 @@ export function HeroSection() {
             </BlurFade>
 
             <BlurFade delay={0.25 * 2} inView>
-              <p className="text-lg md:text-xl leading-relaxed tracking-tight text-muted-foreground max-w-2xl text-center">
-                Serium helps you stay in control of your inventory, eliminate
-                chaos, and save time with a modern, intuitive system built for
-                small and growing businesses.
+              <p className="text-lg md:text-xl leading-relaxed tracking-tight text-muted-foreground max-w-3xl text-center">
+                Serium offers robust, offline-first inventory control. It&apos;s
+                completely free, open-source, and designed to give you full
+                ownership of your data and workflow, perfect for individuals and
+                teams who value privacy and flexibility.
               </p>
             </BlurFade>
           </div>
 
           <BlurFade delay={0.25 * 2.5} inView>
-            <div className="flex flex-row gap-3">
-              <Button size="lg" className="gap-4" asChild>
-                <Link href={"/inventories"} className="flex items-center gap-2">
-                  Get started <MoveRight className="w-4 h-4" />
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button size="lg" className="gap-2" asChild>
+                <Link
+                  href="https://github.com/kcybe/serium"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center"
+                >
+                  View on GitHub <MoveRight className="w-4 h-4 ml-2" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="gap-2" asChild>
+                <Link href="#product-showcase" className="flex items-center">
+                  See it in Action
                 </Link>
               </Button>
             </div>

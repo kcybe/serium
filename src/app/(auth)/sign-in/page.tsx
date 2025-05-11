@@ -54,7 +54,7 @@ export default function SignIn() {
           toast("Signed in", {
             description: "You have been signed in successfully.",
           });
-          router.push("/");
+          router.push("/inventories");
           router.refresh();
         },
         onError: (ctx) => {

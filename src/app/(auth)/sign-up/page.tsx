@@ -60,7 +60,7 @@ export default function SignUp() {
           toast("Account created", {
             description: "Your account has been created.",
           });
-          router.push("/");
+          router.push("/inventories");
           router.refresh();
         },
         onError: (ctx) => {

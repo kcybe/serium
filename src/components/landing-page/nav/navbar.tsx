@@ -21,7 +21,7 @@ export function Navbar() {
             <Link href={"/sign-in"}>Sign In</Link>
           </Button>
           <Button className="rounded-full" asChild>
-            <Link href={"/inventories"}>Get Started</Link>
+            <Link href={"/sign-up"}>Get Started</Link>
           </Button>
         </div>
       </div>

@@ -49,7 +49,22 @@ export async function PUT(
   }
 
   const inventoryId = params["inventory-id"];
-  const { newInventoryName } = await req.json();
+  let requestBody;
+  try {
+    requestBody = await req.json();
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const newName = requestBody.name;
+
+  if (typeof newName !== "string" || newName.length === 0) {
+    return NextResponse.json(
+      { error: "Name is required in the request body" },
+      { status: 400 }
+    );
+  }
 
   const inventory = await prisma.inventory.findFirst({
     where: {
@@ -57,9 +72,6 @@ export async function PUT(
       user: {
         email: user.email,
       },
-    },
-    include: {
-      items: true,
     },
   });
 
@@ -71,22 +83,22 @@ export async function PUT(
   }
 
   try {
-    await prisma.inventory.update({
+    const updatedInventory = await prisma.inventory.update({
       where: {
         id: inventoryId,
       },
       data: {
-        name: newInventoryName,
+        name: newName,
       },
     });
+
+    return NextResponse.json(updatedInventory);
   } catch (error) {
     console.error("Error updating inventory:", error);
     return NextResponse.json(
       { error: "Failed to update inventory" },
       { status: 500 }
     );
-  } finally {
-    return NextResponse.json(inventory);
   }
 }
 
@@ -109,9 +121,6 @@ export async function DELETE(
         email: user.email,
       },
     },
-    include: {
-      items: true,
-    },
   });
 
   if (!inventory) {
@@ -122,10 +131,15 @@ export async function DELETE(
   }
 
   try {
-    await prisma.inventory.delete({
+    const deletedInventory = await prisma.inventory.delete({
       where: {
         id: inventoryId,
       },
+    });
+
+    return NextResponse.json({
+      message: "Inventory deleted successfully",
+      id: deletedInventory.id,
     });
   } catch (error) {
     console.error("Error deleting inventory:", error);
@@ -133,7 +147,5 @@ export async function DELETE(
       { error: "Failed to delete inventory" },
       { status: 500 }
     );
-  } finally {
-    return NextResponse.json(inventory);
   }
 }

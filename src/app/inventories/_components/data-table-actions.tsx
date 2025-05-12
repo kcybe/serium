@@ -48,35 +48,33 @@ export default function DataTableActions({ inventory }: Props) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px] z-50">
-          {/* Rename Item */}
+          {/* START Rename */}
           <DropdownMenuItem
             // Use onSelect and preventDefault
             onSelect={(e) => {
-              e.preventDefault(); // <-- KEY CHANGE
+              e.preventDefault();
               setIsRenameOpen(true);
             }}
-            // Apply styling/layout directly, remove inner button
             className="w-full justify-start flex rounded-md p-2 transition-all duration-75 hover:bg-neutral-100 text-sm font-base text-neutral-500 cursor-pointer" // Added cursor-pointer
           >
-            {/* Keep your IconMenu or direct content */}
             <IconMenu text="Edit" icon={<SquarePen className="h-4 w-4" />} />
           </DropdownMenuItem>
+          {/* END Rename */}
 
           <DropdownMenuSeparator />
 
-          {/* Delete Item */}
+          {/* START Delete */}
           <DropdownMenuItem
             // Use onSelect and preventDefault
             onSelect={(e) => {
-              e.preventDefault(); // <-- KEY CHANGE
+              e.preventDefault();
               setIsDeleteOpen(true);
             }}
-            // Apply styling/layout directly, remove inner button
-            className="w-full justify-start flex text-red-500 rounded-md p-2 transition-all duration-75 hover:bg-neutral-100 text-sm font-base cursor-pointer" // Added cursor-pointer
+            className="w-full justify-start flex text-red-500 rounded-md p-2 transition-all duration-75 hover:bg-neutral-100 text-sm font-base cursor-pointer"
           >
-            {/* Keep your IconMenu or direct content */}
             <IconMenu text="Delete" icon={<Trash2 className="h-4 w-4" />} />
           </DropdownMenuItem>
+          {/* END Delete */}
         </DropdownMenuContent>
       </DropdownMenu>
     </>

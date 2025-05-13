@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { InventoryWithItems } from "@/types";
-import { Item } from "@/../generated/prisma/client";
+import { Item } from "../../generated/prisma";
 
 // Fetch all inventories
 export const useInventories = () => {
@@ -58,25 +58,48 @@ export const useAddItemToInventory = (inventoryId: string) => {
   });
 };
 
-export const useDeleteItemFromInventory = (
-  inventoryId: string,
-  itemId: string
-) => {
+export const useDeleteItemFromInventory = (inventoryId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (itemId: string) => {
+      const res = await fetch(
+        `/api/inventories/${inventoryId}/items/${itemId}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(itemId),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to delete item");
+      }
+
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["inventory", inventoryId] });
+    },
+  });
+};
+
+export const useEditItemFromInventory = (inventoryId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (item: Item) => {
       const res = await fetch(
-        `/api/inventories/${inventoryId}/items/${itemId}`,
+        `/api/inventories/${inventoryId}/items/${item.id}`,
         {
-          method: "DELETE",
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(item),
         }
       );
 
       if (!res.ok) {
-        throw new Error("Failed to delete item");
+        throw new Error("Failed to edit item");
       }
 
       return res.json();

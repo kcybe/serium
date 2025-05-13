@@ -8,18 +8,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { InventoryWithItems } from "@/types";
 import { MoreHorizontal, SquarePen, Trash2 } from "lucide-react";
 import React, { useState } from "react";
-import RenameForm from "./forms/rename-form";
-import DeleteForm from "./forms/delete-form";
+import DeleteForm from "./forms/item-delete-form";
 import IconMenu from "@/components/icon-menu";
+import { Item } from "../../../../../generated/prisma";
+import ItemEditForm from "./forms/item-edit-form";
 
 interface Props {
-  inventory: InventoryWithItems;
+  item: Item;
 }
 
-export default function DataTableActions({ inventory }: Props) {
+export default function DataTableActions({ item }: Props) {
   const [isRenameOpen, setIsRenameOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
@@ -28,17 +28,18 @@ export default function DataTableActions({ inventory }: Props) {
       <ResponsiveDialog
         isOpen={isRenameOpen}
         setIsOpen={setIsRenameOpen}
-        title="Edit Inventory"
+        title="Edit Item"
       >
-        <RenameForm inventory={inventory} setIsOpen={setIsRenameOpen} />
+        <ItemEditForm item={item} setIsOpen={setIsRenameOpen} />
       </ResponsiveDialog>
       <ResponsiveDialog
         isOpen={isDeleteOpen}
         setIsOpen={setIsDeleteOpen}
-        title="Delete Inventory"
-        description="Are you sure you want to delete this inventory?"
+        title="Delete Item"
+        description={`Are you sure you want to delete the item: ${item.name}?
+        This action cannot be undone.`}
       >
-        <DeleteForm inventory={inventory} setIsOpen={setIsDeleteOpen} />
+        <DeleteForm item={item} setIsOpen={setIsDeleteOpen} />
       </ResponsiveDialog>
 
       <DropdownMenu modal={false}>

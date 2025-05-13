@@ -2,8 +2,8 @@
 
 import { useParams } from "next/navigation";
 import { useInventoryById } from "@/hooks/use-inventory";
-import { DataTable } from "./data-table";
-import { columns } from "./columns";
+import { DataTable } from "./_components/data-table";
+import { columns } from "./_components/columns";
 import { AddItemModal } from "@/components/inventories/inventory-items/add-item-modal";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import LoadingInventoryPage from "./loading";

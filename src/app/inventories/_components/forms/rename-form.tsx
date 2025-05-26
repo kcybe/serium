@@ -17,7 +17,7 @@ import { Loader2 } from "lucide-react";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import * as z from "zod";
 import { InventoryWithItems } from "@/types";
-import { useEditInventory } from "@/hooks/use-inventory";
+import { useEditInventory } from "@/hooks/inventory";
 import { toast } from "sonner";
 
 const formSchema = z.object({

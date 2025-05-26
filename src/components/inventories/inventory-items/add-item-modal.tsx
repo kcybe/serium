@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Button } from "../../ui/button";
 import { DiamondPlus } from "lucide-react";
-import { useAddItemToInventory } from "@/hooks/use-inventory";
+import { useAddItemToInventory } from "@/hooks/inventory";
 import { toast } from "sonner";
 
 export function AddItemModal({ inventoryId }: { inventoryId: string }) {
@@ -34,7 +34,7 @@ export function AddItemModal({ inventoryId }: { inventoryId: string }) {
       toast.success("Item added successfully");
       setOpen(false);
       setName("");
-      setSerialNumber("SN-");
+      setSerialNumber("");
       setDescription("");
       setQuantity(1);
       setStatus("Available");

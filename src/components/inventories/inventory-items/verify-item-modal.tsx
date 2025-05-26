@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Check, X } from "lucide-react";
 import { useRef, useState } from "react";
-import { useVerifyItem } from "@/hooks/use-inventory";
+import { useVerifyItem } from "@/hooks/inventory";
 import { toast } from "sonner";
 import { DotPattern } from "@/components/animations/dot-pattern";
 import { cn } from "@/lib/utils";

@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import * as z from "zod";
-import { useEditItemFromInventory } from "@/hooks/use-inventory";
+import { useEditItemFromInventory } from "@/hooks/inventory";
 import { toast } from "sonner";
 import { Item } from "../../../../../../generated/prisma";
 

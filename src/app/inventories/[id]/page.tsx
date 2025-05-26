@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useInventoryById } from "@/hooks/use-inventory";
+import { useInventoryById } from "@/hooks/inventory";
 import { DataTable } from "./_components/data-table";
 import { columns } from "./_components/columns";
 import { AddItemModal } from "@/components/inventories/inventory-items/add-item-modal";

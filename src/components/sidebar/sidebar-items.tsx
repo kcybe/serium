@@ -20,7 +20,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../ui/collapsible";
-import { useInventories } from "@/hooks/use-inventory";
+import { useInventories } from "@/hooks/inventory";
 import Link from "next/link";
 
 const items = [

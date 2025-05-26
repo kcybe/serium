@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { InventoryWithItems } from "@/types";
 import { toast } from "sonner";
-import { useDeleteInventory } from "@/hooks/use-inventory";
+import { useDeleteInventory } from "@/hooks/inventory";
 
 const formSchema = z.object({
   inventory: z.object({

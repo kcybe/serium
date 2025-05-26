@@ -4,7 +4,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { useDeleteItemFromInventory } from "@/hooks/use-inventory";
+import { useDeleteItemFromInventory } from "@/hooks/inventory";
 import { Item } from "../../../../../../generated/prisma"; // Path seems correct
 
 interface DeleteFormProps {

@@ -35,7 +35,6 @@ export const useAddItemToInventory = (inventoryId: string) => {
     mutationFn: async (data: {
       name: string;
       serialNumber: string;
-      inventoryId: string;
       description: string;
       status: string;
       quantity: number;
@@ -47,7 +46,8 @@ export const useAddItemToInventory = (inventoryId: string) => {
       });
 
       if (!res.ok) {
-        throw new Error("Failed to add item");
+        const errorBody = await res.json();
+        throw new Error(errorBody.error || "Failed to add item");
       }
 
       return res.json();

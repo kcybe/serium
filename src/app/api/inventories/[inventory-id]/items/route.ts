@@ -25,6 +25,22 @@ export async function POST(
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  const checkSerialNumberExists = await prisma.item.findFirst({
+    where: {
+      serialNumber,
+      inventoryId,
+    },
+  });
+
+  if (checkSerialNumberExists) {
+    return NextResponse.json(
+      {
+        error: `Item with serial number ${serialNumber} already exists in inventory ${inventoryId}`,
+      },
+      { status: 400 }
+    );
+  }
+
   const newItem = await prisma.item.create({
     data: {
       name,

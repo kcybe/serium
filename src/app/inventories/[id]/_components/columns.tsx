@@ -59,6 +59,22 @@ export const columns: ColumnDef<Item>[] = [
     ),
   },
   {
+    accessorKey: "lastVerified",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Last Verified" />
+    ),
+    cell: ({ row }) => {
+      const date = new Date(row.original.lastVerified || 0);
+      return (
+        <div className="text-sm text-muted-foreground">
+          {row.original.lastVerified
+            ? format(date, "dd/MM/yyyy HH:mm:ss")
+            : "Not Verified"}
+        </div>
+      );
+    },
+  },
+  {
     accessorKey: "createdAt",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Created At" />

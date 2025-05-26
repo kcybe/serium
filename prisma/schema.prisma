@@ -91,4 +91,7 @@ model Item {
   inventoryId  String
   inventory    Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
   createdAt    DateTime  @default(now())
+  lastVerified DateTime?
+
+  @@unique([serialNumber, inventoryId])
 }

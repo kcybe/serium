@@ -5,9 +5,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
 import { useState } from "react";
 import { Button } from "../../ui/button";
 import { DiamondPlus } from "lucide-react";

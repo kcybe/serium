@@ -137,7 +137,7 @@ export function DataTable<TData, TValue>({
         {/* END Clear Filters Button */}
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-md border overflow-hidden">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

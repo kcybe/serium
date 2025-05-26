@@ -38,7 +38,7 @@ export const columns: ColumnDef<InventoryWithItems>[] = [
       const inventory = row.original;
       return (
         <Link href={`/inventories/${inventory.id}`}>
-          <div className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
+          <div className="text-sm hover:text-primary transition-colors duration-200">
             {inventory.name}
           </div>
         </Link>
@@ -53,7 +53,7 @@ export const columns: ColumnDef<InventoryWithItems>[] = [
     cell: ({ row }) => {
       const inventory = row.original as InventoryWithItems;
       const itemCount = inventory.items ? inventory.items.length : 0;
-      return <div className="text-sm text-muted-foreground">{itemCount}</div>;
+      return <div className="text-sm">{itemCount}</div>;
     },
   },
   {
@@ -69,11 +69,7 @@ export const columns: ColumnDef<InventoryWithItems>[] = [
     ),
     cell: ({ row }) => {
       const date = new Date(row.original.createdAt);
-      return (
-        <div className="text-sm text-muted-foreground">
-          {format(date, "dd/MM/yyyy")}
-        </div>
-      );
+      return <div className="text-sm">{format(date, "dd/MM/yyyy")}</div>;
     },
   },
   {

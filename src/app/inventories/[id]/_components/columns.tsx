@@ -66,7 +66,7 @@ export const columns: ColumnDef<Item>[] = [
     cell: ({ row }) => {
       const date = new Date(row.original.lastVerified || 0);
       return (
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm">
           {row.original.lastVerified
             ? format(date, "dd/MM/yyyy HH:mm:ss")
             : "Not Verified"}
@@ -81,11 +81,7 @@ export const columns: ColumnDef<Item>[] = [
     ),
     cell: ({ row }) => {
       const date = new Date(row.original.createdAt);
-      return (
-        <div className="text-sm text-muted-foreground">
-          {format(date, "dd/MM/yyyy")}
-        </div>
-      );
+      return <div className="text-sm">{format(date, "dd/MM/yyyy")}</div>;
     },
   },
   {

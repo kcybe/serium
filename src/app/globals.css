@@ -8,8 +8,6 @@
   }
 }
 
-
-
 :root {
   --background: 0 0% 100%;
   --foreground: 210 25% 7.84%;
@@ -103,8 +101,6 @@
   --shadow-xl: 0px 2px 0px 0px hsl(202.82 89.12% 53.14% / 0.00), 0px 8px 10px -1px hsl(202.82 89.12% 53.14% / 0.00);
   --shadow-2xl: 0px 2px 0px 0px hsl(202.82 89.12% 53.14% / 0.00);
 }
-
-
 
 @layer base {
   * {

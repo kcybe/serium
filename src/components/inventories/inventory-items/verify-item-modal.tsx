@@ -11,6 +11,9 @@ import { Search, Check, X } from "lucide-react";
 import { useRef, useState } from "react";
 import { useVerifyItem } from "@/hooks/use-inventory";
 import { toast } from "sonner";
+import { DotPattern } from "@/components/animations/dot-pattern";
+import { cn } from "@/lib/utils";
+import { BlurFade } from "@/components/animations/blur-fade";
 
 interface VerifyItemModalProps {
   inventoryId: string;
@@ -85,20 +88,35 @@ export function VerifyItemModal({ inventoryId }: VerifyItemModalProps) {
         <DialogHeader>
           <DialogTitle>Verify Item</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4">
-          <div className="flex justify-center items-center h-64 bg-gray-100 rounded-xl border border-gray-200">
-            <div className="transition-all duration-300 transform scale-100 flex flex-col items-center justify-center">
+        <div className="space-y-4 relative overflow-hidden ">
+          <div className="flex justify-center items-center h-64 bg-gray-100 rounded-xl border border-gray-200 relative overflow-hidden">
+            {/* DotPattern in the background */}
+            <DotPattern
+              glow={true}
+              className={cn(
+                "absolute inset-0 z-0 [mask-image:radial-gradient(150px_circle_at_center,white,transparent)]"
+              )}
+            />
+
+            {/* Foreground content */}
+            <div className="z-10 transition-all duration-300 transform scale-100 flex flex-col items-center justify-center">
               {verificationState === "success" && (
-                <Check className="h-32 w-32 text-green-500 animate-shake" />
+                <BlurFade delay={0.25}>
+                  <Check className="h-32 w-32 text-green-500 animate-shake" />
+                </BlurFade>
               )}
               {verificationState === "error" && (
-                <X className="h-32 w-32 text-red-500 animate-shake" />
+                <BlurFade>
+                  <X className="h-32 w-32 text-red-500 animate-shake" />
+                </BlurFade>
               )}
               {verificationState === "idle" && (
-                <div className="flex flex-col items-center text-gray-400 animate-pulse">
-                  <Search className="h-16 w-16" />
-                  <span className="mt-2 text-sm">Waiting for input...</span>
-                </div>
+                <BlurFade>
+                  <div className="flex flex-col items-center text-gray-500 animate-pulse">
+                    <Search className="h-16 w-16" />
+                    <span className="mt-2 text-sm">Waiting for input...</span>
+                  </div>
+                </BlurFade>
               )}
             </div>
           </div>

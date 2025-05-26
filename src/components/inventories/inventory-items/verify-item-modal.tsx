@@ -88,8 +88,8 @@ export function VerifyItemModal({ inventoryId }: VerifyItemModalProps) {
         <DialogHeader>
           <DialogTitle>Verify Item</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4 relative overflow-hidden ">
-          <div className="flex justify-center items-center h-64 bg-gray-100 rounded-xl border border-gray-200 relative overflow-hidden">
+        <div className="space-y-4 relative overflow-hidden p-1">
+          <div className="flex justify-center items-center h-64 bg-background rounded-xl border relative overflow-hidden">
             {/* DotPattern in the background */}
             <DotPattern
               glow={true}
@@ -120,7 +120,7 @@ export function VerifyItemModal({ inventoryId }: VerifyItemModalProps) {
               )}
             </div>
           </div>
-          <div className="relative">
+          <div>
             <Input
               ref={inputRef}
               placeholder="Enter serial number..."

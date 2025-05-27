@@ -178,7 +178,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center text-muted-foreground"
                 >
-                  No items found.
+                  No inventories found.
                 </TableCell>
               </TableRow>
             )}

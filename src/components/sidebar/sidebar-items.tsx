@@ -26,7 +26,7 @@ import Link from "next/link";
 const items = [
   {
     title: "Search",
-    url: "#",
+    url: "/search",
     icon: Search,
   },
   {

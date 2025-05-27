@@ -6,3 +6,4 @@ export * from "./use-edit-item";
 export * from "./use-delete-inventory";
 export * from "./use-edit-inventory";
 export * from "./use-verify-item";
+export * from "./use-search-items";

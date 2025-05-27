@@ -12,10 +12,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 300);
+  const router = useRouter();
 
   const { data: items, isLoading } = useSearchItems(debouncedQuery);
   const hasResults = Array.isArray(items) && items.length > 0;
@@ -45,8 +49,21 @@ export default function SearchPage() {
               {items!.map((item: ItemSearchResult) => (
                 <AccordionItem key={item.id} value={item.id}>
                   <AccordionTrigger>
-                    <div className="text-left">
-                      <p className="font-medium">{item.name}</p>
+                    <div className="flex flex-col w-full text-left">
+                      <div className="flex items-center space-x-2">
+                        <p className="font-medium">{item.name}</p>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/inventories/${item.inventory.id}`);
+                          }}
+                          title="Go to Inventory"
+                        >
+                          <ArrowRight className="h-4 w-4" />
+                        </Button>
+                      </div>
                       <p className="text-sm text-gray-500">
                         Serial: {item.serialNumber} • Inventory:{" "}
                         {item.inventory.name}

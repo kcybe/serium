@@ -29,7 +29,11 @@ export default function InventoryPage() {
           </div>
         </CardHeader>
         <CardContent className="flex-1 overflow-auto pt-1">
-          <DataTable columns={columns} data={inventory.items} />
+          <DataTable
+            columns={columns}
+            data={inventory.items}
+            inventoryId={inventory.id}
+          />
         </CardContent>
       </Card>
     </div>

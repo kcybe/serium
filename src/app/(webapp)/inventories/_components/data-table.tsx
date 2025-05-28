@@ -6,7 +6,6 @@ import {
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
-  VisibilityState,
   SortingState,
   getSortedRowModel,
   getFilteredRowModel,
@@ -22,18 +21,9 @@ import {
 } from "@/components/ui/table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { Eye, RotateCcw, Trash } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import { DataTableToolbar } from "./data-table-toolbar";
+import { usePersistentColumnVisibility } from "@/hooks/inventory/datatable/use-persistent-column-visibility";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -45,7 +35,7 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    usePersistentColumnVisibility("inventories");
 
   const [rowSelection, setRowSelection] = React.useState({});
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -71,83 +61,17 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      {/* START Global Filter (Filter all columns) */}
-      <div className="mb-4 flex items-center">
-        <Input
-          placeholder="Filter all columns..."
-          value={globalFilter ?? ""}
-          onChange={(e) => {
-            setGlobalFilter(e.target.value);
-            table.setGlobalFilter(String(e.target.value));
-          }}
-          className="max-w-full"
-        />
-        {/* END Global Filter (Filter all columns) */}
-
-        {/* START Toggle Columns Visibility DropdownMenu */}
-        <div className="ml-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                <Eye className="h-3.5 w-3.5 text-muted-foreground/70" />
-                Column Visibility
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
-
-              <Separator className="mt-1" />
-
-              <DropdownMenuItem
-                onClick={() => {
-                  setColumnVisibility({});
-                }}
-                className="text-red-500 mt-1"
-              >
-                <RotateCcw className="mr-2 h-3.5 w-3.5 text-red-500" />
-                Reset{" "}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        {/* END Toggle Columns Visibility DropdownMenu */}
-
-        {/* START Clear Filters Button */}
-        <Button
-          className="ml-2"
-          variant={"outline"}
-          onClick={() => {
-            setSorting([]);
-            setRowSelection({});
-            setGlobalFilter("");
-          }}
-          disabled={
-            sorting.length === 0 &&
-            Object.keys(rowSelection).length === 0 &&
-            globalFilter === ""
-          }
-        >
-          <Trash className="h-3.5 w-3.5 text-muted-foreground/70" />
-          Clear Filters
-        </Button>
-        {/* END Clear Filters Button */}
-      </div>
+      <DataTableToolbar
+        table={table}
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        sorting={sorting}
+        setSorting={setSorting}
+        rowSelection={rowSelection}
+        setRowSelection={setRowSelection}
+        columnVisibility={columnVisibility}
+        setColumnVisibility={setColumnVisibility}
+      />
 
       <div className="rounded-md border overflow-hidden">
         <Table>

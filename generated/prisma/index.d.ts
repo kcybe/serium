@@ -45,6 +45,26 @@ export type Inventory = $Result.DefaultSelection<Prisma.$InventoryPayload>
 export type Item = $Result.DefaultSelection<Prisma.$ItemPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const ItemStatus: {
+  Available: 'Available',
+  InUse: 'InUse',
+  Broken: 'Broken',
+  Repair: 'Repair',
+  Lost: 'Lost'
+};
+
+export type ItemStatus = (typeof ItemStatus)[keyof typeof ItemStatus]
+
+}
+
+export type ItemStatus = $Enums.ItemStatus
+
+export const ItemStatus: typeof $Enums.ItemStatus
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -6911,7 +6931,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     serialNumber: string | null
-    status: string | null
+    status: $Enums.ItemStatus | null
     description: string | null
     quantity: number | null
     inventoryId: string | null
@@ -6923,7 +6943,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     serialNumber: string | null
-    status: string | null
+    status: $Enums.ItemStatus | null
     description: string | null
     quantity: number | null
     inventoryId: string | null
@@ -7080,7 +7100,7 @@ export namespace Prisma {
     id: string
     name: string
     serialNumber: string | null
-    status: string
+    status: $Enums.ItemStatus
     description: string | null
     quantity: number
     inventoryId: string
@@ -7178,7 +7198,7 @@ export namespace Prisma {
       id: string
       name: string
       serialNumber: string | null
-      status: string
+      status: $Enums.ItemStatus
       description: string | null
       quantity: number
       inventoryId: string
@@ -7611,7 +7631,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Item", 'String'>
     readonly name: FieldRef<"Item", 'String'>
     readonly serialNumber: FieldRef<"Item", 'String'>
-    readonly status: FieldRef<"Item", 'String'>
+    readonly status: FieldRef<"Item", 'ItemStatus'>
     readonly description: FieldRef<"Item", 'String'>
     readonly quantity: FieldRef<"Item", 'Int'>
     readonly inventoryId: FieldRef<"Item", 'String'>
@@ -8166,6 +8186,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ItemStatus'
+   */
+  export type EnumItemStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemStatus'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -8535,7 +8562,7 @@ export namespace Prisma {
     id?: StringFilter<"Item"> | string
     name?: StringFilter<"Item"> | string
     serialNumber?: StringNullableFilter<"Item"> | string | null
-    status?: StringFilter<"Item"> | string
+    status?: EnumItemStatusFilter<"Item"> | $Enums.ItemStatus
     description?: StringNullableFilter<"Item"> | string | null
     quantity?: IntFilter<"Item"> | number
     inventoryId?: StringFilter<"Item"> | string
@@ -8565,7 +8592,7 @@ export namespace Prisma {
     NOT?: ItemWhereInput | ItemWhereInput[]
     name?: StringFilter<"Item"> | string
     serialNumber?: StringNullableFilter<"Item"> | string | null
-    status?: StringFilter<"Item"> | string
+    status?: EnumItemStatusFilter<"Item"> | $Enums.ItemStatus
     description?: StringNullableFilter<"Item"> | string | null
     quantity?: IntFilter<"Item"> | number
     inventoryId?: StringFilter<"Item"> | string
@@ -8598,7 +8625,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Item"> | string
     name?: StringWithAggregatesFilter<"Item"> | string
     serialNumber?: StringNullableWithAggregatesFilter<"Item"> | string | null
-    status?: StringWithAggregatesFilter<"Item"> | string
+    status?: EnumItemStatusWithAggregatesFilter<"Item"> | $Enums.ItemStatus
     description?: StringNullableWithAggregatesFilter<"Item"> | string | null
     quantity?: IntWithAggregatesFilter<"Item"> | number
     inventoryId?: StringWithAggregatesFilter<"Item"> | string
@@ -8994,7 +9021,7 @@ export namespace Prisma {
     id?: string
     name: string
     serialNumber?: string | null
-    status: string
+    status: $Enums.ItemStatus
     description?: string | null
     quantity: number
     createdAt?: Date | string
@@ -9006,7 +9033,7 @@ export namespace Prisma {
     id?: string
     name: string
     serialNumber?: string | null
-    status: string
+    status: $Enums.ItemStatus
     description?: string | null
     quantity: number
     inventoryId: string
@@ -9018,7 +9045,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     serialNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
     description?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9030,7 +9057,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     serialNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
     description?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     inventoryId?: StringFieldUpdateOperationsInput | string
@@ -9042,7 +9069,7 @@ export namespace Prisma {
     id?: string
     name: string
     serialNumber?: string | null
-    status: string
+    status: $Enums.ItemStatus
     description?: string | null
     quantity: number
     inventoryId: string
@@ -9054,7 +9081,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     serialNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
     description?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9065,7 +9092,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     serialNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
     description?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     inventoryId?: StringFieldUpdateOperationsInput | string
@@ -9407,6 +9434,13 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type EnumItemStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ItemStatus | EnumItemStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ItemStatus[]
+    notIn?: $Enums.ItemStatus[]
+    not?: NestedEnumItemStatusFilter<$PrismaModel> | $Enums.ItemStatus
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -9470,6 +9504,16 @@ export namespace Prisma {
 
   export type ItemSumOrderByAggregateInput = {
     quantity?: SortOrder
+  }
+
+  export type EnumItemStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ItemStatus | EnumItemStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ItemStatus[]
+    notIn?: $Enums.ItemStatus[]
+    not?: NestedEnumItemStatusWithAggregatesFilter<$PrismaModel> | $Enums.ItemStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumItemStatusFilter<$PrismaModel>
+    _max?: NestedEnumItemStatusFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -9724,6 +9768,10 @@ export namespace Prisma {
     connect?: InventoryWhereUniqueInput
   }
 
+  export type EnumItemStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ItemStatus
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -9885,6 +9933,23 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumItemStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ItemStatus | EnumItemStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ItemStatus[]
+    notIn?: $Enums.ItemStatus[]
+    not?: NestedEnumItemStatusFilter<$PrismaModel> | $Enums.ItemStatus
+  }
+
+  export type NestedEnumItemStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ItemStatus | EnumItemStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ItemStatus[]
+    notIn?: $Enums.ItemStatus[]
+    not?: NestedEnumItemStatusWithAggregatesFilter<$PrismaModel> | $Enums.ItemStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumItemStatusFilter<$PrismaModel>
+    _max?: NestedEnumItemStatusFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -10228,7 +10293,7 @@ export namespace Prisma {
     id?: string
     name: string
     serialNumber?: string | null
-    status: string
+    status: $Enums.ItemStatus
     description?: string | null
     quantity: number
     createdAt?: Date | string
@@ -10239,7 +10304,7 @@ export namespace Prisma {
     id?: string
     name: string
     serialNumber?: string | null
-    status: string
+    status: $Enums.ItemStatus
     description?: string | null
     quantity: number
     createdAt?: Date | string
@@ -10307,7 +10372,7 @@ export namespace Prisma {
     id?: StringFilter<"Item"> | string
     name?: StringFilter<"Item"> | string
     serialNumber?: StringNullableFilter<"Item"> | string | null
-    status?: StringFilter<"Item"> | string
+    status?: EnumItemStatusFilter<"Item"> | $Enums.ItemStatus
     description?: StringNullableFilter<"Item"> | string | null
     quantity?: IntFilter<"Item"> | number
     inventoryId?: StringFilter<"Item"> | string
@@ -10524,7 +10589,7 @@ export namespace Prisma {
     id?: string
     name: string
     serialNumber?: string | null
-    status: string
+    status: $Enums.ItemStatus
     description?: string | null
     quantity: number
     createdAt?: Date | string
@@ -10535,7 +10600,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     serialNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
     description?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10546,7 +10611,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     serialNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
     description?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10557,7 +10622,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     serialNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
     description?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

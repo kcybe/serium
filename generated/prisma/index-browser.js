@@ -191,7 +191,13 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.ItemStatus = exports.$Enums.ItemStatus = {
+  Available: 'Available',
+  InUse: 'InUse',
+  Broken: 'Broken',
+  Repair: 'Repair',
+  Lost: 'Lost'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',

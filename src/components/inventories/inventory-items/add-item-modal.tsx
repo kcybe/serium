@@ -11,6 +11,13 @@ import { Button } from "../../ui/button";
 import { DiamondPlus } from "lucide-react";
 import { useAddItemToInventory } from "@/hooks/inventory";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function AddItemModal({ inventoryId }: { inventoryId: string }) {
   const [open, setOpen] = useState(false);
@@ -98,26 +105,34 @@ export function AddItemModal({ inventoryId }: { inventoryId: string }) {
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-1">Status</label>
-            <Input
-              placeholder="e.g. Available, In Use"
-              className="placeholder:text-gray-500"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            />
-          </div>
+          <div className="flex justify-between space-x-2">
+            <div className="w-full">
+              <label className="block text-sm font-medium mb-1">Status</label>
+              <Select value={status} onValueChange={setStatus}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Available">Available</SelectItem>
+                  <SelectItem value="InUse">In Use</SelectItem>
+                  <SelectItem value="Broken">Broken</SelectItem>
+                  <SelectItem value="Repair">Repair</SelectItem>
+                  <SelectItem value="Lost">Lost</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-1">Quantity</label>
-            <Input
-              type="number"
-              placeholder="e.g. 5"
-              className="placeholder:text-gray-500"
-              value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
-              min={1}
-            />
+            <div className="w-full">
+              <label className="block text-sm font-medium mb-1">Quantity</label>
+              <Input
+                type="number"
+                placeholder="e.g. 5"
+                className="placeholder:text-gray-500"
+                value={quantity}
+                onChange={(e) => setQuantity(Number(e.target.value))}
+                min={1}
+              />
+            </div>
           </div>
           <Button
             type="submit"

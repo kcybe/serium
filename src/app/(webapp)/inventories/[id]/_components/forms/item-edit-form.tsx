@@ -18,11 +18,18 @@ import { ControllerRenderProps, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useEditItemFromInventory } from "@/hooks/inventory";
 import { toast } from "sonner";
-import { Item } from "../../../../../../generated/prisma";
+import { Item, ItemStatus } from "../../../../../../../generated/prisma";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name cannot be empty"),
-  status: z.string().min(1, "Status cannot be empty"),
+  status: z.nativeEnum(ItemStatus),
   description: z.string(),
   quantity: z.number(),
   serialNumber: z.string(),
@@ -142,57 +149,67 @@ export default function ItemEditForm({
                   {...field}
                   placeholder="Description"
                   className="text-md"
-                  required
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          name="status"
-          control={form.control}
-          render={({
-            field,
-          }: {
-            field: ControllerRenderProps<FormValues, "status">;
-          }) => (
-            <FormItem className="col-span-2 md:col-span-1">
-              <FormLabel>Status</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Status"
-                  className="text-md"
-                  required
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="quantity"
-          control={form.control}
-          render={({
-            field,
-          }: {
-            field: ControllerRenderProps<FormValues, "quantity">;
-          }) => (
-            <FormItem className="col-span-2 md:col-span-1">
-              <FormLabel>Quantity</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Quantity"
-                  className="text-md"
-                  required
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex justify-between space-x-2">
+          <div className="w-full">
+            <FormField
+              name="status"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem className="col-span-2 md:col-span-1">
+                  <FormLabel>Status</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a status" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {Object.values(ItemStatus).map((status) => (
+                        <SelectItem key={status} value={status}>
+                          {status === "InUse" ? "In Use" : status}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="w-full">
+            <FormField
+              name="quantity"
+              control={form.control}
+              render={({
+                field,
+              }: {
+                field: ControllerRenderProps<FormValues, "quantity">;
+              }) => (
+                <FormItem className="col-span-2 md:col-span-1">
+                  <FormLabel>Quantity</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Quantity"
+                      className="text-md"
+                      required
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
 
         <div className="flex w-full sm:justify-end mt-4">
           <Button

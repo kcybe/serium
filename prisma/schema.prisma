@@ -81,16 +81,24 @@ model Inventory {
   createdAt DateTime @default(now())
 }
 
+enum ItemStatus {
+  Available
+  InUse
+  Broken
+  Repair
+  Lost
+}
+
 model Item {
-  id           String    @id @default(cuid())
+  id           String     @id @default(cuid())
   name         String
   serialNumber String?
-  status       String
+  status       ItemStatus
   description  String?
   quantity     Int
   inventoryId  String
-  inventory    Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
-  createdAt    DateTime  @default(now())
+  inventory    Inventory  @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
   lastVerified DateTime?
 
   @@unique([serialNumber, inventoryId])

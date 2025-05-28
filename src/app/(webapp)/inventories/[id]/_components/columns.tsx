@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { DataTableColumnHeader } from "@/components/inventories/inventory-items/data-table-column-header";
 import { Checkbox } from "@/components/ui/checkbox";
 import DataTableActions from "./data-table-actions";
+import { StatusBadge } from "@/components/inventories/inventory-items/status-badge";
 
 export const columns: ColumnDef<Item>[] = [
   {
@@ -51,6 +52,13 @@ export const columns: ColumnDef<Item>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
     ),
+    cell: ({ row }) => {
+      return (
+        <div className="text-sm">
+          <StatusBadge status={row.original.status} />
+        </div>
+      );
+    },
   },
   {
     accessorKey: "description",

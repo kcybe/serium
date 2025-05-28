@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { Checkbox } from "@/components/ui/checkbox";
 import DataTableActions from "./data-table-actions";
-import { StatusBadge } from "@/components/inventories/inventory-items/status-badge";
+import { StatusBadge } from "@/app/(webapp)/inventories/[id]/_components/status-badge";
 
 export const columns: ColumnDef<Item>[] = [
   {
@@ -58,6 +58,9 @@ export const columns: ColumnDef<Item>[] = [
           <StatusBadge status={row.original.status} />
         </div>
       );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
     },
   },
   {

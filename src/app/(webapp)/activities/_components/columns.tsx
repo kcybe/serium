@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ActivityLogWithRelations } from "@/hooks/activities/use-activities";
+import { ActionBadge } from "./action-badge";
 
 export const columns: ColumnDef<ActivityLogWithRelations>[] = [
   {
@@ -38,6 +39,16 @@ export const columns: ColumnDef<ActivityLogWithRelations>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Action" />
     ),
+    cell: ({ row }) => {
+      return (
+        <div className="text-sm">
+          <ActionBadge action={row.original.action} />
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "inventoryId",

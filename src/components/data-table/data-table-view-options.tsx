@@ -47,12 +47,14 @@ export function DataTableViewOptions<TData extends RowData>({
     [table]
   );
 
+  const currentColumnVisibility = table.getState().columnVisibility;
+
   const visibleColumnCount = React.useMemo(
     () =>
       hideableColumns.filter((col: Column<TData, unknown>) =>
         col.getIsVisible()
       ).length,
-    [hideableColumns, table.getState().columnVisibility] // Depend on columnVisibility state
+    [hideableColumns, currentColumnVisibility]
   );
 
   const getColumnDisplayName = React.useCallback(

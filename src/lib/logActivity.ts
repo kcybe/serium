@@ -1,9 +1,9 @@
 import { prisma } from "@/lib/db"; // adjust to your project structure
-import { Prisma } from "../../generated/prisma";
+import { ActivityActions, Prisma } from "../../generated/prisma";
 
 type LogActivityParams = {
   userId: string;
-  action: string;
+  action: ActivityActions;
   itemId?: string;
   inventoryId?: string;
   metadata?: Prisma.JsonValue;

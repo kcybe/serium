@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/db";
 import { getAuthenticatedUserServer } from "@/lib/get-authenticated-user-server";
+import { logActivity } from "@/lib/logActivity";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -34,6 +35,12 @@ export async function GET(
       { status: 404 }
     );
   }
+
+  await logActivity({
+    userId: user.id,
+    action: "VIEW_INVENTORY",
+    inventoryId: inventory.id,
+  });
 
   return NextResponse.json(inventory);
 }
@@ -137,10 +144,18 @@ export async function DELETE(
       },
     });
 
-    return NextResponse.json({
-      message: "Inventory deleted successfully",
-      id: deletedInventory.id,
+    await logActivity({
+      userId: user.id,
+      action: "DELETE_INVENTORY",
+      metadata: {
+        deleted: {
+          id: deletedInventory.id,
+          name: deletedInventory.name,
+        },
+      },
     });
+
+    return new NextResponse(null, { status: 204 });
   } catch (error) {
     console.error("Error deleting inventory:", error);
     return NextResponse.json(

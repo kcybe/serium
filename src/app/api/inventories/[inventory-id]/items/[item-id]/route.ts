@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import { getAuthenticatedUserServer } from "@/lib/get-authenticated-user-server";
 import { NextResponse } from "next/server";
 import { Item } from "../../../../../../../generated/prisma";
+import { logActivity } from "@/lib/logActivity";
 
 export async function GET(
   req: Request,
@@ -44,6 +45,15 @@ export async function GET(
     return NextResponse.json({ error: "Item not found" }, { status: 404 });
   }
 
+  // Log activity for viewing an item
+  await logActivity({
+    userId: user.id,
+    action: "VIEW_ITEM",
+    itemId: item.id,
+    inventoryId: item.inventoryId,
+    metadata: JSON.parse(JSON.stringify({ itemName: item.name })),
+  });
+
   return NextResponse.json(item);
 }
 
@@ -75,18 +85,44 @@ export async function DELETE(
   }
 
   // Then fetch the item, ensuring it belongs to the verified inventory
-  const item = await prisma.item.delete({
-    where: {
-      id: params["item-id"],
-      inventoryId: inventory.id,
-    },
-  });
+  try {
+    const deletedItem = await prisma.item.delete({
+      where: {
+        id: params["item-id"],
+        inventoryId: inventory.id,
+      },
+    });
 
-  if (!item) {
-    return NextResponse.json({ error: "Item not found" }, { status: 404 });
+    await logActivity({
+      userId: user.id,
+      action: "DELETE_ITEM",
+      itemId: deletedItem.id,
+      inventoryId: deletedItem.inventoryId,
+      metadata: JSON.parse(
+        JSON.stringify({
+          deleted: {
+            id: deletedItem.id,
+            name: deletedItem.name,
+            description: deletedItem.description,
+            status: deletedItem.status,
+            quantity: deletedItem.quantity,
+            serialNumber: deletedItem.serialNumber,
+          },
+        })
+      ),
+    });
+
+    return NextResponse.json({
+      message: "Item deleted successfully",
+      id: deletedItem.id,
+    });
+  } catch (error) {
+    console.error("Failed to delete item:", error);
+    return NextResponse.json(
+      { error: "Failed to delete item" },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json({ message: "Item deleted successfully" });
 }
 
 export async function PUT(
@@ -131,6 +167,10 @@ export async function PUT(
       );
     }
 
+    const oldItem = await prisma.item.findUnique({
+      where: { id: String([params["item-id"]]) },
+    });
+
     // 3. Update the item
     const updatedItem = await prisma.item.update({
       where: {
@@ -144,6 +184,19 @@ export async function PUT(
         quantity,
         serialNumber,
       },
+    });
+
+    await logActivity({
+      userId: user.id,
+      action: "EDIT_ITEM",
+      itemId: updatedItem.id,
+      inventoryId: updatedItem.inventoryId,
+      metadata: JSON.parse(
+        JSON.stringify({
+          old: oldItem,
+          new: updatedItem,
+        })
+      ),
     });
 
     return NextResponse.json(updatedItem);

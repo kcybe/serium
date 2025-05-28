@@ -182,14 +182,40 @@ exports.Prisma.ItemScalarFieldEnum = {
   lastVerified: 'lastVerified'
 };
 
+exports.Prisma.ActivityLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  action: 'action',
+  inventoryId: 'inventoryId',
+  itemId: 'itemId',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 exports.ItemStatus = exports.$Enums.ItemStatus = {
   Available: 'Available',
@@ -205,7 +231,8 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Verification: 'Verification',
   Inventory: 'Inventory',
-  Item: 'Item'
+  Item: 'Item',
+  ActivityLog: 'ActivityLog'
 };
 
 /**

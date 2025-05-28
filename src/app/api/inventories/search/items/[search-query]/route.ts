@@ -1,6 +1,9 @@
 // app/api/items/search/route.ts
+"use server";
+
 import { prisma } from "@/lib/db";
 import { getAuthenticatedUserServer } from "@/lib/get-authenticated-user-server";
+import { logActivity } from "@/lib/logActivity";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -19,6 +22,8 @@ export async function GET(
     return NextResponse.json([], { status: 200 }); // return empty if no query
   }
 
+  const trimmedQuery = query.trim();
+
   try {
     const items = await prisma.item.findMany({
       where: {
@@ -28,9 +33,9 @@ export async function GET(
           },
         },
         OR: [
-          { name: { contains: query } },
-          { serialNumber: { contains: query } },
-          { description: { contains: query } },
+          { name: { contains: trimmedQuery } },
+          { serialNumber: { contains: trimmedQuery } },
+          { description: { contains: trimmedQuery } },
         ],
       },
       include: {
@@ -42,6 +47,19 @@ export async function GET(
       orderBy: {
         createdAt: "desc",
       },
+    });
+
+    // Log the search activity
+    await logActivity({
+      userId: user.id,
+      action: "SEARCH_ITEMS",
+      metadata: JSON.parse(
+        JSON.stringify({
+          searchQuery: trimmedQuery,
+          resultsCount: items.length,
+          searchedFields: ["name", "serialNumber", "description"],
+        })
+      ),
     });
 
     return NextResponse.json(items, { status: 200 });

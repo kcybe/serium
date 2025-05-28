@@ -12,7 +12,7 @@ datasource db {
 }
 
 model User {
-  id            String      @id
+  id            String        @id
   name          String
   email         String
   emailVerified Boolean
@@ -22,6 +22,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
   inventories   Inventory[]
+  activityLogs  ActivityLog[]
 
   @@unique([email])
   @@map("user")
@@ -73,12 +74,13 @@ model Verification {
 }
 
 model Inventory {
-  id        String   @id @default(cuid())
-  name      String
-  items     Item[]
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
+  id           String        @id @default(cuid())
+  name         String
+  items        Item[]
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime      @default(now())
+  activityLogs ActivityLog[]
 }
 
 enum ItemStatus {
@@ -90,16 +92,30 @@ enum ItemStatus {
 }
 
 model Item {
-  id           String     @id @default(cuid())
+  id           String        @id @default(cuid())
   name         String
   serialNumber String?
   status       ItemStatus
   description  String?
   quantity     Int
   inventoryId  String
-  inventory    Inventory  @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
-  createdAt    DateTime   @default(now())
+  inventory    Inventory     @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  createdAt    DateTime      @default(now())
   lastVerified DateTime?
+  activityLogs ActivityLog[]
 
   @@unique([serialNumber, inventoryId])
+}
+
+model ActivityLog {
+  id          String     @id @default(cuid())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  action      String
+  inventoryId String? // Optional: An activity might not always be related to a specific inventory
+  inventory   Inventory? @relation(fields: [inventoryId], references: [id])
+  itemId      String? // Optional: An activity might not always be related to a specific item
+  item        Item?      @relation(fields: [itemId], references: [id])
+  metadata    Json?
+  createdAt   DateTime   @default(now())
 }

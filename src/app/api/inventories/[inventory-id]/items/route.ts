@@ -1,6 +1,9 @@
 // app/api/inventories/[id]/items/route.ts
+"use server";
+
 import { prisma } from "@/lib/db";
 import { getAuthenticatedUserServer } from "@/lib/get-authenticated-user-server";
+import { logActivity } from "@/lib/logActivity";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -41,16 +44,37 @@ export async function POST(
     );
   }
 
-  const newItem = await prisma.item.create({
-    data: {
-      name,
-      serialNumber,
-      inventoryId,
-      description,
-      status,
-      quantity,
-    },
-  });
+  try {
+    const newItem = await prisma.item.create({
+      data: {
+        name: name,
+        serialNumber: serialNumber ? serialNumber.trim() : null, // Store trimmed or null
+        inventoryId,
+        description: description || null,
+        status,
+        quantity: quantity !== undefined ? quantity : 1,
+      },
+    });
 
-  return NextResponse.json(newItem);
+    // Log activity for creating an item
+    await logActivity({
+      userId: user.id,
+      action: "CREATE_ITEM",
+      itemId: newItem.id,
+      inventoryId: newItem.inventoryId,
+      metadata: JSON.parse(
+        JSON.stringify({
+          created: newItem, // Log the entire created item object
+        })
+      ),
+    });
+
+    return NextResponse.json(newItem, { status: 201 });
+  } catch (error) {
+    console.error("Failed to create item:", error);
+    return NextResponse.json(
+      { error: `Failed to create item: ${error}` },
+      { status: 500 }
+    );
+  }
 }

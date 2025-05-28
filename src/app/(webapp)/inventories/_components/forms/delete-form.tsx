@@ -4,21 +4,11 @@ import React, { Dispatch, SetStateAction } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 import { InventoryWithItems } from "@/types";
 import { toast } from "sonner";
 import { useDeleteInventory } from "@/hooks/inventory";
-
-const formSchema = z.object({
-  inventory: z.object({
-    id: z.string(),
-    name: z.string(),
-    items: z.array(z.any()), // Adjust the schema for items based on its actual structure
-  }),
-});
 
 export default function DeleteForm({
   inventory,
@@ -27,44 +17,35 @@ export default function DeleteForm({
   inventory: InventoryWithItems;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      inventory: inventory,
-    },
-  });
+  const form = useForm();
 
-  const { mutate: deleteInventory, isPending: isDeleting } = useDeleteInventory(
-    inventory.id
-  );
+  const { mutate: deleteInventory, isPending: isDeletingInventory } =
+    useDeleteInventory();
 
-  const isLoading = form.formState.isSubmitting;
-
-  const onSubmit = async () => {
-    try {
-      deleteInventory(inventory);
-      setIsOpen(false);
-    } catch (error) {
-      toast.error(`Failed to delete inventory: ${error}`);
-      setIsOpen(false);
-    } finally {
-      toast.success(`Inventory "${inventory.name}" deleted successfully.`);
-      setIsOpen(false);
-    }
+  const onSubmit = () => {
+    deleteInventory(inventory.id, {
+      onSuccess: () => {
+        toast.success(`Inventory "${inventory.name}" deleted successfully.`);
+        setIsOpen(false);
+      },
+      onError: (error) => {
+        toast.error(`Failed to delete inventory: ${error.message}`);
+        // setIsOpen(false);
+      },
+    });
   };
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6  sm:px-0 px-4"
+        onSubmit={form.handleSubmit(onSubmit)} // handleSubmit prevents default and calls your onSubmit
       >
-        <div className="w-full flex justify-center sm:space-x-6">
+        <div className="w-full flex flex-col sm:flex-row justify-center sm:space-x-6 space-y-3 sm:space-y-0">
           <Button
             size="lg"
             variant="outline"
-            disabled={isLoading}
-            className="w-full hidden sm:block"
+            disabled={isDeletingInventory} // Disable if mutation is pending
+            className="w-full"
             type="button"
             onClick={() => setIsOpen(false)}
           >
@@ -73,16 +54,17 @@ export default function DeleteForm({
           <Button
             size="lg"
             type="submit"
-            disabled={isDeleting}
-            className="w-full bg-red-500 hover:bg-red-400"
+            disabled={isDeletingInventory} // Disable if mutation is pending
+            variant="destructive" // Use destructive variant for delete buttons
+            className="w-full" // Removed specific red colors, let variant handle it
           >
-            {isDeleting ? (
+            {isDeletingInventory ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Deleting
+                Deleting...
               </>
             ) : (
-              <span>Delete</span>
+              <span>Delete Inventory</span>
             )}
           </Button>
         </div>

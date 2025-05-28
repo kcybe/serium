@@ -6,7 +6,6 @@ import {
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
-  VisibilityState,
   SortingState,
   getSortedRowModel,
   getFilteredRowModel,
@@ -32,6 +31,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Eye, Trash } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { usePersistentColumnVisibility } from "@/hooks/inventory/datatable/use-persistent-column-visibility";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -43,7 +43,7 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    usePersistentColumnVisibility("activities");
 
   const [rowSelection, setRowSelection] = React.useState({});
   const [sorting, setSorting] = React.useState<SortingState>([]);

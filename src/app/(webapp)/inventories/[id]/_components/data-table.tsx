@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DataTablePagination } from "@/components/inventories/inventory-items/data-table-pagination";
+import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 
 import {
   DropdownMenu,

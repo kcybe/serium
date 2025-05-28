@@ -26,12 +26,14 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Eye, Trash } from "lucide-react";
+import { Eye, RotateCcw, Trash } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -109,6 +111,18 @@ export function DataTable<TData, TValue>({
                     </DropdownMenuCheckboxItem>
                   );
                 })}
+
+              <Separator className="mt-1" />
+
+              <DropdownMenuItem
+                onClick={() => {
+                  setColumnVisibility({});
+                }}
+                className="text-red-500 mt-1"
+              >
+                <RotateCcw className="mr-2 h-3.5 w-3.5 text-red-500" />
+                Reset{" "}
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -122,13 +136,11 @@ export function DataTable<TData, TValue>({
             setSorting([]);
             setRowSelection({});
             setGlobalFilter("");
-            setColumnVisibility({});
           }}
           disabled={
             sorting.length === 0 &&
             Object.keys(rowSelection).length === 0 &&
-            globalFilter === "" &&
-            Object.keys(columnVisibility).length === 0
+            globalFilter === ""
           }
         >
           <Trash className="h-3.5 w-3.5 text-muted-foreground/70" />

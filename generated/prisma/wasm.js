@@ -225,6 +225,20 @@ exports.ItemStatus = exports.$Enums.ItemStatus = {
   Lost: 'Lost'
 };
 
+exports.ActivityActions = exports.$Enums.ActivityActions = {
+  CREATE_INVENTORY: 'CREATE_INVENTORY',
+  VIEW_INVENTORY: 'VIEW_INVENTORY',
+  EDIT_INVENTORY: 'EDIT_INVENTORY',
+  DELETE_INVENTORY: 'DELETE_INVENTORY',
+  CREATE_ITEM: 'CREATE_ITEM',
+  VIEW_ITEM: 'VIEW_ITEM',
+  EDIT_ITEM: 'EDIT_ITEM',
+  DELETE_ITEM: 'DELETE_ITEM',
+  VERIFY_ITEM_BY_SERIAL: 'VERIFY_ITEM_BY_SERIAL',
+  SEARCH_ITEMS: 'SEARCH_ITEMS',
+  VIEW_ALL_INVENTORIES: 'VIEW_ALL_INVENTORIES'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',

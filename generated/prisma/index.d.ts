@@ -63,11 +63,32 @@ export namespace $Enums {
 
 export type ItemStatus = (typeof ItemStatus)[keyof typeof ItemStatus]
 
+
+export const ActivityActions: {
+  CREATE_INVENTORY: 'CREATE_INVENTORY',
+  VIEW_INVENTORY: 'VIEW_INVENTORY',
+  EDIT_INVENTORY: 'EDIT_INVENTORY',
+  DELETE_INVENTORY: 'DELETE_INVENTORY',
+  CREATE_ITEM: 'CREATE_ITEM',
+  VIEW_ITEM: 'VIEW_ITEM',
+  EDIT_ITEM: 'EDIT_ITEM',
+  DELETE_ITEM: 'DELETE_ITEM',
+  VERIFY_ITEM_BY_SERIAL: 'VERIFY_ITEM_BY_SERIAL',
+  SEARCH_ITEMS: 'SEARCH_ITEMS',
+  VIEW_ALL_INVENTORIES: 'VIEW_ALL_INVENTORIES'
+};
+
+export type ActivityActions = (typeof ActivityActions)[keyof typeof ActivityActions]
+
 }
 
 export type ItemStatus = $Enums.ItemStatus
 
 export const ItemStatus: typeof $Enums.ItemStatus
+
+export type ActivityActions = $Enums.ActivityActions
+
+export const ActivityActions: typeof $Enums.ActivityActions
 
 /**
  * ##  Prisma Client ʲˢ
@@ -8288,7 +8309,7 @@ export namespace Prisma {
   export type ActivityLogMinAggregateOutputType = {
     id: string | null
     userId: string | null
-    action: string | null
+    action: $Enums.ActivityActions | null
     inventoryId: string | null
     itemId: string | null
     createdAt: Date | null
@@ -8297,7 +8318,7 @@ export namespace Prisma {
   export type ActivityLogMaxAggregateOutputType = {
     id: string | null
     userId: string | null
-    action: string | null
+    action: $Enums.ActivityActions | null
     inventoryId: string | null
     itemId: string | null
     createdAt: Date | null
@@ -8419,7 +8440,7 @@ export namespace Prisma {
   export type ActivityLogGroupByOutputType = {
     id: string
     userId: string
-    action: string
+    action: $Enums.ActivityActions
     inventoryId: string | null
     itemId: string | null
     metadata: JsonValue | null
@@ -8519,7 +8540,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
-      action: string
+      action: $Enums.ActivityActions
       inventoryId: string | null
       itemId: string | null
       metadata: Prisma.JsonValue | null
@@ -8952,7 +8973,7 @@ export namespace Prisma {
   interface ActivityLogFieldRefs {
     readonly id: FieldRef<"ActivityLog", 'String'>
     readonly userId: FieldRef<"ActivityLog", 'String'>
-    readonly action: FieldRef<"ActivityLog", 'String'>
+    readonly action: FieldRef<"ActivityLog", 'ActivityActions'>
     readonly inventoryId: FieldRef<"ActivityLog", 'String'>
     readonly itemId: FieldRef<"ActivityLog", 'String'>
     readonly metadata: FieldRef<"ActivityLog", 'Json'>
@@ -9596,6 +9617,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ActivityActions'
+   */
+  export type EnumActivityActionsFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActivityActions'>
+    
+
+
+  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -10058,7 +10086,7 @@ export namespace Prisma {
     NOT?: ActivityLogWhereInput | ActivityLogWhereInput[]
     id?: StringFilter<"ActivityLog"> | string
     userId?: StringFilter<"ActivityLog"> | string
-    action?: StringFilter<"ActivityLog"> | string
+    action?: EnumActivityActionsFilter<"ActivityLog"> | $Enums.ActivityActions
     inventoryId?: StringNullableFilter<"ActivityLog"> | string | null
     itemId?: StringNullableFilter<"ActivityLog"> | string | null
     metadata?: JsonNullableFilter<"ActivityLog">
@@ -10087,7 +10115,7 @@ export namespace Prisma {
     OR?: ActivityLogWhereInput[]
     NOT?: ActivityLogWhereInput | ActivityLogWhereInput[]
     userId?: StringFilter<"ActivityLog"> | string
-    action?: StringFilter<"ActivityLog"> | string
+    action?: EnumActivityActionsFilter<"ActivityLog"> | $Enums.ActivityActions
     inventoryId?: StringNullableFilter<"ActivityLog"> | string | null
     itemId?: StringNullableFilter<"ActivityLog"> | string | null
     metadata?: JsonNullableFilter<"ActivityLog">
@@ -10116,7 +10144,7 @@ export namespace Prisma {
     NOT?: ActivityLogScalarWhereWithAggregatesInput | ActivityLogScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ActivityLog"> | string
     userId?: StringWithAggregatesFilter<"ActivityLog"> | string
-    action?: StringWithAggregatesFilter<"ActivityLog"> | string
+    action?: EnumActivityActionsWithAggregatesFilter<"ActivityLog"> | $Enums.ActivityActions
     inventoryId?: StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
     itemId?: StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
     metadata?: JsonNullableWithAggregatesFilter<"ActivityLog">
@@ -10604,7 +10632,7 @@ export namespace Prisma {
 
   export type ActivityLogCreateInput = {
     id?: string
-    action: string
+    action: $Enums.ActivityActions
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutActivityLogsInput
@@ -10615,7 +10643,7 @@ export namespace Prisma {
   export type ActivityLogUncheckedCreateInput = {
     id?: string
     userId: string
-    action: string
+    action: $Enums.ActivityActions
     inventoryId?: string | null
     itemId?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
@@ -10624,7 +10652,7 @@ export namespace Prisma {
 
   export type ActivityLogUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
+    action?: EnumActivityActionsFieldUpdateOperationsInput | $Enums.ActivityActions
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutActivityLogsNestedInput
@@ -10635,7 +10663,7 @@ export namespace Prisma {
   export type ActivityLogUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
+    action?: EnumActivityActionsFieldUpdateOperationsInput | $Enums.ActivityActions
     inventoryId?: NullableStringFieldUpdateOperationsInput | string | null
     itemId?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
@@ -10645,7 +10673,7 @@ export namespace Prisma {
   export type ActivityLogCreateManyInput = {
     id?: string
     userId: string
-    action: string
+    action: $Enums.ActivityActions
     inventoryId?: string | null
     itemId?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
@@ -10654,7 +10682,7 @@ export namespace Prisma {
 
   export type ActivityLogUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
+    action?: EnumActivityActionsFieldUpdateOperationsInput | $Enums.ActivityActions
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10662,7 +10690,7 @@ export namespace Prisma {
   export type ActivityLogUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
+    action?: EnumActivityActionsFieldUpdateOperationsInput | $Enums.ActivityActions
     inventoryId?: NullableStringFieldUpdateOperationsInput | string | null
     itemId?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
@@ -11110,6 +11138,13 @@ export namespace Prisma {
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
   }
+
+  export type EnumActivityActionsFilter<$PrismaModel = never> = {
+    equals?: $Enums.ActivityActions | EnumActivityActionsFieldRefInput<$PrismaModel>
+    in?: $Enums.ActivityActions[]
+    notIn?: $Enums.ActivityActions[]
+    not?: NestedEnumActivityActionsFilter<$PrismaModel> | $Enums.ActivityActions
+  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -11165,6 +11200,16 @@ export namespace Prisma {
     inventoryId?: SortOrder
     itemId?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type EnumActivityActionsWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ActivityActions | EnumActivityActionsFieldRefInput<$PrismaModel>
+    in?: $Enums.ActivityActions[]
+    notIn?: $Enums.ActivityActions[]
+    not?: NestedEnumActivityActionsWithAggregatesFilter<$PrismaModel> | $Enums.ActivityActions
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumActivityActionsFilter<$PrismaModel>
+    _max?: NestedEnumActivityActionsFilter<$PrismaModel>
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -11588,6 +11633,10 @@ export namespace Prisma {
     connect?: ItemWhereUniqueInput
   }
 
+  export type EnumActivityActionsFieldUpdateOperationsInput = {
+    set?: $Enums.ActivityActions
+  }
+
   export type UserUpdateOneRequiredWithoutActivityLogsNestedInput = {
     create?: XOR<UserCreateWithoutActivityLogsInput, UserUncheckedCreateWithoutActivityLogsInput>
     connectOrCreate?: UserCreateOrConnectWithoutActivityLogsInput
@@ -11806,6 +11855,23 @@ export namespace Prisma {
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
   }
+
+  export type NestedEnumActivityActionsFilter<$PrismaModel = never> = {
+    equals?: $Enums.ActivityActions | EnumActivityActionsFieldRefInput<$PrismaModel>
+    in?: $Enums.ActivityActions[]
+    notIn?: $Enums.ActivityActions[]
+    not?: NestedEnumActivityActionsFilter<$PrismaModel> | $Enums.ActivityActions
+  }
+
+  export type NestedEnumActivityActionsWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ActivityActions | EnumActivityActionsFieldRefInput<$PrismaModel>
+    in?: $Enums.ActivityActions[]
+    notIn?: $Enums.ActivityActions[]
+    not?: NestedEnumActivityActionsWithAggregatesFilter<$PrismaModel> | $Enums.ActivityActions
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumActivityActionsFilter<$PrismaModel>
+    _max?: NestedEnumActivityActionsFilter<$PrismaModel>
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -11920,7 +11986,7 @@ export namespace Prisma {
 
   export type ActivityLogCreateWithoutUserInput = {
     id?: string
-    action: string
+    action: $Enums.ActivityActions
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     inventory?: InventoryCreateNestedOneWithoutActivityLogsInput
@@ -11929,7 +11995,7 @@ export namespace Prisma {
 
   export type ActivityLogUncheckedCreateWithoutUserInput = {
     id?: string
-    action: string
+    action: $Enums.ActivityActions
     inventoryId?: string | null
     itemId?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
@@ -12058,7 +12124,7 @@ export namespace Prisma {
     NOT?: ActivityLogScalarWhereInput | ActivityLogScalarWhereInput[]
     id?: StringFilter<"ActivityLog"> | string
     userId?: StringFilter<"ActivityLog"> | string
-    action?: StringFilter<"ActivityLog"> | string
+    action?: EnumActivityActionsFilter<"ActivityLog"> | $Enums.ActivityActions
     inventoryId?: StringNullableFilter<"ActivityLog"> | string | null
     itemId?: StringNullableFilter<"ActivityLog"> | string | null
     metadata?: JsonNullableFilter<"ActivityLog">
@@ -12267,7 +12333,7 @@ export namespace Prisma {
 
   export type ActivityLogCreateWithoutInventoryInput = {
     id?: string
-    action: string
+    action: $Enums.ActivityActions
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutActivityLogsInput
@@ -12277,7 +12343,7 @@ export namespace Prisma {
   export type ActivityLogUncheckedCreateWithoutInventoryInput = {
     id?: string
     userId: string
-    action: string
+    action: $Enums.ActivityActions
     itemId?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -12399,7 +12465,7 @@ export namespace Prisma {
 
   export type ActivityLogCreateWithoutItemInput = {
     id?: string
-    action: string
+    action: $Enums.ActivityActions
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutActivityLogsInput
@@ -12409,7 +12475,7 @@ export namespace Prisma {
   export type ActivityLogUncheckedCreateWithoutItemInput = {
     id?: string
     userId: string
-    action: string
+    action: $Enums.ActivityActions
     inventoryId?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -12680,7 +12746,7 @@ export namespace Prisma {
 
   export type ActivityLogCreateManyUserInput = {
     id?: string
-    action: string
+    action: $Enums.ActivityActions
     inventoryId?: string | null
     itemId?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
@@ -12786,7 +12852,7 @@ export namespace Prisma {
 
   export type ActivityLogUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
+    action?: EnumActivityActionsFieldUpdateOperationsInput | $Enums.ActivityActions
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     inventory?: InventoryUpdateOneWithoutActivityLogsNestedInput
@@ -12795,7 +12861,7 @@ export namespace Prisma {
 
   export type ActivityLogUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
+    action?: EnumActivityActionsFieldUpdateOperationsInput | $Enums.ActivityActions
     inventoryId?: NullableStringFieldUpdateOperationsInput | string | null
     itemId?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
@@ -12804,7 +12870,7 @@ export namespace Prisma {
 
   export type ActivityLogUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
+    action?: EnumActivityActionsFieldUpdateOperationsInput | $Enums.ActivityActions
     inventoryId?: NullableStringFieldUpdateOperationsInput | string | null
     itemId?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
@@ -12825,7 +12891,7 @@ export namespace Prisma {
   export type ActivityLogCreateManyInventoryInput = {
     id?: string
     userId: string
-    action: string
+    action: $Enums.ActivityActions
     itemId?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -12868,7 +12934,7 @@ export namespace Prisma {
 
   export type ActivityLogUpdateWithoutInventoryInput = {
     id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
+    action?: EnumActivityActionsFieldUpdateOperationsInput | $Enums.ActivityActions
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutActivityLogsNestedInput
@@ -12878,7 +12944,7 @@ export namespace Prisma {
   export type ActivityLogUncheckedUpdateWithoutInventoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
+    action?: EnumActivityActionsFieldUpdateOperationsInput | $Enums.ActivityActions
     itemId?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12887,7 +12953,7 @@ export namespace Prisma {
   export type ActivityLogUncheckedUpdateManyWithoutInventoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
+    action?: EnumActivityActionsFieldUpdateOperationsInput | $Enums.ActivityActions
     itemId?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12896,7 +12962,7 @@ export namespace Prisma {
   export type ActivityLogCreateManyItemInput = {
     id?: string
     userId: string
-    action: string
+    action: $Enums.ActivityActions
     inventoryId?: string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -12904,7 +12970,7 @@ export namespace Prisma {
 
   export type ActivityLogUpdateWithoutItemInput = {
     id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
+    action?: EnumActivityActionsFieldUpdateOperationsInput | $Enums.ActivityActions
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutActivityLogsNestedInput
@@ -12914,7 +12980,7 @@ export namespace Prisma {
   export type ActivityLogUncheckedUpdateWithoutItemInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
+    action?: EnumActivityActionsFieldUpdateOperationsInput | $Enums.ActivityActions
     inventoryId?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12923,7 +12989,7 @@ export namespace Prisma {
   export type ActivityLogUncheckedUpdateManyWithoutItemInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
+    action?: EnumActivityActionsFieldUpdateOperationsInput | $Enums.ActivityActions
     inventoryId?: NullableStringFieldUpdateOperationsInput | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

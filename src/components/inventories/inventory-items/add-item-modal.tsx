@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ItemStatus } from "../../../../generated/prisma";
 
 export function AddItemModal({ inventoryId }: { inventoryId: string }) {
   const [open, setOpen] = useState(false);
@@ -25,7 +26,7 @@ export function AddItemModal({ inventoryId }: { inventoryId: string }) {
   const [serialNumber, setSerialNumber] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [status, setStatus] = useState("Available");
+  const [status, setStatus] = useState<ItemStatus>(ItemStatus.Available);
 
   const addItemToInventory = useAddItemToInventory(inventoryId);
   const handleAddItem = async (e: React.FormEvent) => {
@@ -44,7 +45,7 @@ export function AddItemModal({ inventoryId }: { inventoryId: string }) {
       setSerialNumber("");
       setDescription("");
       setQuantity(1);
-      setStatus("Available");
+      setStatus(ItemStatus.Available);
     } catch (error) {
       toast.error("Failed to add item, please try again. " + error);
     }
@@ -89,7 +90,6 @@ export function AddItemModal({ inventoryId }: { inventoryId: string }) {
               className="placeholder:text-gray-500"
               value={serialNumber}
               onChange={(e) => setSerialNumber(e.target.value)}
-              required
             />
           </div>
 
@@ -108,7 +108,12 @@ export function AddItemModal({ inventoryId }: { inventoryId: string }) {
           <div className="flex justify-between space-x-2">
             <div className="w-full">
               <label className="block text-sm font-medium mb-1">Status</label>
-              <Select value={status} onValueChange={setStatus}>
+              <Select
+                value={status}
+                onValueChange={(value) => {
+                  setStatus(value as ItemStatus);
+                }}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>

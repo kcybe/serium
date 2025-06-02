@@ -6,7 +6,7 @@ import {
   HelpCircle,
 } from "lucide-react";
 
-const statusMap: Record<
+export const statusMap: Record<
   string,
   { label: string; color: string; icon: JSX.Element }
 > = {

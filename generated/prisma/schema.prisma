@@ -121,15 +121,29 @@ model Tag {
   @@map("tags")
 }
 
+enum ActivityActions {
+  CREATE_INVENTORY
+  VIEW_INVENTORY
+  EDIT_INVENTORY
+  DELETE_INVENTORY
+  CREATE_ITEM
+  VIEW_ITEM
+  EDIT_ITEM
+  DELETE_ITEM
+  VERIFY_ITEM_BY_SERIAL
+  SEARCH_ITEMS
+  VIEW_ALL_INVENTORIES
+}
+
 model ActivityLog {
-  id          String     @id @default(cuid())
+  id          String          @id @default(cuid())
   userId      String
-  user        User       @relation(fields: [userId], references: [id])
-  action      String
+  user        User            @relation(fields: [userId], references: [id])
+  action      ActivityActions
   inventoryId String? // Optional: An activity might not always be related to a specific inventory
-  inventory   Inventory? @relation(fields: [inventoryId], references: [id])
+  inventory   Inventory?      @relation(fields: [inventoryId], references: [id])
   itemId      String? // Optional: An activity might not always be related to a specific item
-  item        Item?      @relation(fields: [itemId], references: [id])
+  item        Item?           @relation(fields: [itemId], references: [id])
   metadata    Json?
-  createdAt   DateTime   @default(now())
+  createdAt   DateTime        @default(now())
 }

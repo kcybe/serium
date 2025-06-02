@@ -70,6 +70,7 @@ export function VerifyItemModal({ inventoryId }: VerifyItemModalProps) {
 
       setTimeout(() => {
         setVerificationState("idle");
+        setSerialNumber("");
         inputRef.current?.focus();
         setIsLoading(false);
       }, 1800);

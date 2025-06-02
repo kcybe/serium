@@ -211,7 +211,6 @@ export default function ItemEditForm({
                   {...field}
                   placeholder="Serial Number"
                   className="text-md"
-                  required
                 />
               </FormControl>
               <FormMessage />
@@ -248,7 +247,7 @@ export default function ItemEditForm({
                 <FormItem>
                   <FormLabel>Status</FormLabel>
                   <Select
-                    onValueChange={field.onChange}
+                    onValueChange={(value) => field.onChange(value as ItemStatus)}
                     defaultValue={field.value}
                   >
                     <FormControl>

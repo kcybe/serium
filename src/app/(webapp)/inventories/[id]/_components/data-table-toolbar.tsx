@@ -10,7 +10,7 @@ import { Trash, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-import { statuses } from "./data";
+import { statuses, UserTags } from "./data";
 import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
 import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options";
@@ -56,6 +56,15 @@ export function DataTableToolbar<TData>({
             column={table.getColumn("status")}
             title="Status"
             options={statuses} // Ensure 'statuses' are correctly formatted and imported
+          />
+        )}
+
+        {/* Tag Faceted Filter */}
+        {table.getColumn("tags") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("tags")}
+            title="Tags"
+            options={UserTags().tagFilterOptions()} // Ensure 'tags' are correctly formatted and imported
           />
         )}
 

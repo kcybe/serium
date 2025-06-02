@@ -6,27 +6,28 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/**
- * Normalizes a tag name to a consistent kebab-case format.
- * - Converts to lowercase.
- * - Replaces spaces and underscores with hyphens.
- * - Removes any characters that are not alphanumeric or hyphens.
- * - Trims leading/trailing hyphens.
- * - Collapses multiple consecutive hyphens into a single hyphen.
- *
- * @param tagName The raw tag name string.
- * @returns The normalized tag name.
- *
- * @example
- * normalizeTagName("Tag Name")       // "tag-name"
- * normalizeTagName("Modem")          // "modem"
- * normalizeTagName("Cellular Phone Eclipse") // "cellular-phone-eclipse"
- * normalizeTagName("  LeadingSpaces ") // "leadingspaces" (or "leading-spaces" if you want to keep spaces as separators)
- * normalizeTagName("Tag_Name_With_Underscores") // "tag-name-with-underscores"
- * normalizeTagName("Special!@#Chars") // "special-chars"
- * normalizeTagName("Multiple -- Hyphens") // "multiple-hyphens"
- */
 export function normalizeTagName(tagName: string): string {
+  /**
+   * Normalizes a tag name to a consistent kebab-case format.
+   * - Converts to lowercase.
+   * - Replaces spaces and underscores with hyphens.
+   * - Removes any characters that are not alphanumeric or hyphens.
+   * - Trims leading/trailing hyphens.
+   * - Collapses multiple consecutive hyphens into a single hyphen.
+   *
+   * @param tagName The raw tag name string.
+   * @returns The normalized tag name.
+   *
+   * @example
+   * normalizeTagName("Tag Name")       // "tag-name"
+   * normalizeTagName("Modem")          // "modem"
+   * normalizeTagName("Cellular Phone Eclipse") // "cellular-phone-eclipse"
+   * normalizeTagName("  LeadingSpaces ") // "leadingspaces" (or "leading-spaces" if you want to keep spaces as separators)
+   * normalizeTagName("Tag_Name_With_Underscores") // "tag-name-with-underscores"
+   * normalizeTagName("Special!@#Chars") // "special-chars"
+   * normalizeTagName("Multiple -- Hyphens") // "multiple-hyphens"
+   */
+
   if (!tagName || typeof tagName !== "string") {
     return "";
   }

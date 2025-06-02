@@ -27,7 +27,12 @@ export async function GET(
     include: {
       items: {
         include: {
-          tags: true,
+          tags: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
         },
       },
     },

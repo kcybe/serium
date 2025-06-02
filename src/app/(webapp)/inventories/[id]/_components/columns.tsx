@@ -7,8 +7,10 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 import { Checkbox } from "@/components/ui/checkbox";
 import DataTableActions from "./data-table-actions";
 import { StatusBadge } from "@/app/(webapp)/inventories/[id]/_components/status-badge";
+import { ItemWithTags, PrismaTagWithName } from "@/types";
+import { TagBadge } from "./tag-badge";
 
-export const columns: ColumnDef<Item>[] = [
+export const columns: ColumnDef<ItemWithTags>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -61,6 +63,40 @@ export const columns: ColumnDef<Item>[] = [
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: "tags", // Accessor for the tags array
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Tags" />
+    ),
+    cell: ({ row }) => {
+      const tags = row.original.tags; // Now TypeScript knows about tags
+      if (!tags || tags.length === 0) {
+        return <span className="text-xs text-gray-500">-</span>; // Or "No tags"
+      }
+      return (
+        <div className="flex flex-wrap gap-1">
+          {tags.map((tag) => (
+            <TagBadge key={tag.id} tagName={tag.name} />
+          ))}
+        </div>
+      );
+    },
+    filterFn: (row, columnId, filterValue: string[]) => {
+      if (!filterValue || filterValue.length === 0) {
+        return true; // If no tags are selected in the filter, show all rows.
+      }
+
+      const rowTags = row.getValue(columnId) as PrismaTagWithName[];
+
+      if (!rowTags || rowTags.length === 0) {
+        return false; // If the row has no tags, it cannot match any selected filter tag.
+      }
+
+      // Check if AT LEAST ONE of the row's tags is included in the selected filter values.
+      // This is "OR" logic: show item if it has TagA OR TagB (if TagA and TagB are selected).
+      return rowTags.some((tagObject) => filterValue.includes(tagObject.name));
     },
   },
   {

@@ -23,6 +23,7 @@ export const useEditItemFromInventory = (inventoryId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["inventory", inventoryId] });
+      queryClient.invalidateQueries({ queryKey: ["tags"] });
     },
   });
 };

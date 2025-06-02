@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,9 +16,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import * as z from "zod";
-import { useEditItemFromInventory } from "@/hooks/inventory";
+import { useEditItemFromInventory, useTags } from "@/hooks/inventory";
 import { toast } from "sonner";
-import { Item, ItemStatus } from "../../../../../../../generated/prisma";
+import { ItemStatus } from "../../../../../../../generated/prisma";
 import {
   Select,
   SelectContent,
@@ -26,6 +26,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { type Tag as EmblorTag, TagInput } from "emblor";
+import { normalizeTagName } from "@/lib/utils";
+import { ItemWithTags } from "@/types";
+
+interface PrismaTag {
+  id: string;
+  name: string;
+}
 
 const formSchema = z.object({
   name: z.string().min(1, "Name cannot be empty"),
@@ -33,6 +41,7 @@ const formSchema = z.object({
   description: z.string(),
   quantity: z.number(),
   serialNumber: z.string(),
+  tags: z.array(z.object({ id: z.string().optional(), text: z.string() })).optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -41,9 +50,15 @@ export default function ItemEditForm({
   item,
   setIsOpen,
 }: {
-  item: Item;
+  item: ItemWithTags;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
+  const [tags, setTags] = useState<EmblorTag[]>(
+    item.tags?.map(tag => ({ id: tag.id, text: tag.name })) || []
+  );
+  const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
+  const { data: allPrismaTags, isLoading: isLoadingTags } = useTags();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,12 +67,80 @@ export default function ItemEditForm({
       description: item.description || "",
       quantity: item.quantity,
       serialNumber: item.serialNumber || "",
+      tags: item.tags?.map(tag => ({ id: tag.id, text: tag.name })) || [],
     },
   });
 
   const { mutate: editItem, isPending: isEditing } = useEditItemFromInventory(
     item.inventoryId
   );
+
+  const tagsSuggestion = Array.isArray(allPrismaTags)
+    ? allPrismaTags.map((tag: PrismaTag) => ({
+        id: tag.id,
+        text: tag.name,
+      }))
+    : [];
+
+  const handleSetTags = (
+    newEmblorTags: EmblorTag[] | ((prevState: EmblorTag[]) => EmblorTag[])
+  ) => {
+    setTags((prevTags) => {
+      const resolvedNewTags =
+        typeof newEmblorTags === "function"
+          ? newEmblorTags(prevTags)
+          : newEmblorTags;
+
+      // Create a Set of IDs from existing suggestions for quick lookup
+      const suggestionIds = new Set(tagsSuggestion.map((s) => s.id));
+
+      const processedTags = resolvedNewTags
+        .map((tag) => {
+          const isExistingSuggestion = tag.id && suggestionIds.has(tag.id);
+          const wasAlreadyProcessed = prevTags.find(
+            (pt) => pt.id === tag.id && pt.text === tag.text
+          );
+
+          if (!isExistingSuggestion && !wasAlreadyProcessed) {
+            const normalizedText = normalizeTagName(tag.text);
+            if (!normalizedText) return null; // If normalization results in empty, filter it out later
+
+            // Important: Check for duplicates AFTER normalization
+            // Prevent adding a tag if its normalized form already exists in the list
+            // (excluding the current tag being processed, if it's an update)
+            const isDuplicateAfterNormalization = resolvedNewTags.some(
+              (t) =>
+                t.id !== tag.id && normalizeTagName(t.text) === normalizedText
+            );
+            if (
+              isDuplicateAfterNormalization &&
+              !tags.find((existingTag) => existingTag.text === normalizedText)
+            ) {
+              return { ...tag, text: normalizedText };
+            }
+            return { ...tag, text: normalizedText };
+          }
+          return tag; // It's an existing suggestion or already processed, keep as is
+        })
+        .filter(Boolean) as EmblorTag[]; // Filter out any nulls
+
+      // Final pass to remove duplicates based on the (now possibly normalized) text
+      const uniqueTags: EmblorTag[] = [];
+      const seenTexts = new Set<string>();
+      for (const tag of processedTags) {
+        if (!seenTexts.has(tag.text)) {
+          uniqueTags.push(tag);
+          seenTexts.add(tag.text);
+        }
+      }
+      
+      return uniqueTags;
+    });
+  };
+
+  useEffect(() => {
+    form.setValue("tags", tags);
+  }, [tags, form]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const updatedItem = {
@@ -67,6 +150,7 @@ export default function ItemEditForm({
       status: values.status,
       quantity: values.quantity,
       serialNumber: values.serialNumber,
+      tags: tags,
     };
 
     editItem(updatedItem, {
@@ -87,7 +171,7 @@ export default function ItemEditForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col space-y-2 sm:px-0 px-4"
+        className="flex flex-col space-y-2"
       >
         <FormField
           name="name"
@@ -97,7 +181,7 @@ export default function ItemEditForm({
           }: {
             field: ControllerRenderProps<FormValues, "name">;
           }) => (
-            <FormItem className="col-span-2 md:col-span-1">
+            <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input
@@ -120,7 +204,7 @@ export default function ItemEditForm({
           }: {
             field: ControllerRenderProps<FormValues, "serialNumber">;
           }) => (
-            <FormItem className="col-span-2 md:col-span-1">
+            <FormItem>
               <FormLabel>Serial Number</FormLabel>
               <FormControl>
                 <Input
@@ -142,7 +226,7 @@ export default function ItemEditForm({
           }: {
             field: ControllerRenderProps<FormValues, "description">;
           }) => (
-            <FormItem className="col-span-2 md:col-span-1">
+            <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
                 <Input
@@ -161,7 +245,7 @@ export default function ItemEditForm({
               name="status"
               control={form.control}
               render={({ field }) => (
-                <FormItem className="col-span-2 md:col-span-1">
+                <FormItem>
                   <FormLabel>Status</FormLabel>
                   <Select
                     onValueChange={field.onChange}
@@ -194,7 +278,7 @@ export default function ItemEditForm({
               }: {
                 field: ControllerRenderProps<FormValues, "quantity">;
               }) => (
-                <FormItem className="col-span-2 md:col-span-1">
+                <FormItem>
                   <FormLabel>Quantity</FormLabel>
                   <FormControl>
                     <Input
@@ -211,11 +295,36 @@ export default function ItemEditForm({
           </div>
         </div>
 
+        <FormField
+          name="tags"
+          control={form.control}
+          render={() => (
+            <FormItem>
+              <FormLabel>Tags</FormLabel>
+              <FormControl>
+                <TagInput
+                  placeholder="Enter a tag"
+                  tags={tags}
+                  enableAutocomplete={true}
+                  autocompleteOptions={tagsSuggestion}
+                  activeTagIndex={activeTagIndex}
+                  setActiveTagIndex={setActiveTagIndex}
+                  setTags={handleSetTags}
+                />
+              </FormControl>
+              {isLoadingTags && (
+                <p className="text-xs text-gray-500 mt-1">Loading tags...</p>
+              )}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <div className="flex w-full sm:justify-end mt-4">
           <Button
             type="submit"
-            disabled={isEditing}
-            className="w-full sm:w-auto"
+            disabled={isEditing || isLoadingTags}
+            className="w-full"
           >
             <>
               {isEditing ? (

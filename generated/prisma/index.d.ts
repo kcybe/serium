@@ -12547,39 +12547,6 @@ export namespace Prisma {
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
   }
-
-  export type TagNameUserIdCompoundUniqueInput = {
-    name: string
-    userId: string
-  }
-
-  export type TagCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    userId?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type TagMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    userId?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type TagMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    userId?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type EnumActivityActionsFilter<$PrismaModel = never> = {
-    equals?: $Enums.ActivityActions | EnumActivityActionsFieldRefInput<$PrismaModel>
-    in?: $Enums.ActivityActions[]
-    notIn?: $Enums.ActivityActions[]
-    not?: NestedEnumActivityActionsFilter<$PrismaModel> | $Enums.ActivityActions
-  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,

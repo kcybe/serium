@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { type Tag as EmblorTag } from "emblor";
 
 // Add item to inventory
 export const useAddItemToInventory = (inventoryId: string) => {
@@ -7,10 +8,11 @@ export const useAddItemToInventory = (inventoryId: string) => {
   return useMutation({
     mutationFn: async (data: {
       name: string;
-      serialNumber: string;
-      description: string;
+      serialNumber?: string | null;
+      description?: string | null;
       status: string;
       quantity: number;
+      tags: EmblorTag[];
     }) => {
       const res = await fetch(`/api/inventories/${inventoryId}/items`, {
         method: "POST",
@@ -27,6 +29,7 @@ export const useAddItemToInventory = (inventoryId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["inventory", inventoryId] });
+      queryClient.invalidateQueries({ queryKey: ["tags"] });
     },
   });
 };

@@ -1,9 +1,18 @@
 // types/index.ts
-import { Inventory, Item } from "@/../generated/prisma/client";
+import { Inventory, Item, Tag } from "@/../generated/prisma/client";
 
 export type InventoryWithItems = Inventory & {
-  items: Item[];
+  items: ItemWithTags[];
 };
+
+export type ItemWithTags = Item & {
+  tags: Pick<Tag, "id" | "name">[]; // Or just Tag[] if you fetch all tag fields
+};
+
+export interface PrismaTagWithName {
+  id: string;
+  name: string;
+}
 
 export interface ItemSearchResult {
   id: string;

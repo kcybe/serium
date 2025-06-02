@@ -10,7 +10,7 @@ import { Trash, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-import { statuses } from "./data";
+import { statuses, UserTags } from "./data";
 import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
 import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options";
@@ -59,6 +59,15 @@ export function DataTableToolbar<TData>({
           />
         )}
 
+        {/* Tag Faceted Filter */}
+        {table.getColumn("tags") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("tags")}
+            title="Tags"
+            options={UserTags().tagFilterOptions()} // Ensure 'tags' are correctly formatted and imported
+          />
+        )}
+
         {/* Reset Column Filters Button (specific to faceted filters) */}
         {isColumnFiltered && (
           <Button
@@ -66,7 +75,7 @@ export function DataTableToolbar<TData>({
             onClick={() => table.resetColumnFilters()}
             className="h-9 px-2 lg:px-3"
           >
-            Reset Status
+            Reset Filters
             <X className="ml-2 h-4 w-4" />
           </Button>
         )}

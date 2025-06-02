@@ -23,6 +23,7 @@ model User {
   accounts      Account[]
   inventories   Inventory[]
   activityLogs  ActivityLog[]
+  tags          Tag[]
 
   @@unique([email])
   @@map("user")
@@ -103,8 +104,21 @@ model Item {
   createdAt    DateTime      @default(now())
   lastVerified DateTime?
   activityLogs ActivityLog[]
+  tags         Tag[]
 
   @@unique([serialNumber, inventoryId])
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  items     Item[]
+
+  @@unique([name, userId])
+  @@map("tags")
 }
 
 enum ActivityActions {

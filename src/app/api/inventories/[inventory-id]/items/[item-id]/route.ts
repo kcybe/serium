@@ -3,8 +3,10 @@
 import { prisma } from "@/lib/db";
 import { getAuthenticatedUserServer } from "@/lib/get-authenticated-user-server";
 import { NextResponse } from "next/server";
-import { Item } from "../../../../../../../generated/prisma";
 import { logActivity } from "@/lib/logActivity";
+import { ItemWithTags } from "@/types";
+import { normalizeTagName } from "@/lib/utils";
+import { Prisma } from "../../../../../../../generated/prisma";
 
 export async function GET(
   req: Request,
@@ -38,6 +40,14 @@ export async function GET(
     where: {
       id: params["item-id"],
       inventoryId: inventory.id,
+    },
+    include: {
+      tags: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   });
 
@@ -155,8 +165,14 @@ export async function PUT(
   try {
     // 2. Get updated item data from request body
     const body = await req.json();
-    const { name, description, status, quantity, serialNumber } =
-      body as Partial<Item>; // Use Partial<Item> or a specific update DTO
+    const {
+      name,
+      description,
+      status,
+      quantity,
+      serialNumber,
+      tags: emblorTags,
+    } = body as Partial<ItemWithTags> & { tags?: { id?: string; text: string }[] };
 
     // Basic validation (you might want more robust validation, e.g., with Zod)
     if (!name || !status) {
@@ -171,6 +187,20 @@ export async function PUT(
       where: { id: String([params["item-id"]]) },
     });
 
+    const tagConnectOrCreateOperations: Prisma.TagCreateOrConnectWithoutItemsInput[] =
+          [];
+    
+        for (const tag of emblorTags || []) {
+          const normalizedTagText = normalizeTagName(tag.text);
+          if (normalizedTagText) {
+            // Only proceed if the normalized name is not empty
+            tagConnectOrCreateOperations.push({
+              where: { name_userId: { name: normalizedTagText, userId: user.id } },
+              create: { name: normalizedTagText, userId: user.id },
+            });
+          }
+        }
+
     // 3. Update the item
     const updatedItem = await prisma.item.update({
       where: {
@@ -183,6 +213,20 @@ export async function PUT(
         status,
         quantity,
         serialNumber,
+        tags: {
+          // First disconnect all existing tags
+          set: [],
+          // Then connect the new ones  
+          connectOrCreate: tagConnectOrCreateOperations,
+        },
+      },
+      include: {
+        tags: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     });
 

@@ -2,7 +2,7 @@
 import { Inventory, Item, Tag } from "@/../generated/prisma/client";
 
 export type InventoryWithItems = Inventory & {
-  items: Item[];
+  items: ItemWithTags[];
 };
 
 export type ItemWithTags = Item & {

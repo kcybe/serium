@@ -12,11 +12,11 @@ import { MoreHorizontal, SquarePen, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import DeleteForm from "./forms/item-delete-form";
 import IconMenu from "@/components/icon-menu";
-import { Item } from "../../../../../../generated/prisma";
+import { ItemWithTags } from "@/types";
 import ItemEditForm from "./forms/item-edit-form";
 
 interface Props {
-  item: Item;
+  item: ItemWithTags;
 }
 
 export default function DataTableActions({ item }: Props) {

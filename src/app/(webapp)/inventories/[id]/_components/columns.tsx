@@ -1,7 +1,6 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Item } from "@/../generated/prisma/client";
 import { format } from "date-fns";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -134,7 +133,7 @@ export const columns: ColumnDef<ItemWithTags>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const item = row.original as Item;
+      const item = row.original as ItemWithTags;
       return <DataTableActions item={item} />;
     },
   },

@@ -8,6 +8,7 @@ import { normalizeTagName } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { Prisma } from "../../../../../../generated/prisma";
+import { cleanupUnusedTags } from "@/lib/tag-utils";
 
 const EmblorTagSchema = z.object({
   id: z.string().optional(), // Will be present if it's an existing tag selected from suggestions
@@ -131,6 +132,8 @@ export async function POST(
       },
       include: { tags: true },
     });
+
+    await cleanupUnusedTags(user.id);
 
     // Log activity for creating an item
     await logActivity({

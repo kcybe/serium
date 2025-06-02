@@ -147,21 +147,36 @@ export async function DELETE(
   }
 
   try {
-    const deletedInventory = await prisma.inventory.delete({
+    // Fetch inventory first
+    const inventory = await prisma.inventory.findFirst({
       where: {
         id: inventoryId,
+        user: { email: user.email },
       },
     });
 
+    if (!inventory) {
+      return NextResponse.json(
+        { error: "Inventory not found or unauthorized" },
+        { status: 404 }
+      );
+    }
+
+    // Log activity BEFORE deletion
     await logActivity({
       userId: user.id,
       action: "DELETE_INVENTORY",
       metadata: {
         deleted: {
-          id: deletedInventory.id,
-          name: deletedInventory.name,
+          id: inventory.id,
+          name: inventory.name,
         },
       },
+    });
+
+    // Now delete the inventory
+    await prisma.inventory.delete({
+      where: { id: inventoryId },
     });
 
     return new NextResponse(null, { status: 204 });

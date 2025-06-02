@@ -7,6 +7,7 @@ import { logActivity } from "@/lib/logActivity";
 import { ItemWithTags } from "@/types";
 import { normalizeTagName } from "@/lib/utils";
 import { Prisma } from "../../../../../../../generated/prisma";
+import { cleanupUnusedTags } from "@/lib/tag-utils";
 
 export async function GET(
   req: Request,
@@ -96,32 +97,48 @@ export async function DELETE(
 
   // Then fetch the item, ensuring it belongs to the verified inventory
   try {
+    const itemToDelete = await prisma.item.findUnique({
+      where: {
+        id: params["item-id"],
+        inventoryId: inventory.id,
+      },
+    });
+    
+    if (!itemToDelete) {
+      return NextResponse.json({ error: "Item not found" }, { status: 404 });
+    }
+    
+    // Log the activity BEFORE deleting the item
+    await logActivity({
+      userId: user.id,
+      action: "DELETE_ITEM",
+      itemId: itemToDelete.id,
+      inventoryId: itemToDelete.inventoryId,
+      metadata: JSON.parse(
+        JSON.stringify({
+          deleted: {
+            id: itemToDelete.id,
+            name: itemToDelete.name,
+            description: itemToDelete.description,
+            status: itemToDelete.status,
+            quantity: itemToDelete.quantity,
+            serialNumber: itemToDelete.serialNumber,
+          },
+        })
+      ),
+    });
+    
+    // Now delete the item
     const deletedItem = await prisma.item.delete({
       where: {
         id: params["item-id"],
         inventoryId: inventory.id,
       },
     });
-
-    await logActivity({
-      userId: user.id,
-      action: "DELETE_ITEM",
-      itemId: deletedItem.id,
-      inventoryId: deletedItem.inventoryId,
-      metadata: JSON.parse(
-        JSON.stringify({
-          deleted: {
-            id: deletedItem.id,
-            name: deletedItem.name,
-            description: deletedItem.description,
-            status: deletedItem.status,
-            quantity: deletedItem.quantity,
-            serialNumber: deletedItem.serialNumber,
-          },
-        })
-      ),
-    });
-
+    
+    // Clean up unused tags after deletion
+    await cleanupUnusedTags(user.id);
+    
     return NextResponse.json({
       message: "Item deleted successfully",
       id: deletedItem.id,
@@ -229,6 +246,8 @@ export async function PUT(
         },
       },
     });
+
+    await cleanupUnusedTags(user.id);
 
     await logActivity({
       userId: user.id,

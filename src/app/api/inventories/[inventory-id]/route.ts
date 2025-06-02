@@ -25,7 +25,11 @@ export async function GET(
       },
     },
     include: {
-      items: true,
+      items: {
+        include: {
+          tags: true,
+        },
+      },
     },
   });
 

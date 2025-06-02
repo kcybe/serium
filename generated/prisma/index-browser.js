@@ -182,6 +182,13 @@ exports.Prisma.ItemScalarFieldEnum = {
   lastVerified: 'lastVerified'
 };
 
+exports.Prisma.TagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ActivityLogScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -232,6 +239,7 @@ exports.Prisma.ModelName = {
   Verification: 'Verification',
   Inventory: 'Inventory',
   Item: 'Item',
+  Tag: 'Tag',
   ActivityLog: 'ActivityLog'
 };
 

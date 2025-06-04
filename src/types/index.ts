@@ -32,6 +32,30 @@ export interface DashboardStats {
   itemsNeedingAttentionCountTrend?: 'up' | 'down' | 'neutral';
 }
 
+export type ActivityActionType =
+  | "CREATE_INVENTORY"
+  | "VIEW_INVENTORY"
+  | "EDIT_INVENTORY"
+  | "DELETE_INVENTORY"
+  | "CREATE_ITEM"
+  | "VIEW_ITEM"
+  | "EDIT_ITEM"
+  | "DELETE_ITEM"
+  | "VERIFY_ITEM_BY_SERIAL"
+  | "SEARCH_ITEMS"
+  | "VIEW_ALL_INVENTORIES";
+
+export interface RecentActivity {
+  id: string;
+  action: ActivityActionType;
+  createdAt: string; // ISO date string
+  userName?: string | null;
+  itemName?: string | null;
+  itemId?: string | null;
+  inventoryName?: string | null;
+  inventoryId?: string | null;
+}
+
 
 export interface ItemSearchResult {
   id: string;

@@ -14,6 +14,25 @@ export interface PrismaTagWithName {
   name: string;
 }
 
+export interface DashboardStats {
+  totalItems: number;
+  totalItemsChange?: number; // Percentage change from last month
+  totalItemsTrend?: 'up' | 'down' | 'neutral';
+
+  totalAvailableItems: number;
+  totalAvailableItemsChange?: number;
+  totalAvailableItemsTrend?: 'up' | 'down' | 'neutral';
+
+  uniqueTagsCount: number;
+  uniqueTagsCountChange?: number; // Percentage change for new tags this month
+  uniqueTagsCountTrend?: 'up' | 'down' | 'neutral';
+
+  itemsNeedingAttentionCount: number;
+  itemsNeedingAttentionCountChange?: number;
+  itemsNeedingAttentionCountTrend?: 'up' | 'down' | 'neutral';
+}
+
+
 export interface ItemSearchResult {
   id: string;
   name: string;

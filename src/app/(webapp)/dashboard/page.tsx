@@ -5,6 +5,8 @@ import { DashboardSkeleton } from "./_components/dashboard-skeleton"
 import { DashboardHeader } from "./_components/dashboard-header"
 import { StatsCards } from "./_components/stats-cards"
 import { RecentActivity } from "./_components/recent-activity"
+import { ItemQuantityChart } from "./_components/item-quantity-chart"
+import { TagDistribution } from "./_components/tag-distribution-pie"
 
 export const metadata: Metadata = {
   title: "Dashboard | Serium",
@@ -22,11 +24,11 @@ export default function DashboardPage() {
         {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
           <InventoryOverview className="lg:col-span-4" />
           <ItemStatusChart className="lg:col-span-3" />
-        </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+        </div>*/}
+        <div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-7">
           <ItemQuantityChart className="lg:col-span-4" />
           <TagDistribution className="lg:col-span-3" />
-        </div>*/}
+        </div>
         <RecentActivity /> 
       </Suspense>
     </DashboardShell>

@@ -56,6 +56,15 @@ export interface RecentActivity {
   inventoryId?: string | null;
 }
 
+export interface InventoryQuantitiesData {
+  name: string;
+  itemsCount: number;
+}
+
+export interface TagDistributionData {
+  name: string;
+  value: number;
+}
 
 export interface ItemSearchResult {
   id: string;

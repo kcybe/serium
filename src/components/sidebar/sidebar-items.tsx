@@ -14,7 +14,7 @@ import {
   useSidebar,
 } from "../ui/sidebar";
 import { cn } from "@/lib/utils";
-import { Search, Settings, Package, ChevronRight, Shield } from "lucide-react";
+import { Search, Settings, Package, ChevronRight, Shield, LayoutDashboard } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -24,6 +24,11 @@ import { useInventories } from "@/hooks/inventory";
 import Link from "next/link";
 
 const items = [
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard,
+  },
   {
     title: "Search",
     url: "/search",

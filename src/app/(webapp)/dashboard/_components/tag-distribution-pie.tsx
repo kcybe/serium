@@ -10,7 +10,7 @@ import { useTagsDistribution } from "@/hooks/dashboard/use-tags-distribution"
 export function TagDistribution({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const {data: tagDistribution, isLoading} = useTagsDistribution()
     
-if (isLoading) {
+if (isLoading || !tagDistribution || tagDistribution.length === 0) {
     return (
         <Card className={cn("col-span-3", className)} {...props}>
             <CardHeader>
@@ -47,12 +47,12 @@ if (isLoading) {
                     <div className="rounded-lg border bg-background p-2 shadow-sm">
                       <div className="grid grid-cols-2 gap-2">
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase">Tag</span>
-                          <span className=" text-muted-foreground">{payload[0].name}</span>
+                          <span className="text-xs uppercase">Tag</span>
+                          <span className="text-xs text-muted-foreground">{payload[0].name}</span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[0.70rem] uppercase">Items</span>
-                          <span className="">{payload[0].value}</span>
+                          <span className="text-xs uppercase">Items</span>
+                          <span className="text-xs">{payload[0].value}</span>
                         </div>
                       </div>
                     </div>

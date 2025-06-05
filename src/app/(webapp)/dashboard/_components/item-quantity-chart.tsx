@@ -28,7 +28,7 @@ import { useInventoriesQuantities, type InventoryQuantitiesDataPoint } from "@/h
 
 
 export function ItemQuantityChart({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  const { data: inventoriesQuantities } = useInventoriesQuantities()
+  const { data: inventoriesQuantities, isLoading } = useInventoriesQuantities()
 
   const chartConfig: ChartConfig = {}
   const seriesKeys: string[] = []
@@ -46,7 +46,7 @@ export function ItemQuantityChart({ className, ...props }: React.HTMLAttributes<
     })
   }
 
-  if (!inventoriesQuantities || inventoriesQuantities.length === 0) {
+  if (isLoading || !inventoriesQuantities || inventoriesQuantities.length === 0) {
     return (
       <Card className={cn("col-span-4", className)} {...props}>
         <CardHeader>

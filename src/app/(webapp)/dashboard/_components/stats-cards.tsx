@@ -37,7 +37,7 @@ export function StatsCards() {
       value: statsData?.uniqueTagsCount,
       icon: Tag,
       description: "Used for categorization",
-      change: `+${statsData?.uniqueTagsCountChange} new tags this month`,
+      change: `+${statsData?.uniqueTagsCountChange}% new tags this month`,
       trend: statsData?.uniqueTagsCountTrend,
     },
   ]

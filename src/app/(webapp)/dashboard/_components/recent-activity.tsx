@@ -3,8 +3,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-
+import { Button } from "@/components/ui/button"
 import { useRecentActivity } from "@/hooks/dashboard/use-recent-activity"
+import Link from "next/link"
 
 export function RecentActivity() {
 
@@ -39,8 +40,13 @@ export function RecentActivity() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Recent Activity</CardTitle>
-        <CardDescription>Latest actions performed in the system</CardDescription>
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col">
+            <CardTitle>Recent Activity</CardTitle>
+            <CardDescription>Latest actions performed in the system</CardDescription>
+          </div>
+          <Button variant="link" className="text-primary"> <Link href="/activities">View All</Link></Button>
+        </div>
       </CardHeader>
       <CardContent>
         <Table>

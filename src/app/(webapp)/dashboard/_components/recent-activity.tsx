@@ -9,7 +9,7 @@ import Link from "next/link"
 
 export function RecentActivity() {
 
-  const { data: recentActivity } = useRecentActivity();
+  const { data: recentActivity, isLoading } = useRecentActivity();
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -60,20 +60,32 @@ export function RecentActivity() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {recentActivity?.map((activity) => (
-              <TableRow key={activity.id}>
-                <TableCell className="font-medium">{activity.userName}</TableCell>
-                <TableCell>
-                  <Badge variant="outline" className={getActionBadgeColor(activity.action)}>
-                    {formatAction(activity.action)}
-                  </Badge>
-                </TableCell>
-                <TableCell className="hidden md:table-cell">{activity.inventoryName || "-"}</TableCell>
-                <TableCell className="hidden md:table-cell">{activity.itemName || "-"}</TableCell>
-                <TableCell>{formatDate(activity.createdAt)}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+  {isLoading ? (
+    <TableRow>
+      <TableCell colSpan={5} className="text-center py-6 text-muted-foreground">
+        Loading data or no data available...
+      </TableCell>
+    </TableRow>
+  ) : recentActivity?.length === 0 ? (
+    <TableRow>
+      <TableCell colSpan={5} className="text-center py-6 text-muted-foreground">
+        No recent activity found
+      </TableCell>
+    </TableRow>
+  ) : recentActivity?.map((activity) => (
+    <TableRow key={activity.id}>
+      <TableCell className="font-medium">{activity.userName}</TableCell>
+      <TableCell>
+        <Badge variant="outline" className={getActionBadgeColor(activity.action)}>
+          {formatAction(activity.action)}
+        </Badge>
+      </TableCell>
+      <TableCell className="hidden md:table-cell">{activity.inventoryName || "-"}</TableCell>
+      <TableCell className="hidden md:table-cell">{activity.itemName || "-"}</TableCell>
+      <TableCell>{formatDate(activity.createdAt)}</TableCell>
+    </TableRow>
+  ))}
+</TableBody>
         </Table>
       </CardContent>
     </Card>

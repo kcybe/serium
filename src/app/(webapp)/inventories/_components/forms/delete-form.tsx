@@ -30,7 +30,6 @@ export default function DeleteForm({
       },
       onError: (error) => {
         toast.error(`Failed to delete inventory: ${error.message}`);
-        // setIsOpen(false);
       },
     });
   };

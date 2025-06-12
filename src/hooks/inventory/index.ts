@@ -9,3 +9,4 @@ export * from "./use-verify-item";
 export * from "./use-search-items";
 export * from "./use-tags";
 export * from "./use-import";
+export * from "./use-create-inventory";

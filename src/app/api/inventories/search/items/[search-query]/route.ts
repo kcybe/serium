@@ -42,6 +42,7 @@ export async function GET(
         inventory: {
           select: { id: true, name: true },
         },
+        tags: true,
       },
       take: 50,
       orderBy: {

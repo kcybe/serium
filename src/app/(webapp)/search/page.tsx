@@ -1,99 +1,96 @@
 "use client";
 
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import { useSearchItems } from "@/hooks/inventory";
-import { ItemSearchResult } from "@/types/index";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { SearchResultItem } from "./_components/search-result-item";
+import { SearchResultsSkeleton } from "./_components/search-results-skeleton";
+import { FileSearch, SearchX } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const SearchState = ({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) => (
+  <div className="text-center py-16 px-6 bg-muted/50 rounded-lg border border-dashed">
+    <div className="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-background">
+      {icon}
+    </div>
+    <h3 className="mt-4 text-lg font-semibold text-foreground">{title}</h3>
+    <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+  </div>
+);
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 300);
-  const router = useRouter();
 
   const { data: items, isLoading } = useSearchItems(debouncedQuery);
   const hasResults = Array.isArray(items) && items.length > 0;
+  const showInitialState = !debouncedQuery;
+  const showEmptyState = debouncedQuery && !hasResults && !isLoading;
 
   return (
-    <div className="p-6">
-      <Card>
-        <CardHeader>
-          <h2 className="text-xl font-bold">Search Items</h2>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Input
-            placeholder="Search by item name or serial number"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="placeholder-gray-400"
-          />
+    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto">
+      {/* 1. Page Header */}
+      <header className="text-center mb-8">
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
+          Global Item Search
+        </h1>
+        <p className="mt-2 text-muted-foreground">
+          Find any item across all of your inventories in one place.
+        </p>
+      </header>
 
-          {isLoading && <p className="text-sm text-muted">Loading...</p>}
+      {/* 2. Search Input */}
+      <div className="relative mb-8">
+        <Input
+          placeholder="Search by name, serial number, description, or tag..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="h-12 text-lg pl-10"
+        />
+        <FileSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+      </div>
 
-          {!isLoading && debouncedQuery && !hasResults && (
-            <p className="text-sm text-muted">No items found.</p>
-          )}
-
-          {hasResults && (
-            <Accordion type="single" collapsible className="w-full space-y-2">
-              {items!.map((item: ItemSearchResult) => (
-                <AccordionItem key={item.id} value={item.id}>
-                  <AccordionTrigger>
-                    <div className="flex flex-col w-full text-left">
-                      <div className="flex items-center space-x-2">
-                        <p className="font-medium">{item.name}</p>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            router.push(`/inventories/${item.inventory.id}`);
-                          }}
-                          title="Go to Inventory"
-                        >
-                          <ArrowRight className="h-4 w-4" />
-                        </Button>
-                      </div>
-                      <p className="text-sm text-gray-500">
-                        Serial: {item.serialNumber} • Inventory:{" "}
-                        {item.inventory.name}
-                      </p>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div className="text-sm text-gray-600 space-y-1 pt-2">
-                      {item.description && (
-                        <p>Description: {item.description}</p>
-                      )}
-                      <p>Status: {item.status}</p>
-                      <p>Quantity: {item.quantity}</p>
-                      <p>
-                        Created: {new Date(item.createdAt).toLocaleString()}
-                      </p>
-                      {item.lastVerified && (
-                        <p>
-                          Last Verified:{" "}
-                          {new Date(item.lastVerified).toLocaleString()}
-                        </p>
-                      )}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
+      {/* 3. Results Area with State Handling */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={isLoading ? "loading" : hasResults ? "results" : "state"}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.2 }}
+        >
+          {isLoading ? (
+            <SearchResultsSkeleton />
+          ) : showEmptyState ? (
+            <SearchState
+              icon={<SearchX className="h-8 w-8 text-muted-foreground" />}
+              title="No Results Found"
+              description={`Your search for "${debouncedQuery}" did not return any results.`}
+            />
+          ) : hasResults ? (
+            <div className="space-y-4">
+              {items.map((item) => (
+                <SearchResultItem key={item.id} item={item} />
               ))}
-            </Accordion>
+            </div>
+          ) : (
+            <SearchState
+              icon={<FileSearch className="h-8 w-8 text-muted-foreground" />}
+              title="Search Your Inventories"
+              description="Enter a query above to find items by name, serial number, and more."
+            />
           )}
-        </CardContent>
-      </Card>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

@@ -17,19 +17,19 @@ export interface PrismaTagWithName {
 export interface DashboardStats {
   totalItems: number;
   totalItemsChange?: number; // Percentage change from last month
-  totalItemsTrend?: 'up' | 'down' | 'neutral';
+  totalItemsTrend?: "up" | "down" | "neutral";
 
   totalAvailableItems: number;
   totalAvailableItemsChange?: number;
-  totalAvailableItemsTrend?: 'up' | 'down' | 'neutral';
+  totalAvailableItemsTrend?: "up" | "down" | "neutral";
 
   uniqueTagsCount: number;
   uniqueTagsCountChange?: number; // Percentage change for new tags this month
-  uniqueTagsCountTrend?: 'up' | 'down' | 'neutral';
+  uniqueTagsCountTrend?: "up" | "down" | "neutral";
 
   itemsNeedingAttentionCount: number;
   itemsNeedingAttentionCountChange?: number;
-  itemsNeedingAttentionCountTrend?: 'up' | 'down' | 'neutral';
+  itemsNeedingAttentionCountTrend?: "up" | "down" | "neutral";
 }
 
 export type ActivityActionType =
@@ -80,4 +80,5 @@ export interface ItemSearchResult {
     id: string;
     name: string;
   };
+  tags: Pick<Tag, "id" | "name">[];
 }

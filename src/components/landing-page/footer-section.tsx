@@ -1,87 +1,132 @@
 import Link from "next/link";
-import { Logo } from "./nav/logo"; // Assuming you have a Logo component
-import { Github, Twitter, Linkedin } from "lucide-react";
-
-const footerNavs = [
-  { href: "/about", name: "About Us" },
-  { href: "/contact", name: "Contact" },
-  { href: "/privacy-policy", name: "Privacy Policy" },
-  { href: "/terms-of-service", name: "Terms of Service" },
-];
-
-const socialLinks = [
-  {
-    href: "https://github.com/kcybe/serium",
-    icon: <Github className="w-5 h-5" />,
-    label: "GitHub",
-  },
-  {
-    href: "https://twitter.com/serium",
-    icon: <Twitter className="w-5 h-5" />,
-    label: "Twitter",
-  },
-  {
-    href: "https://linkedin.com/company/serium",
-    icon: <Linkedin className="w-5 h-5" />,
-    label: "LinkedIn",
-  },
-];
+import { Logo } from "./nav/logo";
+import { Github } from "lucide-react";
+import { Button } from "../ui/button";
 
 export default function FooterSection() {
   return (
-    <footer className="border-t">
-      <div className="mx-auto max-w-7xl px-6 py-12">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <div className="space-y-4">
+    <footer className="w-full border-t border-border/40">
+      <div className="container mx-auto max-w-7xl px-6 py-12">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          {/* Column 1: Logo and Brand Statement */}
+          <div className="lg:col-span-1">
             <Logo />
-            <p className="text-sm text-muted-foreground">
-              Free, open-source, offline-first inventory management. Your data,
-              your control.
+            <p className="mt-4 text-base max-w-xs text-muted-foreground">
+              Free, open-source, offline-first inventory management.
             </p>
+            <div className="mt-6 flex gap-4">
+              <Link
+                href="https://github.com/kcybe/serium"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+              >
+                <Button variant="outline" size="icon">
+                  <Github className="h-5 w-5" />
+                </Button>
+              </Link>
+            </div>
           </div>
 
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-              Company
-            </h3>
-            <ul role="list" className="mt-4 space-y-2">
-              {footerNavs.map((item) => (
-                <li key={item.name}>
+          {/* Column 2 & 3: Navigation Links */}
+          <div className="grid grid-cols-2 gap-8 lg:col-span-2 sm:grid-cols-3">
+            <div>
+              <h3 className="text-sm font-semibold text-foreground">Product</h3>
+              <ul className="mt-4 space-y-2">
+                <li>
                   <Link
-                    href={item.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    href="#features"
+                    className="text-sm text-muted-foreground hover:text-foreground"
                   >
-                    {item.name}
+                    Features
                   </Link>
                 </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-              Connect
-            </h3>
-            <div className="mt-4 flex space-x-4">
-              {socialLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label={link.label}
-                >
-                  {link.icon}
-                </Link>
-              ))}
+                <li>
+                  <Link
+                    href="/download"
+                    className="text-sm text-muted-foreground hover:text-foreground"
+                  >
+                    Download
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://github.com/kcybe/serium/releases"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-muted-foreground hover:text-foreground"
+                  >
+                    Changelog
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-foreground">
+                Community
+              </h3>
+              <ul className="mt-4 space-y-2">
+                <li>
+                  <Link
+                    href="https://github.com/kcybe/serium/discussions"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-muted-foreground hover:text-foreground"
+                  >
+                    Discussions
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://github.com/kcybe/serium/issues"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-muted-foreground hover:text-foreground"
+                  >
+                    Report a Bug
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://github.com/kcybe/serium/pulls"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-muted-foreground hover:text-foreground"
+                  >
+                    Contribute
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-foreground">Legal</h3>
+              <ul className="mt-4 space-y-2">
+                <li>
+                  <Link
+                    href="/privacy"
+                    className="text-sm text-muted-foreground hover:text-foreground"
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/terms"
+                    className="text-sm text-muted-foreground hover:text-foreground"
+                  >
+                    Terms of Service
+                  </Link>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 border-t pt-8 text-center">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Serium. All rights reserved.
+        {/* Bottom Bar */}
+        <div className="mt-12 border-t border-border/40 pt-8">
+          <p className="text-sm text-muted-foreground text-center">
+            © {new Date().getFullYear()} Serium. Built by Noam. All rights
+            reserved.
           </p>
         </div>
       </div>

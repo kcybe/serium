@@ -5,9 +5,9 @@ import { useInventoryById } from "@/hooks/inventory";
 import { DataTable } from "./_components/data-table";
 import { columns } from "./_components/columns";
 import { AddItemModal } from "@/components/inventories/inventory-items/add-item-modal";
-import { VerifyItemModal } from "@/components/inventories/inventory-items/verify-item-modal";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import LoadingInventoryPage from "./loading";
+import InventoryActions from "./_components/inventory-actions";
 
 export default function InventoryPage() {
   const { id } = useParams();
@@ -23,8 +23,8 @@ export default function InventoryPage() {
           <div className="flex justify-between items-center">
             <h1 className="text-xl font-semibold">{inventory.name}</h1>
             <div className="flex items-center space-x-2">
-              <VerifyItemModal inventoryId={inventory.id} />
               <AddItemModal inventoryId={inventory.id} />
+              <InventoryActions inventoryId={inventory.id} />
             </div>
           </div>
         </CardHeader>

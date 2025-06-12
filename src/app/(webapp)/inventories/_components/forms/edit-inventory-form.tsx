@@ -19,9 +19,13 @@ import * as z from "zod";
 import { InventoryWithItems } from "@/types";
 import { useEditInventory } from "@/hooks/inventory";
 import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   newInventoryName: z.string().min(1, "Inventory name cannot be empty"),
+  newInventoryDescription: z
+    .string()
+    .min(1, "Inventory description cannot be empty"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -37,6 +41,7 @@ export default function RenameForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       newInventoryName: inventory?.name,
+      newInventoryDescription: inventory?.description || "",
     },
   });
 
@@ -44,20 +49,22 @@ export default function RenameForm({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const newName = values.newInventoryName;
+    const newDescription = values.newInventoryDescription;
 
     editInventory(
       {
         id: inventory.id,
         name: newName,
+        description: newDescription,
       },
       {
         onSuccess: () => {
-          toast.success(`Inventory renamed to "${newName}".`);
+          toast.success(`Inventory "${newName}" edited successfully.`);
           setIsOpen(false);
         },
         onError: (error) => {
           toast.error(
-            "Failed to rename inventory: " +
+            "Failed to edit inventory: " +
               (error instanceof Error ? error.message : String(error))
           );
         },
@@ -94,13 +101,30 @@ export default function RenameForm({
             </FormItem>
           )}
         />
+        <FormField
+          name="newInventoryDescription"
+          control={form.control}
+          render={({
+            field,
+          }: {
+            field: ControllerRenderProps<FormValues, "newInventoryDescription">;
+          }) => (
+            <FormItem className="col-span-2 md:col-span-1">
+              <FormLabel>Inventory Description</FormLabel>
+              <FormControl>
+                <Textarea
+                  {...field}
+                  placeholder="New Description"
+                  className="text-md resize-none"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <div className="flex w-full sm:justify-end mt-4">
-          <Button
-            type="submit"
-            disabled={isEditing}
-            className="w-full sm:w-auto"
-          >
+          <Button type="submit" disabled={isEditing} className="w-full">
             <>
               {isEditing ? (
                 <>

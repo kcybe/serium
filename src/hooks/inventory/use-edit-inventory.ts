@@ -3,10 +3,19 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 export const useEditInventory = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<JSON, Error, { id: string; name: string }>({
-    mutationFn: async (updateData: { id: string; name: string }) => {
+  return useMutation<
+    JSON,
+    Error,
+    { id: string; name: string; description: string }
+  >({
+    mutationFn: async (updateData: {
+      id: string;
+      name: string;
+      description: string;
+    }) => {
       const requestBody = {
         name: updateData.name,
+        description: updateData.description,
       };
       const res = await fetch(`/api/inventories/${updateData.id}`, {
         method: "PUT",

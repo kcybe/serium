@@ -6204,6 +6204,7 @@ export namespace Prisma {
   export type InventoryMinAggregateOutputType = {
     id: string | null
     name: string | null
+    description: string | null
     userId: string | null
     createdAt: Date | null
   }
@@ -6211,6 +6212,7 @@ export namespace Prisma {
   export type InventoryMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    description: string | null
     userId: string | null
     createdAt: Date | null
   }
@@ -6218,6 +6220,7 @@ export namespace Prisma {
   export type InventoryCountAggregateOutputType = {
     id: number
     name: number
+    description: number
     userId: number
     createdAt: number
     _all: number
@@ -6227,6 +6230,7 @@ export namespace Prisma {
   export type InventoryMinAggregateInputType = {
     id?: true
     name?: true
+    description?: true
     userId?: true
     createdAt?: true
   }
@@ -6234,6 +6238,7 @@ export namespace Prisma {
   export type InventoryMaxAggregateInputType = {
     id?: true
     name?: true
+    description?: true
     userId?: true
     createdAt?: true
   }
@@ -6241,6 +6246,7 @@ export namespace Prisma {
   export type InventoryCountAggregateInputType = {
     id?: true
     name?: true
+    description?: true
     userId?: true
     createdAt?: true
     _all?: true
@@ -6321,6 +6327,7 @@ export namespace Prisma {
   export type InventoryGroupByOutputType = {
     id: string
     name: string
+    description: string | null
     userId: string
     createdAt: Date
     _count: InventoryCountAggregateOutputType | null
@@ -6345,6 +6352,7 @@ export namespace Prisma {
   export type InventorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    description?: boolean
     userId?: boolean
     createdAt?: boolean
     items?: boolean | Inventory$itemsArgs<ExtArgs>
@@ -6356,6 +6364,7 @@ export namespace Prisma {
   export type InventorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    description?: boolean
     userId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -6364,6 +6373,7 @@ export namespace Prisma {
   export type InventorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    description?: boolean
     userId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -6372,11 +6382,12 @@ export namespace Prisma {
   export type InventorySelectScalar = {
     id?: boolean
     name?: boolean
+    description?: boolean
     userId?: boolean
     createdAt?: boolean
   }
 
-  export type InventoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "userId" | "createdAt", ExtArgs["result"]["inventory"]>
+  export type InventoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "userId" | "createdAt", ExtArgs["result"]["inventory"]>
   export type InventoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | Inventory$itemsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -6400,6 +6411,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      description: string | null
       userId: string
       createdAt: Date
     }, ExtArgs["result"]["inventory"]>
@@ -6830,6 +6842,7 @@ export namespace Prisma {
   interface InventoryFieldRefs {
     readonly id: FieldRef<"Inventory", 'String'>
     readonly name: FieldRef<"Inventory", 'String'>
+    readonly description: FieldRef<"Inventory", 'String'>
     readonly userId: FieldRef<"Inventory", 'String'>
     readonly createdAt: FieldRef<"Inventory", 'DateTime'>
   }
@@ -10769,6 +10782,7 @@ export namespace Prisma {
   export const InventoryScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    description: 'description',
     userId: 'userId',
     createdAt: 'createdAt'
   };
@@ -11231,6 +11245,7 @@ export namespace Prisma {
     NOT?: InventoryWhereInput | InventoryWhereInput[]
     id?: StringFilter<"Inventory"> | string
     name?: StringFilter<"Inventory"> | string
+    description?: StringNullableFilter<"Inventory"> | string | null
     userId?: StringFilter<"Inventory"> | string
     createdAt?: DateTimeFilter<"Inventory"> | Date | string
     items?: ItemListRelationFilter
@@ -11241,6 +11256,7 @@ export namespace Prisma {
   export type InventoryOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    description?: SortOrderInput | SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     items?: ItemOrderByRelationAggregateInput
@@ -11254,6 +11270,7 @@ export namespace Prisma {
     OR?: InventoryWhereInput[]
     NOT?: InventoryWhereInput | InventoryWhereInput[]
     name?: StringFilter<"Inventory"> | string
+    description?: StringNullableFilter<"Inventory"> | string | null
     userId?: StringFilter<"Inventory"> | string
     createdAt?: DateTimeFilter<"Inventory"> | Date | string
     items?: ItemListRelationFilter
@@ -11264,6 +11281,7 @@ export namespace Prisma {
   export type InventoryOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    description?: SortOrderInput | SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     _count?: InventoryCountOrderByAggregateInput
@@ -11277,6 +11295,7 @@ export namespace Prisma {
     NOT?: InventoryScalarWhereWithAggregatesInput | InventoryScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Inventory"> | string
     name?: StringWithAggregatesFilter<"Inventory"> | string
+    description?: StringNullableWithAggregatesFilter<"Inventory"> | string | null
     userId?: StringWithAggregatesFilter<"Inventory"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Inventory"> | Date | string
   }
@@ -11833,6 +11852,7 @@ export namespace Prisma {
   export type InventoryCreateInput = {
     id?: string
     name: string
+    description?: string | null
     createdAt?: Date | string
     items?: ItemCreateNestedManyWithoutInventoryInput
     user: UserCreateNestedOneWithoutInventoriesInput
@@ -11842,6 +11862,7 @@ export namespace Prisma {
   export type InventoryUncheckedCreateInput = {
     id?: string
     name: string
+    description?: string | null
     userId: string
     createdAt?: Date | string
     items?: ItemUncheckedCreateNestedManyWithoutInventoryInput
@@ -11851,6 +11872,7 @@ export namespace Prisma {
   export type InventoryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemUpdateManyWithoutInventoryNestedInput
     user?: UserUpdateOneRequiredWithoutInventoriesNestedInput
@@ -11860,6 +11882,7 @@ export namespace Prisma {
   export type InventoryUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemUncheckedUpdateManyWithoutInventoryNestedInput
@@ -11869,6 +11892,7 @@ export namespace Prisma {
   export type InventoryCreateManyInput = {
     id?: string
     name: string
+    description?: string | null
     userId: string
     createdAt?: Date | string
   }
@@ -11876,12 +11900,14 @@ export namespace Prisma {
   export type InventoryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InventoryUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12432,6 +12458,7 @@ export namespace Prisma {
   export type InventoryCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    description?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
   }
@@ -12439,6 +12466,7 @@ export namespace Prisma {
   export type InventoryMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    description?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
   }
@@ -12446,6 +12474,7 @@ export namespace Prisma {
   export type InventoryMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    description?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
   }
@@ -13529,6 +13558,7 @@ export namespace Prisma {
   export type InventoryCreateWithoutUserInput = {
     id?: string
     name: string
+    description?: string | null
     createdAt?: Date | string
     items?: ItemCreateNestedManyWithoutInventoryInput
     activityLogs?: ActivityLogCreateNestedManyWithoutInventoryInput
@@ -13537,6 +13567,7 @@ export namespace Prisma {
   export type InventoryUncheckedCreateWithoutUserInput = {
     id?: string
     name: string
+    description?: string | null
     createdAt?: Date | string
     items?: ItemUncheckedCreateNestedManyWithoutInventoryInput
     activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutInventoryInput
@@ -13688,6 +13719,7 @@ export namespace Prisma {
     NOT?: InventoryScalarWhereInput | InventoryScalarWhereInput[]
     id?: StringFilter<"Inventory"> | string
     name?: StringFilter<"Inventory"> | string
+    description?: StringNullableFilter<"Inventory"> | string | null
     userId?: StringFilter<"Inventory"> | string
     createdAt?: DateTimeFilter<"Inventory"> | Date | string
   }
@@ -14075,6 +14107,7 @@ export namespace Prisma {
   export type InventoryCreateWithoutItemsInput = {
     id?: string
     name: string
+    description?: string | null
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutInventoriesInput
     activityLogs?: ActivityLogCreateNestedManyWithoutInventoryInput
@@ -14083,6 +14116,7 @@ export namespace Prisma {
   export type InventoryUncheckedCreateWithoutItemsInput = {
     id?: string
     name: string
+    description?: string | null
     userId: string
     createdAt?: Date | string
     activityLogs?: ActivityLogUncheckedCreateNestedManyWithoutInventoryInput
@@ -14153,6 +14187,7 @@ export namespace Prisma {
   export type InventoryUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutInventoriesNestedInput
     activityLogs?: ActivityLogUpdateManyWithoutInventoryNestedInput
@@ -14161,6 +14196,7 @@ export namespace Prisma {
   export type InventoryUncheckedUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     activityLogs?: ActivityLogUncheckedUpdateManyWithoutInventoryNestedInput
@@ -14353,6 +14389,7 @@ export namespace Prisma {
   export type InventoryCreateWithoutActivityLogsInput = {
     id?: string
     name: string
+    description?: string | null
     createdAt?: Date | string
     items?: ItemCreateNestedManyWithoutInventoryInput
     user: UserCreateNestedOneWithoutInventoriesInput
@@ -14361,6 +14398,7 @@ export namespace Prisma {
   export type InventoryUncheckedCreateWithoutActivityLogsInput = {
     id?: string
     name: string
+    description?: string | null
     userId: string
     createdAt?: Date | string
     items?: ItemUncheckedCreateNestedManyWithoutInventoryInput
@@ -14455,6 +14493,7 @@ export namespace Prisma {
   export type InventoryUpdateWithoutActivityLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemUpdateManyWithoutInventoryNestedInput
     user?: UserUpdateOneRequiredWithoutInventoriesNestedInput
@@ -14463,6 +14502,7 @@ export namespace Prisma {
   export type InventoryUncheckedUpdateWithoutActivityLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemUncheckedUpdateManyWithoutInventoryNestedInput
@@ -14533,6 +14573,7 @@ export namespace Prisma {
   export type InventoryCreateManyUserInput = {
     id?: string
     name: string
+    description?: string | null
     createdAt?: Date | string
   }
 
@@ -14629,6 +14670,7 @@ export namespace Prisma {
   export type InventoryUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemUpdateManyWithoutInventoryNestedInput
     activityLogs?: ActivityLogUpdateManyWithoutInventoryNestedInput
@@ -14637,6 +14679,7 @@ export namespace Prisma {
   export type InventoryUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemUncheckedUpdateManyWithoutInventoryNestedInput
     activityLogs?: ActivityLogUncheckedUpdateManyWithoutInventoryNestedInput
@@ -14645,6 +14688,7 @@ export namespace Prisma {
   export type InventoryUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

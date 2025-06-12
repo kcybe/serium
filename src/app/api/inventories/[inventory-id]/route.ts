@@ -74,6 +74,7 @@ export async function PUT(
   }
 
   const newName = requestBody.name;
+  const newDescription = requestBody.description;
 
   if (typeof newName !== "string" || newName.length === 0) {
     return NextResponse.json(
@@ -105,6 +106,7 @@ export async function PUT(
       },
       data: {
         name: newName,
+        description: newDescription,
       },
     });
 

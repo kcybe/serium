@@ -166,6 +166,7 @@ exports.Prisma.VerificationScalarFieldEnum = {
 exports.Prisma.InventoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  description: 'description',
   userId: 'userId',
   createdAt: 'createdAt'
 };

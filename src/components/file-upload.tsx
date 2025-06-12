@@ -48,7 +48,9 @@ export const FileUpload = ({
 
     const updatedFiles = [...files, ...newFiles];
     setFiles(updatedFiles);
-    onChange && onChange(updatedFiles);
+    if (onChange) {
+      onChange(updatedFiles);
+    }
   };
 
   const handleDrop = (acceptedFiles: File[]) => {

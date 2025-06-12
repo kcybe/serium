@@ -6,6 +6,7 @@ import { columns } from "./_components/columns";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import LoadingInventoryPage from "./loading";
 import { CreateInventoryModal } from "@/components/inventories/create-inventory-modal";
+import InventoriesActions from "./_components/inventories-actions";
 
 export default function InventoryPage() {
   const { data: inventories, isLoading } = useInventories();
@@ -19,7 +20,10 @@ export default function InventoryPage() {
         <CardHeader className="flex-shrink-0">
           <div className="flex justify-between items-center">
             <h1 className="text-xl font-semibold">Inventories</h1>
-            <CreateInventoryModal />
+            <div className="flex items-center space-x-2">
+              <CreateInventoryModal />
+              <InventoriesActions />
+            </div>
           </div>
         </CardHeader>
         <CardContent className="flex-1 overflow-auto pt-1">

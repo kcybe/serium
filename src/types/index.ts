@@ -43,7 +43,11 @@ export type ActivityActionType =
   | "DELETE_ITEM"
   | "VERIFY_ITEM_BY_SERIAL"
   | "SEARCH_ITEMS"
-  | "VIEW_ALL_INVENTORIES";
+  | "VIEW_ALL_INVENTORIES"
+  | "EXPORT_INVENTORY"
+  | "IMPORT_INVENTORY"
+  | "EXPORT_ALL_INVENTORIES"
+  | "IMPORT_ALL_INVENTORIES";
 
 export interface RecentActivity {
   id: string;

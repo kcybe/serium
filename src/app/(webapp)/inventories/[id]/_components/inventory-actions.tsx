@@ -31,6 +31,7 @@ export default function InventoryActions({ inventoryId }: Props) {
         isOpen={isImportOpen}
         setIsOpen={setIsImportOpen}
         title="Import Items"
+        description="Restore all items in this inventory from a JSON or CSV file."
       >
         <ItemImportForm inventoryId={inventoryId} setIsOpen={setIsImportOpen} />
       </ResponsiveDialog>
@@ -40,6 +41,7 @@ export default function InventoryActions({ inventoryId }: Props) {
         isOpen={isExportOpen}
         setIsOpen={setIsExportOpen}
         title="Export Items"
+        description="Export all items in this inventory to a JSON or CSV file."
       >
         <ItemExportForm inventoryId={inventoryId} setIsOpen={setIsExportOpen} />
       </ResponsiveDialog>
@@ -49,6 +51,7 @@ export default function InventoryActions({ inventoryId }: Props) {
         isOpen={isVerifyOpen}
         setIsOpen={setIsVerifyOpen}
         title="Verify Items"
+        description="Verify items in this inventory."
       >
         <ItemVerifyForm inventoryId={inventoryId} />
       </ResponsiveDialog>

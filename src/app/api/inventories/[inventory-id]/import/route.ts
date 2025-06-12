@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/db";
 import { getAuthenticatedUserServer } from "@/lib/get-authenticated-user-server";
+import { logActivity } from "@/lib/logActivity";
 import { NextResponse } from "next/server";
 import Papa from "papaparse";
 import { z } from "zod";
@@ -119,6 +120,16 @@ export async function POST(
     if (itemsToCreate.length === 0) {
       return NextResponse.json({ message: "No items to import." });
     }
+
+    await logActivity({
+      userId: user.id,
+      action: "IMPORT_INVENTORY",
+      inventoryId: inventory.id,
+      metadata: {
+        inventoryName: inventory.name,
+        items: itemsToCreate.length,
+      },
+    });
 
     // 3. Use a single transaction block to create items
     await prisma.$transaction(async (tx) => {

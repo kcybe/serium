@@ -75,6 +75,26 @@ export const actionMap: Record<ActivityActions, ActionDisplayConfig> = {
     color: "bg-cyan-100 text-cyan-700",
     icon: Layers,
   },
+  [ActivityActions.EXPORT_ALL_INVENTORIES]: {
+    label: "Exported All Inventories",
+    color: "bg-cyan-100 text-cyan-700",
+    icon: Layers,
+  },
+  [ActivityActions.IMPORT_ALL_INVENTORIES]: {
+    label: "Imported All Inventories",
+    color: "bg-cyan-100 text-cyan-700",
+    icon: Layers,
+  },
+  [ActivityActions.EXPORT_INVENTORY]: {
+    label: "Exported Inventory",
+    color: "bg-cyan-100 text-cyan-700",
+    icon: Layers,
+  },
+  [ActivityActions.IMPORT_INVENTORY]: {
+    label: "Imported Inventory",
+    color: "bg-cyan-100 text-cyan-700",
+    icon: Layers,
+  },
 };
 
 // Fallback configuration for unknown actions

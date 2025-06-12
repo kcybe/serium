@@ -48,8 +48,12 @@ export async function GET(
 
   await logActivity({
     userId: user.id,
-    action: "VIEW_INVENTORY",
+    action: "EXPORT_INVENTORY",
     inventoryId: inventory.id,
+    metadata: {
+      inventoryName: inventory.name,
+      items: inventory.items.length,
+    },
   });
 
   switch (format.toLowerCase()) {

@@ -33,7 +33,6 @@ export default function SearchPage() {
 
   const { data: items, isLoading } = useSearchItems(debouncedQuery);
   const hasResults = Array.isArray(items) && items.length > 0;
-  const showInitialState = !debouncedQuery;
   const showEmptyState = debouncedQuery && !hasResults && !isLoading;
 
   return (

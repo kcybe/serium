@@ -87,9 +87,9 @@ export async function POST(req: Request, { params }: RouteParams) {
 
     await logActivity({
       userId: user.id,
-      action: "VERIFY_ITEM_BY_SERIAL",
+      action: "VERIFY_SELECTED_ITEMS",
       metadata: {
-        deleted: itemsToVerify.map((item) => ({
+        verified: itemsToVerify.map((item) => ({
           id: item.id,
           name: item.name,
         })),

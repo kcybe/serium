@@ -87,7 +87,7 @@ export async function POST(req: Request, { params }: RouteParams) {
 
     await logActivity({
       userId: user.id,
-      action: "DELETE_ITEM",
+      action: "DELETE_SELECTED_ITEMS",
       metadata: {
         deleted: itemsToDelete.map((item) => ({
           id: item.id,

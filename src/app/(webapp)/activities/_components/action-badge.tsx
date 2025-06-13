@@ -40,6 +40,11 @@ export const actionMap: Record<ActivityActions, ActionDisplayConfig> = {
     color: "bg-rose-100 text-rose-700",
     icon: Trash2,
   },
+  [ActivityActions.DELETE_SELECTED_INVENTORIES]: {
+    label: "Inventories Deleted",
+    color: "bg-rose-100 text-rose-700",
+    icon: Trash2,
+  },
   [ActivityActions.CREATE_ITEM]: {
     label: "Item Created",
     color: "bg-green-100 text-green-700",
@@ -60,8 +65,18 @@ export const actionMap: Record<ActivityActions, ActionDisplayConfig> = {
     color: "bg-red-100 text-red-700",
     icon: Trash2,
   },
+  [ActivityActions.DELETE_SELECTED_ITEMS]: {
+    label: "Items Deleted",
+    color: "bg-red-100 text-red-700",
+    icon: Trash2,
+  },
   [ActivityActions.VERIFY_ITEM_BY_SERIAL]: {
     label: "Item Verified",
+    color: "bg-teal-100 text-teal-700",
+    icon: ScanLine,
+  },
+  [ActivityActions.VERIFY_SELECTED_ITEMS]: {
+    label: "Items Verified",
     color: "bg-teal-100 text-teal-700",
     icon: ScanLine,
   },

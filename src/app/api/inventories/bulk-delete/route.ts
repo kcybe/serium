@@ -56,7 +56,7 @@ export async function POST(req: Request) {
 
     await logActivity({
       userId: user.id,
-      action: "DELETE_INVENTORY",
+      action: "DELETE_SELECTED_INVENTORIES",
       metadata: {
         deleted: inventoriesToDelete.map((inventory) => ({
           id: inventory.id,

@@ -1,11 +1,23 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useStats } from "@/hooks/dashboard/use-stats";
-import { Package, PackageCheck, AlertTriangle, Tag } from "lucide-react"
+import { Package, PackageCheck, AlertTriangle, Tag } from "lucide-react";
+import { StatsCardsSkeleton } from "./stats-cards-skeleton";
 
 export function StatsCards() {
   const { data: statsData, isLoading } = useStats();
+
+  if (isLoading) {
+    return (
+      <>
+        <StatsCardsSkeleton />
+        <StatsCardsSkeleton />
+        <StatsCardsSkeleton />
+        <StatsCardsSkeleton />
+      </>
+    );
+  }
 
   const stats = [
     {
@@ -40,33 +52,38 @@ export function StatsCards() {
       change: `+${statsData?.uniqueTagsCountChange}% new tags this month`,
       trend: statsData?.uniqueTagsCountTrend,
     },
-  ]
+  ];
 
   return (
     <>
       {stats.map((stat, index) => {
-        const Icon = stat.icon
+        const Icon = stat.icon;
         return (
           <Card key={index}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                {stat.title}
+              </CardTitle>
               <Icon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              {isLoading && <div>Loading...</div>}  
-              {stat.value && (
-                <div className="text-2xl font-bold">{stat.value}</div>
-              )}
-              <p className="text-xs text-muted-foreground">{stat.description}</p>
+              <div className="text-2xl font-bold">{stat.value}</div>
+              <p className="text-xs text-muted-foreground">
+                {stat.description}
+              </p>
               {stat.change && (
-                <p className={`text-xs mt-1 ${stat.trend === "up" ? "text-green-500" : "text-red-500"}`}>
+                <p
+                  className={`text-xs mt-1 ${
+                    stat.trend === "up" ? "text-green-500" : "text-red-500"
+                  }`}
+                >
                   {stat.change}
                 </p>
               )}
             </CardContent>
           </Card>
-        )
+        );
       })}
     </>
-  )
+  );
 }

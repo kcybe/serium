@@ -1,35 +1,11 @@
-"use client";
+import InventoryPageClient from "./_components/inventories-page-client";
+import { Metadata } from "next";
 
-import { useInventories } from "@/hooks/inventory";
-import { DataTable } from "./_components/data-table";
-import { columns } from "./_components/columns";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import LoadingInventoryPage from "./loading";
-import { CreateInventoryModal } from "@/components/inventories/create-inventory-modal";
-import InventoriesActions from "./_components/inventories-actions";
+export const metadata: Metadata = {
+  title: "Inventories | Serium",
+  description: "Monitor and manage your inventory with comprehensive analytics",
+};
 
 export default function InventoryPage() {
-  const { data: inventories, isLoading } = useInventories();
-
-  if (isLoading) return <LoadingInventoryPage />;
-  if (!inventories) return <div>Error loading inventory</div>;
-
-  return (
-    <div className="p-6 h-full">
-      <Card className="h-full flex flex-col">
-        <CardHeader className="flex-shrink-0">
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl font-semibold">Inventories</h1>
-            <div className="flex items-center space-x-2">
-              <CreateInventoryModal />
-              <InventoriesActions />
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="flex-1 overflow-auto pt-1">
-          <DataTable columns={columns} data={inventories} />
-        </CardContent>
-      </Card>
-    </div>
-  );
+  return <InventoryPageClient />;
 }

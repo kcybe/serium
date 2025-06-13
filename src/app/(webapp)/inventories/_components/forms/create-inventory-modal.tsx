@@ -8,7 +8,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { DiamondPlus, Loader2 } from "lucide-react";
 import { useCreateInventory } from "@/hooks/inventory";
 import { toast } from "sonner";

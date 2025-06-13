@@ -49,18 +49,18 @@ export default function ProductShowcaseSection() {
         </BlurFade>
 
         <BlurFade delay={0.5} inView>
-          <Card className="mt-12">
+          <Card className="mt-12 relative">
             <GlowEffect
               colors={["#0894FF", "#4A47FF", "#8A2BE2"]}
               mode="colorShift"
               blur="stronger"
               scale={1}
-              className="opacity-75"
+              className="opacity-50 absolute inset-0 z-0"
             />
             <Safari
               url="serium.noamyu.dev"
               src={showcaseImage}
-              className="relative size-full"
+              className="relative size-full z-10"
             />
           </Card>
         </BlurFade>

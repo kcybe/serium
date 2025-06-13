@@ -10,7 +10,7 @@ import { Navbar } from "@/components/landing-page/nav/navbar";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col mt-16 md:-mt-4 items-center w-full bg-background">
+    <div className="flex flex-col mt-16 sm:mt-24 md:-mt-4 items-center w-full bg-background">
       <Navbar />
       <main className="w-full">
         <HeroSection />

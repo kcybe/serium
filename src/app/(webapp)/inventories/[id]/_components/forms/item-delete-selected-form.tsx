@@ -5,53 +5,60 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import React from "react";
 import { toast } from "sonner";
-import { useDeleteMultipleInventories } from "@/hooks/inventory";
+import { useDeleteMultipleItems } from "@/hooks/inventory";
 
-interface DeleteSelectedInventoriesFormProps {
-  inventoryIdsNames: { id: string; name: string }[];
+interface ItemDeleteSelectedFormProps {
+  itemIdsSerialsNames: { id: string; serial: string; name: string }[];
   setIsOpen: (isOpen: boolean) => void;
   onSuccess: () => void;
+  inventoryId: string;
 }
 
-export default function DeleteSelectedInventoriesForm({
-  inventoryIdsNames,
+export default function ItemDeleteSelectedForm({
+  itemIdsSerialsNames,
   setIsOpen,
   onSuccess,
-}: DeleteSelectedInventoriesFormProps) {
-  const { mutate: deleteMultipleInventories, isPending: isDeleting } =
-    useDeleteMultipleInventories();
+  inventoryId,
+}: ItemDeleteSelectedFormProps) {
+  const { mutate: deleteMultipleItems, isPending: isDeleting } =
+    useDeleteMultipleItems();
 
   const handleSubmit = async () => {
-    if (inventoryIdsNames.length === 0) {
-      toast.error("No inventories selected for deletion.");
+    if (itemIdsSerialsNames.length === 0) {
+      toast.error("No items selected for deletion.");
       return;
     }
 
     try {
-      deleteMultipleInventories(
-        inventoryIdsNames.map((idName) => idName.id),
+      deleteMultipleItems(
+        {
+          inventoryId,
+          itemIdsToDelete: itemIdsSerialsNames.map(
+            (idSerialName) => idSerialName.id
+          ),
+        },
         {
           onSuccess: () => {
             toast.success(
-              `Successfully deleted ${inventoryIdsNames.length} inventories.`
+              `Successfully deleted ${itemIdsSerialsNames.length} items.`
             );
             onSuccess();
             setIsOpen(false);
           },
           onError: (error) => {
-            console.error("Failed to delete selected inventories:", error);
+            console.error("Failed to delete selected items:", error);
             toast.error(
               (error as Error).message ||
-                "Could not delete selected inventories. Please try again."
+                "Could not delete selected items. Please try again."
             );
           },
         }
       );
     } catch (error) {
-      console.error("Failed to delete selected inventories:", error);
+      console.error("Failed to delete selected items:", error);
       toast.error(
         (error as Error).message ||
-          "Could not delete selected inventories. Please try again."
+          "Could not delete selected items. Please try again."
       );
     }
   };
@@ -60,12 +67,16 @@ export default function DeleteSelectedInventoriesForm({
     <div className="space-y-4">
       <p>
         Are you sure you want to delete the selected{" "}
-        <strong>{inventoryIdsNames.length}</strong> inventory/inventories? This
-        action cannot be undone.
+        <strong>{itemIdsSerialsNames.length}</strong> items? This action cannot
+        be undone.
       </p>
       <Textarea
         disabled
-        value={inventoryIdsNames.map((idName) => idName.name).join(", ")}
+        value={itemIdsSerialsNames
+          .map(
+            (idSerialName) => `${idSerialName.name} (${idSerialName.serial})`
+          )
+          .join(", ")}
         className="resize-none"
       />
       <div className="flex justify-end space-x-2 pt-2">
@@ -79,14 +90,6 @@ export default function DeleteSelectedInventoriesForm({
             Cancel
           </Button>
         </div>
-        <Button
-          variant="outline"
-          onClick={() => setIsOpen(false)}
-          disabled={isDeleting}
-          className="w-full"
-        >
-          Cancel
-        </Button>
         <Button
           variant="destructive"
           onClick={handleSubmit}

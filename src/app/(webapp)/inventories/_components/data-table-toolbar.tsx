@@ -53,8 +53,7 @@ export function DataTableToolbar<TData>({
   };
 
   const handleBulkDeleteSuccess = () => {
-    table.resetRowSelection(); // Clear selection after successful deletion
-    // Data re-fetching should be handled by the mutation hook (e.g., invalidateQueries)
+    table.resetRowSelection();
   };
 
   return (

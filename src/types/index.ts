@@ -5,6 +5,10 @@ export type InventoryWithItems = Inventory & {
   items: ItemWithTags[];
 };
 
+export type ItemWithInventory = Item & {
+  inventory: Inventory;
+};
+
 export type ItemWithTags = Item & {
   tags: Pick<Tag, "id" | "name">[]; // Or just Tag[] if you fetch all tag fields
 };

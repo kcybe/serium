@@ -223,6 +223,7 @@ export function DataTableToolbar<TData>({
                       <IconMenu
                         text={`Delete Selected (${selectedRowsCount})`}
                         icon={<Trash className="h-4 w-4" />}
+                        className="text-red-500"
                       />
                     </DropdownMenuItem>
                   </DropdownMenuContent>

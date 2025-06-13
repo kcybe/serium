@@ -50,6 +50,8 @@ export function RecentActivity() {
     if (action.includes("VIEW") || action.includes("SEARCH"))
       return "bg-gray-100 text-gray-800";
     if (action.includes("VERIFY")) return "bg-purple-100 text-purple-800";
+    if (action.includes("IMPORT")) return "bg-yellow-100 text-yellow-800";
+    if (action.includes("EXPORT")) return "bg-blue-100 text-blue-800";
     return "";
   };
 

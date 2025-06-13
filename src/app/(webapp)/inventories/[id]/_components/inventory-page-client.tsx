@@ -1,6 +1,6 @@
 "use client";
 
-import { useInventoryById } from "@/hooks/inventory";
+import { useInventoryById } from "@/hooks/inventories";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { AddItemModal } from "@/components/inventories/inventory-items/add-item-modal";

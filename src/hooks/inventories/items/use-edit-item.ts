@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Item } from "../../../generated/prisma";
+import { Item } from "../../../../generated/prisma";
 
 export const useEditItemFromInventory = (inventoryId: string) => {
   const queryClient = useQueryClient();

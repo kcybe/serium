@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Button } from "../../ui/button";
 import { DiamondPlus } from "lucide-react";
-import { useAddItemToInventory, useTags } from "@/hooks/inventory";
+import { useAddItemToInventory, useTags } from "@/hooks/inventories";
 import { toast } from "sonner";
 import {
   Select,
@@ -185,12 +185,17 @@ export function AddItemModal({ inventoryId }: { inventoryId: string }) {
           <div className="flex justify-between space-x-2">
             <div className="w-full">
               <label className="block text-sm font-medium mb-1">Status</label>
-              <Select value={status} onValueChange={(value) => setStatus(value as ItemStatus)}>
+              <Select
+                value={status}
+                onValueChange={(value) => setStatus(value as ItemStatus)}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={ItemStatus.Available}>Available</SelectItem>
+                  <SelectItem value={ItemStatus.Available}>
+                    Available
+                  </SelectItem>
                   <SelectItem value={ItemStatus.InUse}>In Use</SelectItem>
                   <SelectItem value={ItemStatus.Broken}>Broken</SelectItem>
                   <SelectItem value={ItemStatus.Repair}>Repair</SelectItem>

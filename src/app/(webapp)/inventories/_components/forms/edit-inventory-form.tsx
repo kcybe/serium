@@ -17,7 +17,7 @@ import { Loader2 } from "lucide-react";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import * as z from "zod";
 import { InventoryWithItems } from "@/types";
-import { useEditInventory } from "@/hooks/inventory";
+import { useEditInventory } from "@/hooks/inventories";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 

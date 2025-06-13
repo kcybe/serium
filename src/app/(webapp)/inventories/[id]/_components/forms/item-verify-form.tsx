@@ -5,7 +5,7 @@ import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Check, Search, X } from "lucide-react";
-import { useVerifyItem } from "@/hooks/inventory";
+import { useVerifyItem } from "@/hooks/inventories";
 import { toast } from "sonner";
 
 interface Props {

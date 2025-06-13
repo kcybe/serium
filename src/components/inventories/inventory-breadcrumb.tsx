@@ -18,7 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useInventoryById } from "@/hooks/inventory";
+import { useInventoryById } from "@/hooks/inventories";
 import { Home, Folder, Package, Search, Shield } from "lucide-react";
 
 const ITEMS_TO_DISPLAY = 3;

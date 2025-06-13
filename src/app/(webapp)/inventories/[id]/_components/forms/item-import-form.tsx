@@ -2,7 +2,7 @@
 
 import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
-import { useImportItemsToInventory } from "@/hooks/inventory";
+import { useImportItemsToInventory } from "@/hooks/inventories";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";

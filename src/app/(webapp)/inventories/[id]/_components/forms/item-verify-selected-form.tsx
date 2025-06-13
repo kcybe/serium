@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import React from "react";
 import { toast } from "sonner";
-import { useVerifyMultipleItems } from "@/hooks/inventory";
+import { useVerifyMultipleItems } from "@/hooks/inventories";
 
 interface ItemVerifySelectedFormProps {
   itemIdsSerialsNames: { id: string; serial: string; name: string }[];

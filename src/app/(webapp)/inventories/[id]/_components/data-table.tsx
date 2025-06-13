@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import React from "react";
-import { usePersistentColumnVisibility } from "@/hooks/inventory/datatable/use-persistent-column-visibility";
+import { usePersistentColumnVisibility } from "@/hooks/inventories/datatable/use-persistent-column-visibility";
 import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {

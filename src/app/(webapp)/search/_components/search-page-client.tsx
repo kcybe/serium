@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
-import { useSearchItems } from "@/hooks/inventory";
+import { useSearchItems } from "@/hooks/inventories";
 import { SearchResultItem } from "./search-result-item";
 import { SearchResultsSkeleton } from "./search-results-skeleton";
 import { FileSearch, SearchX } from "lucide-react";

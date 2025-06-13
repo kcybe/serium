@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { ControllerRenderProps, useForm } from "react-hook-form";
 import * as z from "zod";
-import { useEditItemFromInventory, useTags } from "@/hooks/inventory";
+import { useEditItemFromInventory, useTags } from "@/hooks/inventories";
 import { toast } from "sonner";
 import { ItemStatus } from "../../../../../../../generated/prisma";
 import {
@@ -41,7 +41,9 @@ const formSchema = z.object({
   description: z.string(),
   quantity: z.number(),
   serialNumber: z.string(),
-  tags: z.array(z.object({ id: z.string().optional(), text: z.string() })).optional(),
+  tags: z
+    .array(z.object({ id: z.string().optional(), text: z.string() }))
+    .optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -54,7 +56,7 @@ export default function ItemEditForm({
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const [tags, setTags] = useState<EmblorTag[]>(
-    item.tags?.map(tag => ({ id: tag.id, text: tag.name })) || []
+    item.tags?.map((tag) => ({ id: tag.id, text: tag.name })) || []
   );
   const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
   const { data: allPrismaTags, isLoading: isLoadingTags } = useTags();
@@ -67,7 +69,7 @@ export default function ItemEditForm({
       description: item.description || "",
       quantity: item.quantity,
       serialNumber: item.serialNumber || "",
-      tags: item.tags?.map(tag => ({ id: tag.id, text: tag.name })) || [],
+      tags: item.tags?.map((tag) => ({ id: tag.id, text: tag.name })) || [],
     },
   });
 
@@ -133,7 +135,7 @@ export default function ItemEditForm({
           seenTexts.add(tag.text);
         }
       }
-      
+
       return uniqueTags;
     });
   };
@@ -247,7 +249,9 @@ export default function ItemEditForm({
                 <FormItem>
                   <FormLabel>Status</FormLabel>
                   <Select
-                    onValueChange={(value) => field.onChange(value as ItemStatus)}
+                    onValueChange={(value) =>
+                      field.onChange(value as ItemStatus)
+                    }
                     defaultValue={field.value}
                   >
                     <FormControl>

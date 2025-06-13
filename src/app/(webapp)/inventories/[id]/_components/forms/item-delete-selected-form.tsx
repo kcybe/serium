@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import React from "react";
 import { toast } from "sonner";
-import { useDeleteMultipleItems } from "@/hooks/inventory";
+import { useDeleteMultipleItems } from "@/hooks/inventories";
 
 interface ItemDeleteSelectedFormProps {
   itemIdsSerialsNames: { id: string; serial: string; name: string }[];

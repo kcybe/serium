@@ -1,6 +1,6 @@
 "use client";
 
-import { useInventories } from "@/hooks/inventory";
+import { useInventories } from "@/hooks/inventories";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";

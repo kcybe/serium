@@ -18,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useInventoryById } from "@/hooks/inventory";
 
 const ITEMS_TO_DISPLAY = 3;
 
@@ -25,16 +26,32 @@ export function InventoryBreadcrumb() {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
 
+  const pathSegments = React.useMemo(
+    () => pathname.split("/").filter(Boolean),
+    [pathname]
+  );
+
+  const inventoryId =
+    pathSegments[0] === "inventories" && pathSegments[1]
+      ? pathSegments[1]
+      : null;
+
+  const { data: inventory } = useInventoryById(inventoryId ?? "");
+
   const items = React.useMemo(() => {
-    const paths = pathname.split("/").filter(Boolean);
-    return [
+    const baseItems = [
       { href: "/", label: "Home" },
-      ...paths.map((path, index) => ({
-        href: `/${paths.slice(0, index + 1).join("/")}`,
-        label: path.charAt(0).toUpperCase() + path.slice(1),
-      })),
+      ...pathSegments.map((segment, index) => {
+        const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
+        const label =
+          inventoryId && segment === inventoryId && inventory?.name
+            ? inventory.name
+            : segment.charAt(0).toUpperCase() + segment.slice(1);
+        return { href, label };
+      }),
     ];
-  }, [pathname]);
+    return baseItems;
+  }, [pathSegments, inventory, inventoryId]);
 
   return (
     <Breadcrumb>
@@ -52,7 +69,7 @@ export function InventoryBreadcrumb() {
             );
           }
 
-          // Ellipsis dropdown for middle items
+          // Ellipsis dropdown for hidden middle items
           if (
             items.length > ITEMS_TO_DISPLAY &&
             index > 0 &&
@@ -89,7 +106,7 @@ export function InventoryBreadcrumb() {
             return null;
           }
 
-          // Last item
+          // Last item (current page)
           if (index === items.length - 1) {
             return (
               <BreadcrumbItem key={index}>
@@ -100,7 +117,7 @@ export function InventoryBreadcrumb() {
             );
           }
 
-          // Visible middle items
+          // Middle visible items
           return (
             <React.Fragment key={index}>
               <BreadcrumbItem>

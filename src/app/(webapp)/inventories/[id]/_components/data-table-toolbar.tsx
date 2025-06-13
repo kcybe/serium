@@ -6,7 +6,7 @@ import {
   Table,
   VisibilityState,
 } from "@tanstack/react-table";
-import { Check, Trash, X } from "lucide-react";
+import { Check, DotSquare, Trash, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -19,6 +19,15 @@ import ItemDeleteSelectedForm from "./forms/item-delete-selected-form";
 import ItemVerifySelectedForm from "./forms/item-verify-selected-form";
 import { useState } from "react";
 import { ItemWithInventory } from "@/types";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import IconMenu from "@/components/icon-menu";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -183,25 +192,41 @@ export function DataTableToolbar<TData>({
 
             {selectedRowsCount > 0 && (
               <>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => setIsDeleteSelectedModalOpen(true)}
-                  className="h-9"
-                >
-                  <Trash className="mr-2 h-4 w-4" />
-                  Delete Selected ({selectedRowsCount})
-                </Button>
-
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setIsVerifySelectedModalOpen(true)}
-                  className="h-9"
-                >
-                  <Check className="mr-2 h-4 w-4" />
-                  Verify Selected ({selectedRowsCount})
-                </Button>
+                <DropdownMenu modal={false}>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline">
+                      <DotSquare className="h-4 w-4" />
+                      <span>Selection Actions</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-[180px]">
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    {/* VERIFY SELECTED */}
+                    <DropdownMenuItem
+                      onSelect={(e) => {
+                        e.preventDefault();
+                        setIsVerifySelectedModalOpen(true);
+                      }}
+                    >
+                      <IconMenu
+                        text={`Verify Selected (${selectedRowsCount})`}
+                        icon={<Check className="h-4 w-4" />}
+                      />
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onSelect={(e) => {
+                        e.preventDefault();
+                        setIsDeleteSelectedModalOpen(true);
+                      }}
+                    >
+                      <IconMenu
+                        text={`Delete Selected (${selectedRowsCount})`}
+                        icon={<Trash className="h-4 w-4" />}
+                      />
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </>
             )}
           </div>

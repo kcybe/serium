@@ -12,3 +12,4 @@ export * from "./use-import";
 export * from "./use-create-inventory";
 export * from "./use-delete-multiple-inventories";
 export * from "./use-delete-multiple-items";
+export * from "./use-verify-multiple-items";

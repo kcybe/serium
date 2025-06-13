@@ -6,7 +6,7 @@ import {
   Table,
   VisibilityState,
 } from "@tanstack/react-table";
-import { Trash, X } from "lucide-react";
+import { Check, Trash, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options";
 import { ResponsiveDialog } from "@/components/responsive-dialog";
 import ItemDeleteSelectedForm from "./forms/item-delete-selected-form";
+import ItemVerifySelectedForm from "./forms/item-verify-selected-form";
 import { useState } from "react";
 import { ItemWithInventory } from "@/types";
 
@@ -46,6 +47,8 @@ export function DataTableToolbar<TData>({
   const isColumnFiltered = table.getState().columnFilters.length > 0;
   const [isDeleteSelectedModalOpen, setIsDeleteSelectedModalOpen] =
     useState(false);
+  const [isVerifySelectedModalOpen, setIsVerifySelectedModalOpen] =
+    useState(false);
 
   const selectedRowsCount = table.getFilteredSelectedRowModel().rows.length;
 
@@ -57,6 +60,11 @@ export function DataTableToolbar<TData>({
   };
 
   const handleBulkDeleteSuccess = () => {
+    table.resetRowSelection(); // Clear selection after successful deletion
+    // Data re-fetching should be handled by the mutation hook (e.g., invalidateQueries)
+  };
+
+  const handleBulkVerifySuccess = () => {
     table.resetRowSelection(); // Clear selection after successful deletion
     // Data re-fetching should be handled by the mutation hook (e.g., invalidateQueries)
   };
@@ -79,6 +87,26 @@ export function DataTableToolbar<TData>({
           )}
           setIsOpen={setIsDeleteSelectedModalOpen}
           onSuccess={handleBulkDeleteSuccess}
+          inventoryId={inventoryId}
+        />
+      </ResponsiveDialog>
+
+      <ResponsiveDialog
+        isOpen={isVerifySelectedModalOpen}
+        setIsOpen={setIsVerifySelectedModalOpen}
+        title={`Verify ${selectedRowsCount} Selected Items`}
+        description="This will permanently delete the selected items."
+      >
+        <ItemVerifySelectedForm
+          itemIdsSerialsNames={getSelectedItemsIdsSerialsNames().map(
+            (item) => ({
+              id: item.id,
+              serial: item.serial || "",
+              name: item.name || "",
+            })
+          )}
+          setIsOpen={setIsVerifySelectedModalOpen}
+          onSuccess={handleBulkVerifySuccess}
           inventoryId={inventoryId}
         />
       </ResponsiveDialog>
@@ -154,15 +182,27 @@ export function DataTableToolbar<TData>({
             </Button>
 
             {selectedRowsCount > 0 && (
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => setIsDeleteSelectedModalOpen(true)}
-                className="h-9"
-              >
-                <Trash className="mr-2 h-4 w-4" />
-                Delete Selected ({selectedRowsCount})
-              </Button>
+              <>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => setIsDeleteSelectedModalOpen(true)}
+                  className="h-9"
+                >
+                  <Trash className="mr-2 h-4 w-4" />
+                  Delete Selected ({selectedRowsCount})
+                </Button>
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsVerifySelectedModalOpen(true)}
+                  className="h-9"
+                >
+                  <Check className="mr-2 h-4 w-4" />
+                  Verify Selected ({selectedRowsCount})
+                </Button>
+              </>
             )}
           </div>
         </div>

@@ -14,7 +14,13 @@ import {
   useSidebar,
 } from "../ui/sidebar";
 import { cn } from "@/lib/utils";
-import { Search, Settings, Package, ChevronRight, Shield, LayoutDashboard } from "lucide-react";
+import {
+  Search,
+  Package,
+  ChevronRight,
+  Shield,
+  LayoutDashboard,
+} from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -38,11 +44,6 @@ const items = [
     title: "Activities",
     url: "/activities",
     icon: Shield,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
   },
 ];
 

@@ -91,7 +91,7 @@ export default function ItemVerifySelectedForm({
           </Button>
         </div>
         <Button
-          variant="outline"
+          variant="default"
           onClick={handleSubmit}
           disabled={isVerifying}
           className="w-full"

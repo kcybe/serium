@@ -19,8 +19,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useInventoryById } from "@/hooks/inventory";
+import { Home, Folder, Package, Search, Shield } from "lucide-react";
 
 const ITEMS_TO_DISPLAY = 3;
+
+const getBreadcrumbIcon = (segment: string) => {
+  const icons: Record<string, React.ReactNode> = {
+    dashboard: <Home className="w-4 h-4 mr-1" />,
+    inventories: <Folder className="w-4 h-4 mr-1" />,
+    items: <Package className="w-4 h-4 mr-1" />,
+    search: <Search className="w-4 h-4 mr-1" />,
+    activities: <Shield className="w-4 h-4 mr-1" />,
+  };
+  return icons[segment.toLowerCase()] ?? null;
+};
 
 export function InventoryBreadcrumb() {
   const [open, setOpen] = React.useState(false);
@@ -40,36 +52,67 @@ export function InventoryBreadcrumb() {
 
   const items = React.useMemo(() => {
     const baseItems = [
-      { href: "/", label: "Home" },
+      ...(pathSegments[0] !== "dashboard"
+        ? [{ href: "/dashboard", label: "Dashboard", segment: "dashboard" }]
+        : []),
       ...pathSegments.map((segment, index) => {
         const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
-        const label =
-          inventoryId && segment === inventoryId && inventory?.name
-            ? inventory.name
-            : segment.charAt(0).toUpperCase() + segment.slice(1);
-        return { href, label };
+        return {
+          href,
+          label:
+            inventoryId && segment === inventoryId && inventory?.name
+              ? inventory.name
+              : segment.charAt(0).toUpperCase() + segment.slice(1),
+          segment:
+            inventoryId && segment === inventoryId && inventory?.name
+              ? "inventories"
+              : segment,
+        };
       }),
     ];
     return baseItems;
   }, [pathSegments, inventory, inventoryId]);
 
+  if (items.length === 1) {
+    return (
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbPage className="inline-flex items-center gap-1.5 text-foreground">
+              {getBreadcrumbIcon(items[0].segment ?? "")}
+              {items[0].label}
+            </BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+  }
+
   return (
     <Breadcrumb>
       <BreadcrumbList>
         {items.map((item, index) => {
-          // First item (Home)
+          // First item (Dashboard)
           if (index === 0) {
             return (
               <React.Fragment key={index}>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
+                  <BreadcrumbLink
+                    href={item.href}
+                    className="inline-flex items-center gap-1.5"
+                  >
+                    <span className="inline-flex items-center gap-1.5">
+                      {getBreadcrumbIcon(item.segment ?? "")}
+                      {item.label}
+                    </span>
+                  </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
               </React.Fragment>
             );
           }
 
-          // Ellipsis dropdown for hidden middle items
+          // Ellipsis dropdown
           if (
             items.length > ITEMS_TO_DISPLAY &&
             index > 0 &&
@@ -91,7 +134,11 @@ export function InventoryBreadcrumb() {
                           .slice(1, -2)
                           .map((dropdownItem, dropdownIndex) => (
                             <DropdownMenuItem key={dropdownIndex}>
-                              <Link href={dropdownItem.href}>
+                              <Link
+                                href={dropdownItem.href}
+                                className="inline-flex items-center gap-1.5"
+                              >
+                                {getBreadcrumbIcon(dropdownItem.segment ?? "")}
                                 {dropdownItem.label}
                               </Link>
                             </DropdownMenuItem>
@@ -110,7 +157,11 @@ export function InventoryBreadcrumb() {
           if (index === items.length - 1) {
             return (
               <BreadcrumbItem key={index}>
-                <BreadcrumbPage className="max-w-20 truncate md:max-w-none">
+                <BreadcrumbPage
+                  aria-current="page"
+                  className="inline-flex items-center gap-1.5"
+                >
+                  {getBreadcrumbIcon(item.segment ?? "")}
                   {item.label}
                 </BreadcrumbPage>
               </BreadcrumbItem>
@@ -121,7 +172,15 @@ export function InventoryBreadcrumb() {
           return (
             <React.Fragment key={index}>
               <BreadcrumbItem>
-                <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
+                <BreadcrumbLink
+                  href={item.href}
+                  className="inline-flex items-center gap-1.5"
+                >
+                  <span className="inline-flex items-center gap-1.5">
+                    {getBreadcrumbIcon(item.segment ?? "")}
+                    {item.label}
+                  </span>
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
             </React.Fragment>

@@ -1,4 +1,5 @@
-// src/app/api/dashboard/recent-activity/route.ts
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/db";
 import { getAuthenticatedUserServer } from "@/lib/get-authenticated-user-server";
 import { NextResponse } from "next/server";
@@ -24,20 +25,20 @@ export async function GET() {
         action: true,
         createdAt: true,
         user: {
-          select: { name: true }
+          select: { name: true },
         },
-        item: { 
-          select: { id: true, name: true }
+        item: {
+          select: { id: true, name: true },
         },
-        inventory: { 
-          select: { id: true, name: true }
+        inventory: {
+          select: { id: true, name: true },
         },
       },
     });
 
-    const recentActivities: RecentActivity[] = activities.map(log => ({
+    const recentActivities: RecentActivity[] = activities.map((log) => ({
       id: log.id,
-      action: log.action as ActivityActionType, 
+      action: log.action as ActivityActionType,
       createdAt: log.createdAt.toISOString(),
       userName: log.user?.name,
       itemName: log.item?.name,
@@ -47,10 +48,10 @@ export async function GET() {
     }));
 
     return NextResponse.json(recentActivities);
-
   } catch (error) {
     console.error("Failed to fetch recent activity:", error);
-    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred";
     return NextResponse.json(
       { error: "Failed to fetch recent activity", details: errorMessage },
       { status: 500 }

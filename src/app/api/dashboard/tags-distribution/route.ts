@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/db";
 import { getAuthenticatedUserServer } from "@/lib/get-authenticated-user-server";
 import { TagDistributionData } from "@/types";
@@ -24,13 +26,14 @@ export async function GET() {
       },
     });
 
-    const responseData: TagDistributionData[] = tagsWithItemCounts.map(tag => ({
-      name: tag.name,
-      value: tag._count.items,
-    })).filter(tag => tag.value > 0);
+    const responseData: TagDistributionData[] = tagsWithItemCounts
+      .map((tag) => ({
+        name: tag.name,
+        value: tag._count.items,
+      }))
+      .filter((tag) => tag.value > 0);
 
     return NextResponse.json(responseData);
-
   } catch (error) {
     console.error("Failed to fetch tags distribution:", error);
     const errorMessage =

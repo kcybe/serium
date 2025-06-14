@@ -22,12 +22,37 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import SignOutButton from "./sign-out-btn";
 import { Button } from "../ui/button";
+import { Skeleton } from "../ui/skeleton";
 
 export default function UserDetails() {
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending: isLoadingSession } =
+    authClient.useSession();
   const user = session?.user;
   const { state, isMobile } = useSidebar();
   const isCollapsed = state === "collapsed";
+
+  if (isLoadingSession) {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            size="lg"
+            className={cn(isCollapsed ? "p-2" : "p-2 w-full")} // Adjust padding for collapsed state
+            disabled // Skeletons are often non-interactive
+          >
+            <Skeleton className="p-4 h-8 w-8 rounded-lg" />{" "}
+            {/* Avatar Skeleton */}
+            {!isCollapsed && (
+              <div className="ml-2 grid flex-1 text-left text-sm leading-tight">
+                <Skeleton className="h-4 w-16 mb-1" /> {/* Name Skeleton */}
+                <Skeleton className="h-3 w-24" /> {/* Email Skeleton */}
+              </div>
+            )}
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    );
+  }
 
   if (!user) {
     return (
@@ -37,17 +62,20 @@ export default function UserDetails() {
             asChild
             tooltip="Sign In"
             className={cn(
-              "flex items-center",
-              isCollapsed ? "justify-center" : "justify-start"
+              "flex items-center", // Removed justify-start as Button's own class handles it
+              isCollapsed ? "justify-center" : ""
             )}
           >
             <Button
               asChild
               variant="ghost"
-              className="w-full justify-start text-sm"
+              className="w-full justify-start text-sm p-2" // Ensure consistent padding
             >
               <Link href="/sign-in" className="flex items-center w-full">
-                <LogIn className={cn("h-5 w-5", !isCollapsed && "mr-2")} />
+                <LogIn
+                  className={cn("h-5 w-5 shrink-0", !isCollapsed && "mr-2")}
+                />{" "}
+                {/* Added shrink-0 */}
                 {!isCollapsed && <span>Sign In</span>}
               </Link>
             </Button>

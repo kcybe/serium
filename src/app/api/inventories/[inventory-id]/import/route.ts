@@ -132,50 +132,53 @@ export async function POST(
     });
 
     // 3. Use a single transaction block to create items
-    await prisma.$transaction(async (tx) => {
-      for (const item of itemsToCreate) {
-        // Handle tags: find or create them
-        const tagConnectOrCreate = [];
+    await prisma.$transaction(
+      async (tx) => {
+        for (const item of itemsToCreate) {
+          // Handle tags: find or create them
+          const tagConnectOrCreate = [];
 
-        // Tags from CSV are a string
-        if (typeof item.tags === "string" && item.tags) {
-          const tagNames = item.tags
-            .split(",")
-            .map((t) => t.trim())
-            .filter(Boolean);
-          for (const tagName of tagNames) {
-            tagConnectOrCreate.push({
-              where: { name_userId: { name: tagName, userId: user.id } },
-              create: { name: tagName, userId: user.id },
-            });
+          // Tags from CSV are a string
+          if (typeof item.tags === "string" && item.tags) {
+            const tagNames = item.tags
+              .split(",")
+              .map((t) => t.trim())
+              .filter(Boolean);
+            for (const tagName of tagNames) {
+              tagConnectOrCreate.push({
+                where: { name_userId: { name: tagName, userId: user.id } },
+                create: { name: tagName, userId: user.id },
+              });
+            }
+            // Tags from JSON are an array of objects
+          } else if (Array.isArray(item.tags)) {
+            for (const tag of item.tags) {
+              tagConnectOrCreate.push({
+                where: { name_userId: { name: tag.name, userId: user.id } },
+                create: { name: tag.name, userId: user.id },
+              });
+            }
           }
-          // Tags from JSON are an array of objects
-        } else if (Array.isArray(item.tags)) {
-          for (const tag of item.tags) {
-            tagConnectOrCreate.push({
-              where: { name_userId: { name: tag.name, userId: user.id } },
-              create: { name: tag.name, userId: user.id },
-            });
-          }
-        }
 
-        // Create the item
-        await tx.item.create({
-          data: {
-            // Use 'name' from JSON or 'itemName' from CSV
-            name: "name" in item ? item.name : item.itemName,
-            serialNumber: item.serialNumber,
-            status: item.status,
-            quantity: item.quantity,
-            description: item.description,
-            inventoryId: inventoryId,
-            tags: {
-              connectOrCreate: tagConnectOrCreate,
+          // Create the item
+          await tx.item.create({
+            data: {
+              // Use 'name' from JSON or 'itemName' from CSV
+              name: "name" in item ? item.name : item.itemName,
+              serialNumber: item.serialNumber,
+              status: item.status,
+              quantity: item.quantity,
+              description: item.description,
+              inventoryId: inventoryId,
+              tags: {
+                connectOrCreate: tagConnectOrCreate,
+              },
             },
-          },
-        });
-      }
-    });
+          });
+        }
+      },
+      { timeout: 30000 }
+    );
 
     return NextResponse.json(
       {
@@ -186,10 +189,38 @@ export async function POST(
   } catch (error) {
     console.error("Import Error:", error);
     if (error instanceof SyntaxError) {
-      // Catches JSON.parse errors
       return NextResponse.json(
         { error: "Invalid JSON format." },
         { status: 400 }
+      );
+    }
+    if (error instanceof z.ZodError) {
+      // Handle Zod validation errors explicitly
+      return NextResponse.json(
+        { error: "Data validation failed", details: error.format() },
+        { status: 400 }
+      );
+    }
+    // Check for Prisma transaction timeout error specifically
+    if (
+      (error as any)?.code === "P2028" ||
+      (error as any)?.message?.includes("Transaction already closed")
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Import operation timed out. Please try with a smaller file or contact support.",
+        },
+        { status: 504 }
+      );
+    }
+    if ((error as any)?.code === "P2002") {
+      return NextResponse.json(
+        {
+          error:
+            "Import operation failed. There was a duplicate serial number when trying to import.",
+        },
+        { status: 500 }
       );
     }
     return NextResponse.json(

@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { InventoryWithItems } from "@/types";
 import { toast } from "sonner";
-import { useDeleteInventory } from "@/hooks/inventory";
+import { useDeleteInventory } from "@/hooks/inventories";
 
 export default function DeleteForm({
   inventory,
@@ -30,7 +30,6 @@ export default function DeleteForm({
       },
       onError: (error) => {
         toast.error(`Failed to delete inventory: ${error.message}`);
-        // setIsOpen(false);
       },
     });
   };

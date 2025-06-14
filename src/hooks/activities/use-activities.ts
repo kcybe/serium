@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ActivityLog } from "../../../generated/prisma";
+import { ActivityLog } from "../../../prisma/generated/prisma";
 
 export interface ActivityLogWithRelations extends ActivityLog {
   user?: { name: string | null; email: string }; // Example, adjust to your API response

@@ -11,7 +11,7 @@ import {
 import { InventoryWithItems } from "@/types";
 import { MoreHorizontal, SquarePen, Trash2 } from "lucide-react";
 import React, { useState } from "react";
-import RenameForm from "./forms/rename-form";
+import RenameForm from "./forms/edit-inventory-form";
 import DeleteForm from "./forms/delete-form";
 import IconMenu from "@/components/icon-menu";
 

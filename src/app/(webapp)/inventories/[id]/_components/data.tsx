@@ -1,4 +1,4 @@
-import { useTags } from "@/hooks/inventory";
+import { useTags } from "@/hooks/inventories";
 import {
   AlertTriangle,
   CheckCircle,

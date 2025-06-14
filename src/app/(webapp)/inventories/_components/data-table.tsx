@@ -23,7 +23,7 @@ import { DataTablePagination } from "@/components/data-table/data-table-paginati
 
 import React from "react";
 import { DataTableToolbar } from "./data-table-toolbar";
-import { usePersistentColumnVisibility } from "@/hooks/inventory/datatable/use-persistent-column-visibility";
+import { usePersistentColumnVisibility } from "@/hooks/inventories/datatable/use-persistent-column-visibility";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

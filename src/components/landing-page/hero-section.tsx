@@ -49,7 +49,7 @@ export function HeroSection() {
                   {titles.map((title, index) => (
                     <motion.span
                       key={index}
-                      className="absolute font-semibold"
+                      className="absolute font-semibold text-primary"
                       initial={{ opacity: 0, y: "-100" }}
                       transition={{ type: "spring", stiffness: 50 }}
                       animate={

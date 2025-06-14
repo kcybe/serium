@@ -62,7 +62,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { name } = requestBody;
+  const { name, description } = requestBody;
 
   if (!name || typeof name !== "string" || name.trim().length === 0) {
     return NextResponse.json(
@@ -75,6 +75,7 @@ export async function POST(req: Request) {
     const newInventory = await prisma.inventory.create({
       data: {
         name: name.trim(), // Use trimmed name
+        description: description?.trim(), // Use trimmed description
         userId: user.id,
       },
     });

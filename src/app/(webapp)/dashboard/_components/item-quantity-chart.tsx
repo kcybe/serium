@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
-    Area,
-    AreaChart,
+  Area,
+  AreaChart,
   CartesianGrid,
   ResponsiveContainer,
   XAxis,
-} from "recharts"
+} from "recharts";
 import {
   ChartConfig,
   ChartContainer,
@@ -22,31 +22,38 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
-import { cn } from "@/lib/utils"
-import { useInventoriesQuantities, type InventoryQuantitiesDataPoint } from "@/hooks/dashboard/use-inventories-quantities"
+} from "@/components/ui/chart";
+import { cn } from "@/lib/utils";
+import {
+  useInventoriesQuantities,
+  type InventoryQuantitiesDataPoint,
+} from "@/hooks/dashboard/use-inventories-quantities";
+import { Loader2 } from "lucide-react";
 
+export function ItemQuantityChart({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  const { data: inventoriesQuantities, isLoading } = useInventoriesQuantities();
 
-export function ItemQuantityChart({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  const { data: inventoriesQuantities, isLoading } = useInventoriesQuantities()
-
-  const chartConfig: ChartConfig = {}
-  const seriesKeys: string[] = []
+  const chartConfig: ChartConfig = {};
+  const seriesKeys: string[] = [];
 
   if (inventoriesQuantities && inventoriesQuantities.length > 0) {
-    const firstDataItem: InventoryQuantitiesDataPoint = inventoriesQuantities[0]
+    const firstDataItem: InventoryQuantitiesDataPoint =
+      inventoriesQuantities[0];
     Object.keys(firstDataItem).forEach((key, index) => {
-      if (key.toLowerCase() !== "date") { 
-        seriesKeys.push(key)
+      if (key.toLowerCase() !== "date") {
+        seriesKeys.push(key);
         chartConfig[key] = {
-          label: key, 
+          label: key,
           color: `hsl(var(--chart-${index + 1}))`,
-        }
+        };
       }
-    })
+    });
   }
 
-  if (isLoading || !inventoriesQuantities || inventoriesQuantities.length === 0) {
+  if (isLoading) {
     return (
       <Card className={cn("col-span-4", className)} {...props}>
         <CardHeader>
@@ -55,13 +62,31 @@ export function ItemQuantityChart({ className, ...props }: React.HTMLAttributes<
             Monthly item quantity changes by inventory
           </CardDescription>
         </CardHeader>
-        <CardContent className="pl-2">
-          <div style={{ height: 350, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <p className="text-muted-foreground">Loading data or no data available...</p>
+        <CardContent>
+          <div className="min-h-[350px] w-full flex items-center justify-center">
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
           </div>
         </CardContent>
       </Card>
-    )
+    );
+  }
+
+  if (!inventoriesQuantities || inventoriesQuantities.length === 0) {
+    return (
+      <Card className={cn("col-span-4", className)} {...props}>
+        <CardHeader>
+          <CardTitle>Item Quantity Trends</CardTitle>
+          <CardDescription>
+            Monthly item quantity changes by inventory
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="min-h-[350px] w-full flex items-center justify-center text-muted-foreground text-sm">
+            No inventory data available to display.
+          </div>
+        </CardContent>
+      </Card>
+    );
   }
 
   return (
@@ -85,7 +110,7 @@ export function ItemQuantityChart({ className, ...props }: React.HTMLAttributes<
             >
               <CartesianGrid vertical={false} />
               <XAxis
-                dataKey="month" 
+                dataKey="month"
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
@@ -93,7 +118,7 @@ export function ItemQuantityChart({ className, ...props }: React.HTMLAttributes<
                 tickFormatter={(value) => value.slice(0, 3)}
               />
               <ChartTooltip
-                cursor={true} 
+                cursor={true}
                 content={<ChartTooltipContent indicator="line" />}
               />
               {seriesKeys.map((key) => (
@@ -114,5 +139,5 @@ export function ItemQuantityChart({ className, ...props }: React.HTMLAttributes<
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }

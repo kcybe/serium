@@ -9,7 +9,7 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import UserDetails from "./user-details";
-import { ThemeToggle } from "./theme-toggle";
+import { ThemeToggle } from "@/components/theme-toggle";
 import SidebarLogo from "./sidebar-logo";
 import SidebarItems from "./sidebar-items";
 
@@ -27,9 +27,9 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarSeparator />
       <SidebarFooter>
-        <SidebarMenu>
-          <ThemeToggle />
+        <SidebarMenu className="flex flex-row items-center justify-between p-2">
           <UserDetails />
+          <ThemeToggle className="p-4" />
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>

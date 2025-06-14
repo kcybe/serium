@@ -24,13 +24,13 @@ import {
 } from "@/components/ui/table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import React from "react";
-import { usePersistentColumnVisibility } from "@/hooks/inventory/datatable/use-persistent-column-visibility";
+import { usePersistentColumnVisibility } from "@/hooks/inventories/datatable/use-persistent-column-visibility";
 import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  inventoryId?: string;
+  inventoryId: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -82,6 +82,7 @@ export function DataTable<TData, TValue>({
         setRowSelection={setRowSelection}
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
+        inventoryId={inventoryId}
       />
 
       <div className="rounded-md border overflow-hidden">

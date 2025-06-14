@@ -1,23 +1,27 @@
-// src/app/api/dashboard/stats/route.ts
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/db";
 import { getAuthenticatedUserServer } from "@/lib/get-authenticated-user-server";
 import { NextResponse } from "next/server";
 import type { DashboardStats } from "@/types"; // Ensure this path is correct for your DashboardStats type
 
 // Helper function to calculate percentage change and trend
-function calculatePercentageChange(current: number, previous: number): { change?: number; trend?: 'up' | 'down' | 'neutral' } {
+function calculatePercentageChange(
+  current: number,
+  previous: number
+): { change?: number; trend?: "up" | "down" | "neutral" } {
   if (previous === 0) {
     // If previous is 0, any increase is 'infinite' or 100% if current > 0
     // You might want to display "New" or similar in the UI for this case
     return {
       change: current > 0 ? 100 : 0,
-      trend: current > 0 ? 'up' : 'neutral',
+      trend: current > 0 ? "up" : "neutral",
     };
   }
   const change = ((current - previous) / previous) * 100;
   return {
     change: parseFloat(change.toFixed(1)), // Round to one decimal place
-    trend: change > 0 ? 'up' : change < 0 ? 'down' : 'neutral',
+    trend: change > 0 ? "up" : change < 0 ? "down" : "neutral",
   };
 }
 
@@ -35,7 +39,7 @@ export async function GET() {
     // --- Total Items (sum of quantity) ---
     const currentTotalItemsAgg = await prisma.item.aggregate({
       _sum: { quantity: true },
-      where: { 
+      where: {
         inventory: { userId: user.id },
         // Consider if you only want items created *this* month or *all* current items
       },
@@ -50,13 +54,16 @@ export async function GET() {
       },
     });
     const previousTotalItems = previousTotalItemsAgg._sum.quantity ?? 0;
-    const totalItemsChangeStats = calculatePercentageChange(currentTotalItems, previousTotalItems);
+    const totalItemsChangeStats = calculatePercentageChange(
+      currentTotalItems,
+      previousTotalItems
+    );
 
     // --- Total Available Items (count) ---
     const currentAvailableItems = await prisma.item.count({
-      where: { 
-        inventory: { userId: user.id }, 
-        status: "Available" 
+      where: {
+        inventory: { userId: user.id },
+        status: "Available",
       },
     });
     const previousAvailableItems = await prisma.item.count({
@@ -66,7 +73,10 @@ export async function GET() {
         createdAt: { lt: startOfCurrentMonth },
       },
     });
-    const availableItemsChangeStats = calculatePercentageChange(currentAvailableItems, previousAvailableItems);
+    const availableItemsChangeStats = calculatePercentageChange(
+      currentAvailableItems,
+      previousAvailableItems
+    );
 
     // --- Items Needing Attention (count) ---
     const currentItemsNeedingAttention = await prisma.item.count({
@@ -82,7 +92,10 @@ export async function GET() {
         createdAt: { lt: startOfCurrentMonth },
       },
     });
-    const itemsNeedingAttentionChangeStats = calculatePercentageChange(currentItemsNeedingAttention, previousItemsNeedingAttention);
+    const itemsNeedingAttentionChangeStats = calculatePercentageChange(
+      currentItemsNeedingAttention,
+      previousItemsNeedingAttention
+    );
 
     // --- Unique Tags (count) ---
     const currentUniqueTags = await prisma.tag.count({
@@ -94,7 +107,10 @@ export async function GET() {
         createdAt: { lt: startOfCurrentMonth },
       },
     });
-    const uniqueTagsChangeStats = calculatePercentageChange(currentUniqueTags, previousUniqueTags);
+    const uniqueTagsChangeStats = calculatePercentageChange(
+      currentUniqueTags,
+      previousUniqueTags
+    );
 
     const dashboardStats: DashboardStats = {
       totalItems: currentTotalItems,
@@ -117,7 +133,8 @@ export async function GET() {
     return NextResponse.json(dashboardStats);
   } catch (error) {
     console.error("Failed to fetch stats with percentage change:", error);
-    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred";
     return NextResponse.json(
       { error: "Failed to fetch stats", details: errorMessage }, // Consider removing 'details' in production
       { status: 500 }

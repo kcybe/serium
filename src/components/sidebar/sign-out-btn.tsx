@@ -38,7 +38,7 @@ export default function SignOutButton() {
     <div
       onClick={handleSignOut}
       className={cn(
-        "flex w-full cursor-pointer items-center gap-2 px-2 py-1.5 text-sm text-red-500",
+        "flex w-full cursor-pointer items-center gap-2 px-2 py-1.5 text-sm text-red-500 rounded-3xl",
         "hover:bg-red-500/10 focus:bg-red-500/10",
         isLoading && "opacity-50 pointer-events-none"
       )}

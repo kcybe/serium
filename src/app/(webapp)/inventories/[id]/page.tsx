@@ -1,41 +1,22 @@
-"use client";
+import InventoryPageClient from "./_components/inventory-page-client";
+import { Metadata } from "next";
+import { getInventoryName } from "@/lib/inventory-server-helper"; // optional for dynamic metadata
 
-import { useParams } from "next/navigation";
-import { useInventoryById } from "@/hooks/inventory";
-import { DataTable } from "./_components/data-table";
-import { columns } from "./_components/columns";
-import { AddItemModal } from "@/components/inventories/inventory-items/add-item-modal";
-import { VerifyItemModal } from "@/components/inventories/inventory-items/verify-item-modal";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import LoadingInventoryPage from "./loading";
+type Props = {
+  params: { id: string };
+};
 
-export default function InventoryPage() {
-  const { id } = useParams();
-  const { data: inventory, isLoading } = useInventoryById(id as string);
+// Optional: fetch inventory name for dynamic metadata
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const name = await getInventoryName(params.id); // You write this fn to fetch name by ID
+  return {
+    title: `${name ?? "Inventory"} | Serium`,
+    description: `View and manage items inside the "${
+      name ?? "Inventory"
+    }" collection.`,
+  };
+}
 
-  if (isLoading) return <LoadingInventoryPage />;
-  if (!inventory) return <div>Error loading inventory</div>;
-
-  return (
-    <div className="p-6 h-full">
-      <Card className="h-full flex flex-col">
-        <CardHeader className="flex-shrink-0">
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl font-semibold">{inventory.name}</h1>
-            <div className="flex items-center space-x-2">
-              <VerifyItemModal inventoryId={inventory.id} />
-              <AddItemModal inventoryId={inventory.id} />
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="flex-1 overflow-auto pt-1">
-          <DataTable
-            columns={columns}
-            data={inventory.items}
-            inventoryId={inventory.id}
-          />
-        </CardContent>
-      </Card>
-    </div>
-  );
+export default function InventoryPage({ params }: Props) {
+  return <InventoryPageClient id={params.id} />;
 }

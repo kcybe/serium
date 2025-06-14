@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db"; // adjust to your project structure
-import { ActivityActions, Prisma } from "../../generated/prisma";
+import { ActivityActions, Prisma } from "../../prisma/generated/prisma";
 
 type LogActivityParams = {
   userId: string;

@@ -11,7 +11,7 @@ import {
   Layers,
   View,
 } from "lucide-react";
-import { ActivityActions } from "../../../../../generated/prisma";
+import { ActivityActions } from "../../../../../prisma/generated/prisma";
 
 interface ActionDisplayConfig {
   label: string;
@@ -40,6 +40,11 @@ export const actionMap: Record<ActivityActions, ActionDisplayConfig> = {
     color: "bg-rose-100 text-rose-700",
     icon: Trash2,
   },
+  [ActivityActions.DELETE_SELECTED_INVENTORIES]: {
+    label: "Inventories Deleted",
+    color: "bg-rose-100 text-rose-700",
+    icon: Trash2,
+  },
   [ActivityActions.CREATE_ITEM]: {
     label: "Item Created",
     color: "bg-green-100 text-green-700",
@@ -60,8 +65,18 @@ export const actionMap: Record<ActivityActions, ActionDisplayConfig> = {
     color: "bg-red-100 text-red-700",
     icon: Trash2,
   },
+  [ActivityActions.DELETE_SELECTED_ITEMS]: {
+    label: "Items Deleted",
+    color: "bg-red-100 text-red-700",
+    icon: Trash2,
+  },
   [ActivityActions.VERIFY_ITEM_BY_SERIAL]: {
     label: "Item Verified",
+    color: "bg-teal-100 text-teal-700",
+    icon: ScanLine,
+  },
+  [ActivityActions.VERIFY_SELECTED_ITEMS]: {
+    label: "Items Verified",
     color: "bg-teal-100 text-teal-700",
     icon: ScanLine,
   },
@@ -72,6 +87,31 @@ export const actionMap: Record<ActivityActions, ActionDisplayConfig> = {
   },
   [ActivityActions.VIEW_ALL_INVENTORIES]: {
     label: "Viewed All Inventories",
+    color: "bg-cyan-100 text-cyan-700",
+    icon: Layers,
+  },
+  [ActivityActions.EXPORT_ALL_INVENTORIES]: {
+    label: "Exported All Inventories",
+    color: "bg-cyan-100 text-cyan-700",
+    icon: Layers,
+  },
+  [ActivityActions.IMPORT_ALL_INVENTORIES]: {
+    label: "Imported All Inventories",
+    color: "bg-cyan-100 text-cyan-700",
+    icon: Layers,
+  },
+  [ActivityActions.EXPORT_INVENTORY]: {
+    label: "Exported Inventory",
+    color: "bg-cyan-100 text-cyan-700",
+    icon: Layers,
+  },
+  [ActivityActions.IMPORT_INVENTORY]: {
+    label: "Imported Inventory",
+    color: "bg-cyan-100 text-cyan-700",
+    icon: Layers,
+  },
+  [ActivityActions.UPDATE_PROFILE]: {
+    label: "Profile Updated",
     color: "bg-cyan-100 text-cyan-700",
     icon: Layers,
   },

@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 import { logActivity } from "@/lib/logActivity";
 import { ItemWithTags } from "@/types";
 import { normalizeTagName } from "@/lib/utils";
-import { Prisma } from "../../../../../../../generated/prisma";
+import { Prisma } from "../../../../../../../prisma/generated/prisma";
 import { cleanupUnusedTags } from "@/lib/tag-utils";
 
 export async function GET(
@@ -103,11 +103,11 @@ export async function DELETE(
         inventoryId: inventory.id,
       },
     });
-    
+
     if (!itemToDelete) {
       return NextResponse.json({ error: "Item not found" }, { status: 404 });
     }
-    
+
     // Log the activity BEFORE deleting the item
     await logActivity({
       userId: user.id,
@@ -127,7 +127,7 @@ export async function DELETE(
         })
       ),
     });
-    
+
     // Now delete the item
     const deletedItem = await prisma.item.delete({
       where: {
@@ -135,10 +135,10 @@ export async function DELETE(
         inventoryId: inventory.id,
       },
     });
-    
+
     // Clean up unused tags after deletion
     await cleanupUnusedTags(user.id);
-    
+
     return NextResponse.json({
       message: "Item deleted successfully",
       id: deletedItem.id,
@@ -189,7 +189,9 @@ export async function PUT(
       quantity,
       serialNumber,
       tags: emblorTags,
-    } = body as Partial<ItemWithTags> & { tags?: { id?: string; text: string }[] };
+    } = body as Partial<ItemWithTags> & {
+      tags?: { id?: string; text: string }[];
+    };
 
     // Basic validation (you might want more robust validation, e.g., with Zod)
     if (!name || !status) {
@@ -205,18 +207,18 @@ export async function PUT(
     });
 
     const tagConnectOrCreateOperations: Prisma.TagCreateOrConnectWithoutItemsInput[] =
-          [];
-    
-        for (const tag of emblorTags || []) {
-          const normalizedTagText = normalizeTagName(tag.text);
-          if (normalizedTagText) {
-            // Only proceed if the normalized name is not empty
-            tagConnectOrCreateOperations.push({
-              where: { name_userId: { name: normalizedTagText, userId: user.id } },
-              create: { name: normalizedTagText, userId: user.id },
-            });
-          }
-        }
+      [];
+
+    for (const tag of emblorTags || []) {
+      const normalizedTagText = normalizeTagName(tag.text);
+      if (normalizedTagText) {
+        // Only proceed if the normalized name is not empty
+        tagConnectOrCreateOperations.push({
+          where: { name_userId: { name: normalizedTagText, userId: user.id } },
+          create: { name: normalizedTagText, userId: user.id },
+        });
+      }
+    }
 
     // 3. Update the item
     const updatedItem = await prisma.item.update({
@@ -233,7 +235,7 @@ export async function PUT(
         tags: {
           // First disconnect all existing tags
           set: [],
-          // Then connect the new ones  
+          // Then connect the new ones
           connectOrCreate: tagConnectOrCreateOperations,
         },
       },

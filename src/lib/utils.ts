@@ -49,3 +49,12 @@ export function normalizeTagName(tagName: string): string {
   // If you want to ensure it never starts or ends with a hyphen:
   return normalized.replace(/^-+|-+$/g, "");
 }
+
+export function formatBreadcrumbLabel(segment: string): string {
+  if (!segment) return "";
+  let formatted = segment.replace(/-/g, " ");
+  formatted = formatted.replace(/\b\w|(?<=[a-z])[A-Z]/g, (char) =>
+    char.toUpperCase()
+  );
+  return formatted;
+}

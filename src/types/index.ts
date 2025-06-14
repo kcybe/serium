@@ -1,8 +1,12 @@
 // types/index.ts
-import { Inventory, Item, Tag } from "@/../generated/prisma/client";
+import { Inventory, Item, Tag } from "../../prisma/generated/prisma/client";
 
 export type InventoryWithItems = Inventory & {
   items: ItemWithTags[];
+};
+
+export type ItemWithInventory = Item & {
+  inventory: Inventory;
 };
 
 export type ItemWithTags = Item & {
@@ -17,19 +21,19 @@ export interface PrismaTagWithName {
 export interface DashboardStats {
   totalItems: number;
   totalItemsChange?: number; // Percentage change from last month
-  totalItemsTrend?: 'up' | 'down' | 'neutral';
+  totalItemsTrend?: "up" | "down" | "neutral";
 
   totalAvailableItems: number;
   totalAvailableItemsChange?: number;
-  totalAvailableItemsTrend?: 'up' | 'down' | 'neutral';
+  totalAvailableItemsTrend?: "up" | "down" | "neutral";
 
   uniqueTagsCount: number;
   uniqueTagsCountChange?: number; // Percentage change for new tags this month
-  uniqueTagsCountTrend?: 'up' | 'down' | 'neutral';
+  uniqueTagsCountTrend?: "up" | "down" | "neutral";
 
   itemsNeedingAttentionCount: number;
   itemsNeedingAttentionCountChange?: number;
-  itemsNeedingAttentionCountTrend?: 'up' | 'down' | 'neutral';
+  itemsNeedingAttentionCountTrend?: "up" | "down" | "neutral";
 }
 
 export type ActivityActionType =
@@ -43,7 +47,11 @@ export type ActivityActionType =
   | "DELETE_ITEM"
   | "VERIFY_ITEM_BY_SERIAL"
   | "SEARCH_ITEMS"
-  | "VIEW_ALL_INVENTORIES";
+  | "VIEW_ALL_INVENTORIES"
+  | "EXPORT_INVENTORY"
+  | "IMPORT_INVENTORY"
+  | "EXPORT_ALL_INVENTORIES"
+  | "IMPORT_ALL_INVENTORIES";
 
 export interface RecentActivity {
   id: string;
@@ -80,4 +88,5 @@ export interface ItemSearchResult {
     id: string;
     name: string;
   };
+  tags: Pick<Tag, "id" | "name">[];
 }

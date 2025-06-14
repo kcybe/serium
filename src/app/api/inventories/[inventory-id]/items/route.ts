@@ -7,7 +7,7 @@ import { logActivity } from "@/lib/logActivity";
 import { normalizeTagName } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { Prisma } from "../../../../../../generated/prisma";
+import { Prisma } from "../../../../../../prisma/generated/prisma";
 import { cleanupUnusedTags } from "@/lib/tag-utils";
 
 const EmblorTagSchema = z.object({

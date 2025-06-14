@@ -11,7 +11,7 @@ import {
   Layers,
   View,
 } from "lucide-react";
-import { ActivityActions } from "../../../../../generated/prisma";
+import { ActivityActions } from "../../../../../prisma/generated/prisma";
 
 interface ActionDisplayConfig {
   label: string;

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { type Tag as PrismaTag } from "../../../generated/prisma";
+import { type Tag as PrismaTag } from "../../../prisma/generated/prisma";
 
 // Fetch all tags
 export const useTags = () => {

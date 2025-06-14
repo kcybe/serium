@@ -18,7 +18,7 @@ import { ControllerRenderProps, useForm } from "react-hook-form";
 import * as z from "zod";
 import { useEditItemFromInventory, useTags } from "@/hooks/inventories";
 import { toast } from "sonner";
-import { ItemStatus } from "../../../../../../../generated/prisma";
+import { ItemStatus } from "../../../../../../../prisma/generated/prisma";
 import {
   Select,
   SelectContent,

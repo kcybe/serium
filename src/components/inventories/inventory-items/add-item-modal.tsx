@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { type Tag as EmblorTag, TagInput } from "emblor";
 import { normalizeTagName } from "@/lib/utils";
-import { ItemStatus } from "../../../../generated/prisma";
+import { ItemStatus } from "../../../../prisma/generated/prisma";
 
 interface PrismaTag {
   id: string;

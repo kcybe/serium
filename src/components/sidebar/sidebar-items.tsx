@@ -11,7 +11,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-  useSidebar,
+  // useSidebar, // No longer needed if we assume it's always expanded when visible
 } from "../ui/sidebar";
 import { cn } from "@/lib/utils";
 import {
@@ -28,8 +28,16 @@ import {
 } from "../ui/collapsible";
 import { useInventories } from "@/hooks/inventories";
 import Link from "next/link";
+import { Skeleton } from "../ui/skeleton"; // For cleaner loading state
 
-const items = [
+// Define the structure for standard sidebar items
+interface SidebarItemConfig {
+  title: string;
+  url: string;
+  icon: React.ElementType; // Use React.ElementType for component icons
+}
+
+const applicationItems: SidebarItemConfig[] = [
   {
     title: "Dashboard",
     url: "/dashboard",
@@ -49,8 +57,11 @@ const items = [
 
 export default function SidebarItems() {
   const { data: inventories, isLoading, error } = useInventories();
-  const { state } = useSidebar();
-  const isCollapsed = state === "collapsed";
+  // const { state } = useSidebar(); // Removed
+  // const isCollapsed = state === "collapsed"; // Removed
+
+  // Common button class, assuming expanded state
+  const buttonBaseClass = "flex items-center w-full justify-start px-3 py-2"; // Example padding
 
   return (
     <SidebarGroup>
@@ -60,78 +71,74 @@ export default function SidebarItems() {
           {/* START Inventories Collapsible Menu */}
           <Collapsible asChild defaultOpen={false}>
             <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <div className="group flex w-full">
-                  <SidebarMenuButton
-                    tooltip="Inventories"
-                    className={cn(
-                      "flex items-center w-full",
-                      isCollapsed ? "justify-center" : "justify-start"
-                    )}
-                  >
-                    <Link href={"/inventories"}>
-                      <Package className="h-5 w-5" />
-                    </Link>
-                    {!isCollapsed && (
-                      <>
-                        <span className="ml-2">Inventories</span>
-                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]:rotate-90" />
-                      </>
-                    )}
-                  </SidebarMenuButton>
-                </div>
+              <CollapsibleTrigger asChild className="w-full group">
+                <SidebarMenuButton
+                  tooltip="Inventories"
+                  className={cn(buttonBaseClass)}
+                >
+                  <Link href="/inventories" className="flex items-center">
+                    <Package className="h-5 w-5 shrink-0 -ml-[1px]" />
+                    <span className="ml-3.5 flex-1">Inventories</span>
+                  </Link>
+                  <ChevronRight className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-90" />
+                </SidebarMenuButton>
               </CollapsibleTrigger>
-              <CollapsibleContent>
-                {/* Loading state */}
+              <CollapsibleContent className="pt-1">
                 {isLoading && (
-                  <div className="flex items-center justify-center p-4">
-                    <span>Loading...</span>
+                  <div className="pl-7 pr-2 py-1 space-y-1.5">
+                    {[...Array(3)].map((_, i) => (
+                      <Skeleton key={i} className="h-[22px] w-full rounded" />
+                    ))}
                   </div>
                 )}
-                {/* Error state */}
                 {error && (
-                  <div className="flex items-center justify-center p-4">
-                    <span>Error loading inventories</span>
+                  <div className="text-xs text-destructive px-4 py-2 text-center pl-7">
+                    Error loading inventories
                   </div>
                 )}
-                {/* No inventories */}
-                {!inventories?.length && (
-                  <div className="flex items-center justify-center p-4">
-                    <span>No inventories found</span>
-                  </div>
-                )}
-                {/* Inventories list */}
-                <SidebarMenuSub>
-                  {inventories?.map((sub) => (
-                    <SidebarMenuSubItem key={sub.name}>
-                      <SidebarMenuSubButton asChild>
-                        <a href={`/inventories/${sub.id}`}>
-                          <span>{sub.name}</span>
-                        </a>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
+                {!isLoading &&
+                  !error &&
+                  (!inventories || inventories.length === 0) && (
+                    <div className="text-xs text-muted-foreground px-4 py-2 text-center pl-7">
+                      No inventories found
+                    </div>
+                  )}
+                {!isLoading &&
+                  !error &&
+                  inventories &&
+                  inventories.length > 0 && (
+                    <SidebarMenuSub className="pl-5">
+                      {inventories.map((sub) => (
+                        <SidebarMenuSubItem key={sub.id} className="px-2">
+                          <SidebarMenuSubButton
+                            asChild
+                            className="text-sm h-8 rounded-md"
+                          >
+                            <Link href={`/inventories/${sub.id}`}>
+                              <span className="truncate">{sub.name}</span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  )}
               </CollapsibleContent>
             </SidebarMenuItem>
           </Collapsible>
           {/* END Inventories Collapsible Menu */}
 
           {/* START Other Menu Items */}
-          {items.map((item) => (
+          {applicationItems.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
                 asChild
-                tooltip={item.title}
-                className={cn(
-                  "flex items-center w-full",
-                  isCollapsed ? "justify-center" : "justify-start"
-                )}
+                tooltip={item.title} // Tooltip still useful if sidebar can collapse at a higher level
+                className={cn(buttonBaseClass)}
               >
-                <a href={item.url} className="w-full flex items-center">
-                  <item.icon className="h-5 w-5" />
-                  {!isCollapsed && <span className="ml-2">{item.title}</span>}
-                </a>
+                <Link href={item.url} className="w-full flex items-center">
+                  <item.icon className="h-5 w-5 shrink-0" />
+                  <span className="ml-2">{item.title}</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

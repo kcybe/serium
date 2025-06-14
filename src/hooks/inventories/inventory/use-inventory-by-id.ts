@@ -3,13 +3,11 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query"; // Import UseQ
 
 export class FetchError extends Error {
   status?: number;
-  info?: any;
 
-  constructor(message: string, status?: number, info?: any) {
+  constructor(message: string, status?: number) {
     super(message);
     this.name = "FetchError";
     this.status = status;
-    this.info = info;
   }
 }
 
@@ -32,17 +30,16 @@ export const useInventoryById = (
       const res = await fetch(`/api/inventories/${id}`);
 
       if (!res.ok) {
-        let errorInfo;
         let errorMessage = `Failed to fetch inventory. Status: ${res.status}`;
         try {
-          errorInfo = await res.json();
+          const errorInfo = await res.json();
           if (errorInfo && errorInfo.error) {
             errorMessage = errorInfo.error;
           }
         } catch (e) {
           console.warn("Could not parse error response as JSON:", e);
         }
-        throw new FetchError(errorMessage, res.status, errorInfo);
+        throw new FetchError(errorMessage, res.status);
       }
       return res.json();
     },

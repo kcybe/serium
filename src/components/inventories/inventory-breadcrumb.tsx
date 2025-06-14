@@ -78,13 +78,7 @@ export function InventoryBreadcrumb() {
       }),
     ];
     return baseItems;
-  }, [
-    pathSegments,
-    inventoryId,
-    inventory,
-    isLoadingInventory,
-    isInventoryDetailPath,
-  ]);
+  }, [pathSegments, inventoryId, inventory]);
 
   if (isInventoryDetailPath && isLoadingInventory) {
     return (

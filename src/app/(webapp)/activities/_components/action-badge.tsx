@@ -110,6 +110,11 @@ export const actionMap: Record<ActivityActions, ActionDisplayConfig> = {
     color: "bg-cyan-100 text-cyan-700",
     icon: Layers,
   },
+  [ActivityActions.UPDATE_PROFILE]: {
+    label: "Profile Updated",
+    color: "bg-cyan-100 text-cyan-700",
+    icon: Layers,
+  },
 };
 
 // Fallback configuration for unknown actions

@@ -10,6 +10,17 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    minPasswordLength: 8,
+    maxPasswordLength: 20,
+  },
+  user: {
+    additionalFields: {
+      bio: {
+        type: "string",
+        required: false,
+        defaultValue: "",
+      },
+    },
   },
   plugins: [nextCookies()],
 });

@@ -52,6 +52,7 @@ export function RecentActivity() {
     if (action.includes("VERIFY")) return "bg-purple-100 text-purple-800";
     if (action.includes("IMPORT")) return "bg-yellow-100 text-yellow-800";
     if (action.includes("EXPORT")) return "bg-blue-100 text-blue-800";
+    if (action.includes("UPDATE_PROFILE")) return "bg-blue-100 text-blue-800";
     return "";
   };
 

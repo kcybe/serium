@@ -19,6 +19,7 @@ model User {
   image         String?
   createdAt     DateTime
   updatedAt     DateTime
+  bio           String?
   sessions      Session[]
   accounts      Account[]
   inventories   Inventory[]
@@ -141,6 +142,7 @@ enum ActivityActions {
   VERIFY_SELECTED_ITEMS
   DELETE_SELECTED_ITEMS
   DELETE_SELECTED_INVENTORIES
+  UPDATE_PROFILE
 }
 
 model ActivityLog {

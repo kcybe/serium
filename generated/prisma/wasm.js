@@ -124,7 +124,8 @@ exports.Prisma.UserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   image: 'image',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  bio: 'bio'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
@@ -251,7 +252,8 @@ exports.ActivityActions = exports.$Enums.ActivityActions = {
   IMPORT_INVENTORY: 'IMPORT_INVENTORY',
   VERIFY_SELECTED_ITEMS: 'VERIFY_SELECTED_ITEMS',
   DELETE_SELECTED_ITEMS: 'DELETE_SELECTED_ITEMS',
-  DELETE_SELECTED_INVENTORIES: 'DELETE_SELECTED_INVENTORIES'
+  DELETE_SELECTED_INVENTORIES: 'DELETE_SELECTED_INVENTORIES',
+  UPDATE_PROFILE: 'UPDATE_PROFILE'
 };
 
 exports.Prisma.ModelName = {

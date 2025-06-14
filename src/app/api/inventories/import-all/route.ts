@@ -134,57 +134,60 @@ export async function POST(req: Request) {
     let inventoriesCreated = 0;
     let itemsCreated = 0;
 
-    await prisma.$transaction(async (tx) => {
-      for (const group of inventoryGroups) {
-        // Create the inventory
-        const newInventory = await tx.inventory.create({
-          data: { name: group.name, userId: user.id },
-        });
-        inventoriesCreated++;
+    await prisma.$transaction(
+      async (tx) => {
+        for (const group of inventoryGroups) {
+          // Create the inventory
+          const newInventory = await tx.inventory.create({
+            data: { name: group.name, userId: user.id },
+          });
+          inventoriesCreated++;
 
-        if (group.items && group.items.length > 0) {
-          for (const itemData of group.items) {
-            // Handle tags: find or create them
-            const tagConnectOrCreate = [];
-            // Tags from CSV are a string
-            if (typeof itemData.tags === "string" && itemData.tags) {
-              const tagNames = itemData.tags
-                .split(",")
-                .map((t) => t.trim())
-                .filter(Boolean);
-              for (const tagName of tagNames) {
-                tagConnectOrCreate.push({
-                  where: { name_userId: { name: tagName, userId: user.id } },
-                  create: { name: tagName, userId: user.id },
-                });
+          if (group.items && group.items.length > 0) {
+            for (const itemData of group.items) {
+              // Handle tags: find or create them
+              const tagConnectOrCreate = [];
+              // Tags from CSV are a string
+              if (typeof itemData.tags === "string" && itemData.tags) {
+                const tagNames = itemData.tags
+                  .split(",")
+                  .map((t) => t.trim())
+                  .filter(Boolean);
+                for (const tagName of tagNames) {
+                  tagConnectOrCreate.push({
+                    where: { name_userId: { name: tagName, userId: user.id } },
+                    create: { name: tagName, userId: user.id },
+                  });
+                }
+                // Tags from JSON are an array of objects
+              } else if (Array.isArray(itemData.tags)) {
+                for (const tag of itemData.tags) {
+                  tagConnectOrCreate.push({
+                    where: { name_userId: { name: tag.name, userId: user.id } },
+                    create: { name: tag.name, userId: user.id },
+                  });
+                }
               }
-              // Tags from JSON are an array of objects
-            } else if (Array.isArray(itemData.tags)) {
-              for (const tag of itemData.tags) {
-                tagConnectOrCreate.push({
-                  where: { name_userId: { name: tag.name, userId: user.id } },
-                  create: { name: tag.name, userId: user.id },
-                });
-              }
+
+              // Create the item and connect tags
+              await tx.item.create({
+                data: {
+                  name: "name" in itemData ? itemData.name : itemData.itemName,
+                  serialNumber: itemData.serialNumber,
+                  status: itemData.status,
+                  quantity: itemData.quantity,
+                  description: itemData.description,
+                  inventoryId: newInventory.id,
+                  tags: { connectOrCreate: tagConnectOrCreate },
+                },
+              });
+              itemsCreated++;
             }
-
-            // Create the item and connect tags
-            await tx.item.create({
-              data: {
-                name: "name" in itemData ? itemData.name : itemData.itemName,
-                serialNumber: itemData.serialNumber,
-                status: itemData.status,
-                quantity: itemData.quantity,
-                description: itemData.description,
-                inventoryId: newInventory.id,
-                tags: { connectOrCreate: tagConnectOrCreate },
-              },
-            });
-            itemsCreated++;
           }
         }
-      }
-    });
+      },
+      { timeout: 30000 }
+    );
 
     await logActivity({
       userId: user.id,
@@ -196,15 +199,44 @@ export async function POST(req: Request) {
       message: `Successfully imported ${inventoriesCreated} inventories and ${itemsCreated} items.`,
     });
   } catch (error) {
-    if (error instanceof z.ZodError) {
+    console.error("Import Error:", error);
+    if (error instanceof SyntaxError) {
       return NextResponse.json(
-        { error: "Validation failed", details: error.flatten() },
+        { error: "Invalid JSON format." },
         { status: 400 }
       );
     }
-    console.error("Import-All failed:", error);
+    if (error instanceof z.ZodError) {
+      // Handle Zod validation errors explicitly
+      return NextResponse.json(
+        { error: "Data validation failed", details: error.format() },
+        { status: 400 }
+      );
+    }
+    // Check for Prisma transaction timeout error specifically
+    if (
+      (error as any)?.code === "P2028" ||
+      (error as any)?.message?.includes("Transaction already closed")
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Import operation timed out. Please try with a smaller file or contact support.",
+        },
+        { status: 504 }
+      );
+    }
+    if ((error as any)?.code === "P2002") {
+      return NextResponse.json(
+        {
+          error:
+            "Import operation failed. There was a duplicate serial number when trying to import an item.",
+        },
+        { status: 500 }
+      );
+    }
     return NextResponse.json(
-      { error: "An unexpected error occurred during import." },
+      { error: "Failed to process import." },
       { status: 500 }
     );
   }

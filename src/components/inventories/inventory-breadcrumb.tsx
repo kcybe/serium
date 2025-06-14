@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useInventoryById } from "@/hooks/inventories";
 import { Home, Folder, Package, Search, Shield } from "lucide-react";
+import { formatBreadcrumbLabel } from "@/lib/utils";
+import { Skeleton } from "../ui/skeleton";
 
 const ITEMS_TO_DISPLAY = 3;
 
@@ -48,7 +50,12 @@ export function InventoryBreadcrumb() {
       ? pathSegments[1]
       : null;
 
-  const { data: inventory } = useInventoryById(inventoryId ?? "");
+  const isInventoryDetailPath =
+    inventoryId && pathSegments.length > 1 && pathSegments[0] === "inventories";
+
+  const { data: inventory, isPending: isLoadingInventory } = useInventoryById(
+    inventoryId ?? ""
+  );
 
   const items = React.useMemo(() => {
     const baseItems = [
@@ -62,7 +69,7 @@ export function InventoryBreadcrumb() {
           label:
             inventoryId && segment === inventoryId && inventory?.name
               ? inventory.name
-              : segment.charAt(0).toUpperCase() + segment.slice(1),
+              : formatBreadcrumbLabel(segment), // Use your utility function
           segment:
             inventoryId && segment === inventoryId && inventory?.name
               ? "inventories"
@@ -71,16 +78,59 @@ export function InventoryBreadcrumb() {
       }),
     ];
     return baseItems;
-  }, [pathSegments, inventory, inventoryId]);
+  }, [
+    pathSegments,
+    inventoryId,
+    inventory,
+    isLoadingInventory,
+    isInventoryDetailPath,
+  ]);
+
+  if (isInventoryDetailPath && isLoadingInventory) {
+    return (
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink
+              href="/dashboard"
+              className="flex items-center gap-1.5"
+            >
+              <Home className="w-4 h-4 mr-1" /> Dashboard
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          {pathSegments[0] && pathSegments[0] !== "dashboard" && (
+            <>
+              <BreadcrumbItem>
+                <BreadcrumbLink
+                  href={`/${pathSegments[0]}`}
+                  className="flex items-center gap-1.5"
+                >
+                  {getBreadcrumbIcon(pathSegments[0])}{" "}
+                  {formatBreadcrumbLabel(pathSegments[0])}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+            </>
+          )}
+          <BreadcrumbItem>
+            <BreadcrumbPage className="inline-flex items-center gap-1.5">
+              <Skeleton className="w-20 h-4 bg-muted animate-pulse rounded-md" />
+            </BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+  }
 
   if (items.length === 1) {
     return (
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbPage className="inline-flex items-center gap-1.5 text-foreground">
+            <BreadcrumbPage className="inline-flex items-center gap-1.5 text-foreground font-semibold">
               {getBreadcrumbIcon(items[0].segment ?? "")}
-              {items[0].label}
+              {formatBreadcrumbLabel(items[0].label)}
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
@@ -103,7 +153,7 @@ export function InventoryBreadcrumb() {
                   >
                     <span className="inline-flex items-center gap-1.5">
                       {getBreadcrumbIcon(item.segment ?? "")}
-                      {item.label}
+                      {formatBreadcrumbLabel(item.label)}
                     </span>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
@@ -139,7 +189,7 @@ export function InventoryBreadcrumb() {
                                 className="inline-flex items-center gap-1.5"
                               >
                                 {getBreadcrumbIcon(dropdownItem.segment ?? "")}
-                                {dropdownItem.label}
+                                {formatBreadcrumbLabel(dropdownItem.label)}
                               </Link>
                             </DropdownMenuItem>
                           ))}
@@ -159,10 +209,10 @@ export function InventoryBreadcrumb() {
               <BreadcrumbItem key={index}>
                 <BreadcrumbPage
                   aria-current="page"
-                  className="inline-flex items-center gap-1.5"
+                  className="inline-flex items-center gap-1.5 font-semibold"
                 >
                   {getBreadcrumbIcon(item.segment ?? "")}
-                  {item.label}
+                  {formatBreadcrumbLabel(item.label)}
                 </BreadcrumbPage>
               </BreadcrumbItem>
             );
@@ -178,7 +228,7 @@ export function InventoryBreadcrumb() {
                 >
                   <span className="inline-flex items-center gap-1.5">
                     {getBreadcrumbIcon(item.segment ?? "")}
-                    {item.label}
+                    {formatBreadcrumbLabel(item.label)}
                   </span>
                 </BreadcrumbLink>
               </BreadcrumbItem>

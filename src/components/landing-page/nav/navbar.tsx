@@ -3,13 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Logo } from "./logo";
 import Link from "next/link";
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Navbar() {
-  const { setTheme, resolvedTheme } = useTheme();
-
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

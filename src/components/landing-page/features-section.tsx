@@ -35,7 +35,7 @@ export default function FeaturesSection() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-base text-pretty text-muted-foreground">
-                    Serium runs locally using Next.js, Prisma (SQLite), and
+                    Serium runs locally using Next.js, Prisma (PostgreSQL), and
                     BetterAuth. This means no external servers, full data
                     privacy, and true offline capability.
                   </p>

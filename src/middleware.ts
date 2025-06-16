@@ -14,10 +14,12 @@ export default async function authMiddleware(request: NextRequest) {
     path as (typeof PUBLIC_ROUTES)[number]
   );
 
+  const baseURL = process.env.BETTER_AUTH_URL;
+
   const { data: session } = await betterFetch<Session>(
     "/api/auth/get-session",
     {
-      baseURL: process.env.BETTER_AUTH_URL,
+      baseURL,
       headers: {
         cookie: request.headers.get("cookie") || "",
       },

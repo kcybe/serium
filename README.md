@@ -1,6 +1,6 @@
 <h1 align="center">
-  <a href="[Link to your deployed Serium instance or website if available]">
-    <img src="https://raw.githubusercontent.com/kcybe/serium/4ce7595f4c14f0527adbe8a7f9dc04f4960f46dd/public/logo-icon.svg?token=ASBI6BS2V35YFXAQUPDVERLIJWOT4" alt="Serium Logo" width="150">
+  <a href="https://serium.noamyu.dev/"">
+    <img src="https://raw.githubusercontent.com/kcybe/serium/826d75d495a65af8d8c27249734a7d6fa4eac8db/public/logo-icon.svg?token=ASBI6BT4Y2YTGO6SOMLD6D3IKBQ4A" alt="Serium Logo" width="150">
   </a>
   <br>
   Serium
@@ -12,7 +12,7 @@
 </h4>
 
 <p align="center">
-  <a href="[Link to your deployed Serium instance or website if available]">
+  <a href="https://serium.noamyu.dev/">
     <img src="https://img.shields.io/badge/Live%20Demo-Visit%20Now-brightgreen?style=flat-square" alt="Live Demo">
   </a>
   <a href="https://github.com/kcybe/serium/releases">
@@ -39,7 +39,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/kcybe/serium/main/public/screenshot.gif" alt="Serium Screenshot GIF" width="80%">
+  <img src="https://raw.githubusercontent.com/kcybe/serium/refs/heads/main/public/showcase-dark.png?token=GHSAT0AAAAAADDBOAZUZ2LZGLIK4K22H33Y2CQMHMA" alt="Serium Screenshot Dark" width="80%">
 </p>
 
 ## 🌟 About The Project
@@ -107,20 +107,15 @@ Follow these instructions to get a copy of Serium up and running on your local m
       ```
     - Open the `.env` file and fill in your specific credentials and configurations:
 
-      ````env # .env - # Database
+      ```env # .env - # Database
       DATABASE_URL="your_postgresql_or_mysql_or_sqlite_connection_string" # Example: postgresql://user:password@host:port/database or file:./prod.db
 
-          # Authentication (Update based on your auth provider)
-          NEXTAUTH_URL="http://localhost:3000" # Or your production URL
-          NEXTAUTH_SECRET="generate_a_strong_random_secret_string" # Run `openssl rand -hex 32` in your terminal
-          # Add other auth provider specific variables (e.g., GITHUB_ID, GITHUB_SECRET)
+      # Authentication
+      BETTER_AUTH_URL="http://localhost:3000" # Or your production URL
+      BETTER_AUTH_SECRET="generate_a_strong_random_secret_string" # Run `openssl rand -hex 32` in your terminal
+      ```
 
-          # Other application-specific variables (if any)
-          # EXAMPLE_API_KEY="your_api_key"
-          ```
-
-      > **Important:** `NEXTAUTH_SECRET` is crucial for security. Generate a strong, unique secret.
-      ````
+      > **Important:** `BETTER_AUTH_SECRET` is crucial for security. Generate a strong, unique secret.
 
 4.  **Set up the database with Prisma:**
 
@@ -158,19 +153,67 @@ Once the application is running:
 
 Serium is designed to be easily deployable on various platforms.
 
-- **Vercel:** Recommended for Next.js applications. Connect your GitHub repository for seamless CI/CD. Ensure all environment variables are set in your Vercel project settings.
-- **Docker:** (If you provide a Dockerfile)
-  1.  Build the Docker image: `docker build -t serium .`
-  2.  Run the Docker container: `docker run -p 3000:3000 -e DATABASE_URL="..." -e NEXTAUTH_SECRET="..." serium` (Pass all required environment variables).
+### Vercel Setup
 
-## 📥 Download / Releases
+Recommended for Next.js applications. Connect your GitHub repository for seamless CI/CD. Ensure all environment variables are set in your Vercel project settings.
 
-Pre-built releases for desktop platforms (Windows, macOS, Linux) are not standard for web applications like this unless you are using something like Electron or Tauri to wrap it. If you meant accessing the web app, clarify this section.
+### 🐳 Docker Setup
 
-If you are indeed building desktop apps:
-"You can [download the latest desktop release](https://github.com/kcybe/serium/releases) for Windows, macOS, and Linux."
+Serium is easily deployable with Docker. Here's a full guide to run it in a containerized environment.
 
-If not, consider removing this section or rephrasing it to "Accessing Serium".
+1. **Build the Docker image:**
+
+   ```bash
+   docker build \
+     --build-arg DATABASE_URL="your_database_url_here" \
+     -t serium-webapp .
+   ```
+
+   Replace `your_database_url_here` with your actual PostgreSQL connection string, for example:
+
+   ```bash
+   postgresql://user:password@host:port/database?sslmode=require
+   ```
+
+2. **Run the Docker container:**
+
+   ```bash
+   docker run -p 3000:3000 \
+     -e DATABASE_URL="your_database_url_here" \
+     -e BETTER_AUTH_URL="http://your-server-ip:3000" \
+     -e BETTER_AUTH_SECRET="your_super_secret" \
+     serium-webapp
+   ```
+
+   - `BETTER_AUTH_URL` should point to the public IP or domain of the machine running the container.
+   - `BETTER_AUTH_SECRET` must match the secret used in your auth configuration.
+
+3. **Access the app:**
+
+   Open your browser and go to:
+
+   ```
+   http://localhost:3000
+   ```
+
+   Or replace `localhost` with your server IP if running remotely:
+
+   ```
+   http://your-server-ip:3000
+   ```
+
+### ⚙️ Recommended `.dockerignore`
+
+Ensure your `.dockerignore` file includes the following to keep your Docker image lean and secure:
+
+```
+node_modules
+.next
+.env
+.DS_Store
+.git
+*.log
+```
 
 ## 🤝 Contributing
 

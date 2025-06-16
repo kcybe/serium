@@ -1,0 +1,33 @@
+# Node dependencies
+node_modules
+.npm
+
+# Build outputs
+.next
+dist
+
+# Logs
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# dotenv environment files
+.env
+.env.*    # Don't copy actual secrets
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Prisma
+prisma/dev.db
+prisma/migrations/**/README.md
+
+# Docker
+Dockerfile
+.dockerignore

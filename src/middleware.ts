@@ -4,7 +4,13 @@ import type { auth } from "@/lib/auth";
 
 type Session = typeof auth.$Infer.Session;
 
-const PUBLIC_ROUTES = ["/", "/sign-in", "/sign-up"] as const;
+const PUBLIC_ROUTES = [
+  "/",
+  "/sign-in",
+  "/sign-up",
+  "/privacy",
+  "/terms",
+] as const;
 const DEFAULT_AUTH_REDIRECT = "/dashboard";
 const DEFAULT_UNAUTH_REDIRECT = "/sign-in";
 

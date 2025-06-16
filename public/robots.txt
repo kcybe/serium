@@ -1,0 +1,7 @@
+# robots.txt for Serium
+# Developed by Noam Yu
+
+User-agent: *
+Disallow: /
+
+Sitemap: https://serium.noamyu.dev/sitemap.xml

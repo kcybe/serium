@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://serium.noamyu.dev/"">
-    <img src="https://raw.githubusercontent.com/kcybe/serium/826d75d495a65af8d8c27249734a7d6fa4eac8db/public/logo-icon.svg?token=ASBI6BT4Y2YTGO6SOMLD6D3IKBQ4A" alt="Serium Logo" width="150">
+    <img src="https://raw.githubusercontent.com/kcybe/serium/826d75d495a65af8d8c27249734a7d6fa4eac8db/public/logo-icon.svg" alt="Serium Logo" width="250">
   </a>
   <br>
   Serium
@@ -39,7 +39,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/kcybe/serium/refs/heads/main/public/showcase-dark.png?token=GHSAT0AAAAAADDBOAZUZ2LZGLIK4K22H33Y2CQMHMA" alt="Serium Screenshot Dark" width="80%">
+  <img src="https://raw.githubusercontent.com/kcybe/serium/refs/heads/main/public/showcase-dark.png" alt="Serium Screenshot Dark" width="80%">
 </p>
 
 ## 🌟 About The Project

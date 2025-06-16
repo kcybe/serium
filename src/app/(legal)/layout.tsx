@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Navbar } from "@/components/landing-page/nav/navbar"; // Adjust path
 import FooterSection from "@/components/landing-page/footer-section"; // Adjust path
 
-export default function MarketingPagesLayout({
+export default function LegalPagesLayout({
   children,
 }: {
   children: ReactNode;

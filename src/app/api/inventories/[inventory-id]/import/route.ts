@@ -6,6 +6,7 @@ import { logActivity } from "@/lib/logActivity";
 import { NextResponse } from "next/server";
 import Papa from "papaparse";
 import { z } from "zod";
+import { PrismaClientKnownRequestError } from "../../../../../../prisma/generated/prisma/runtime/library";
 
 // 1. Define schemas for BOTH CSV and JSON formats
 
@@ -203,8 +204,10 @@ export async function POST(
     }
     // Check for Prisma transaction timeout error specifically
     if (
-      (error as any)?.code === "P2028" ||
-      (error as any)?.message?.includes("Transaction already closed")
+      (error as PrismaClientKnownRequestError)?.code === "P2028" ||
+      (error as PrismaClientKnownRequestError)?.message?.includes(
+        "Transaction already closed"
+      )
     ) {
       return NextResponse.json(
         {
@@ -214,7 +217,7 @@ export async function POST(
         { status: 504 }
       );
     }
-    if ((error as any)?.code === "P2002") {
+    if ((error as PrismaClientKnownRequestError)?.code === "P2002") {
       return NextResponse.json(
         {
           error:

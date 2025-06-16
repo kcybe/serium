@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="[Link to your deployed Serium instance or website if available]">
-    <img src="https://raw.githubusercontent.com/kcybe/serium-v2/4ce7595f4c14f0527adbe8a7f9dc04f4960f46dd/public/logo-icon.svg?token=ASBI6BS2V35YFXAQUPDVERLIJWOT4" alt="Serium Logo" width="150">
+    <img src="https://raw.githubusercontent.com/kcybe/serium/4ce7595f4c14f0527adbe8a7f9dc04f4960f46dd/public/logo-icon.svg?token=ASBI6BS2V35YFXAQUPDVERLIJWOT4" alt="Serium Logo" width="150">
   </a>
   <br>
   Serium
@@ -15,11 +15,11 @@
   <a href="[Link to your deployed Serium instance or website if available]">
     <img src="https://img.shields.io/badge/Live%20Demo-Visit%20Now-brightgreen?style=flat-square" alt="Live Demo">
   </a>
-  <a href="https://github.com/kcybe/serium-v2/releases">
-    <img src="https://img.shields.io/github/v/release/kcybe/serium-v2?style=flat-square" alt="Latest Release">
+  <a href="https://github.com/kcybe/serium/releases">
+    <img src="https://img.shields.io/github/v/release/kcybe/serium?style=flat-square" alt="Latest Release">
   </a>
-  <a href="https://github.com/kcybe/serium-v2/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/kcybe/serium-v2?style=flat-square" alt="License">
+  <a href="https://github.com/kcybe/serium/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/kcybe/serium?style=flat-square" alt="License">
   </a>
   <a href="https://www.buymeacoffee.com/kcybe">
     <img src="https://img.shields.io/badge/Sponsor-%E2%9D%A4%EF%B8%8F%20Buy%20Me%20A%20Coffee-ff69b4?style=flat-square" alt="Buy Me A Coffee">
@@ -39,7 +39,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/kcybe/serium-v2/main/public/screenshot.gif" alt="Serium Screenshot GIF" width="80%">
+  <img src="https://raw.githubusercontent.com/kcybe/serium/main/public/screenshot.gif" alt="Serium Screenshot GIF" width="80%">
 </p>
 
 ## 🌟 About The Project
@@ -87,7 +87,7 @@ Follow these instructions to get a copy of Serium up and running on your local m
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/kcybe/serium-v2.git
+    git clone https://github.com/kcybe/serium.git
     cd serium
     ```
 
@@ -168,7 +168,7 @@ Serium is designed to be easily deployable on various platforms.
 Pre-built releases for desktop platforms (Windows, macOS, Linux) are not standard for web applications like this unless you are using something like Electron or Tauri to wrap it. If you meant accessing the web app, clarify this section.
 
 If you are indeed building desktop apps:
-"You can [download the latest desktop release](https://github.com/kcybe/serium-v2/releases) for Windows, macOS, and Linux."
+"You can [download the latest desktop release](https://github.com/kcybe/serium/releases) for Windows, macOS, and Linux."
 
 If not, consider removing this section or rephrasing it to "Accessing Serium".
 

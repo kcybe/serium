@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { BlurFade } from "@/components/animations/blur-fade";
-import { DownloadCloud, Github } from "lucide-react";
+import { Github, MessageSquareText } from "lucide-react";
 
 export default function CtaSection() {
   return (
@@ -23,14 +23,18 @@ export default function CtaSection() {
 
         <BlurFade delay={0.5} inView>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button size="lg" asChild>
+            <Button
+              size="lg"
+              className="rounded-full px-8 py-3 text-base"
+              asChild
+            >
               <Link
-                href="/download-placeholder"
+                href="https://github.com/kcybe/serium-v2/discussions" // Link to GitHub Discussions
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2"
               >
-                {" "}
-                {/* Replace with actual download link */}
-                <DownloadCloud className="w-5 h-5" /> Download Serium
+                <MessageSquareText className="w-5 h-5" /> Share Your Thoughts
               </Link>
             </Button>
             <Button size="lg" variant="outline" asChild>

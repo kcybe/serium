@@ -43,14 +43,6 @@ export default function FooterSection() {
                 </li>
                 <li>
                   <Link
-                    href="/download"
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    Download
-                  </Link>
-                </li>
-                <li>
-                  <Link
                     href="https://github.com/kcybe/serium/releases"
                     target="_blank"
                     rel="noopener noreferrer"

@@ -33,9 +33,9 @@ export async function GET(
           },
         },
         OR: [
-          { name: { contains: trimmedQuery } },
-          { serialNumber: { contains: trimmedQuery } },
-          { description: { contains: trimmedQuery } },
+          { name: { contains: trimmedQuery, mode: "insensitive" } },
+          { serialNumber: { contains: trimmedQuery, mode: "insensitive" } },
+          { description: { contains: trimmedQuery, mode: "insensitive" } },
         ],
       },
       include: {

@@ -34,17 +34,17 @@ export default function LoadingInventoryDetailPage() {
             {/* Left group of toolbar items */}
             <div className="flex flex-1 items-center space-x-2 flex-wrap">
               {/* Global Filter Input */}
-              <Skeleton className="h-9 w-full max-w-sm" />
+              <Skeleton className="h-9 w-full max-w-lg" />
               {/* Faceted Filter for Status (example) */}
-              <Skeleton className="h-9 w-32 rounded-md" />
+              <Skeleton className="h-8 w-20 rounded-md" />
               {/* Faceted Filter for Tags (example) */}
-              <Skeleton className="h-9 w-32 rounded-md" />
+              <Skeleton className="h-8 w-20 rounded-md" />
               {/* Reset Column Filters Button (conditional) */}
               {/* <Skeleton className="h-9 w-28 rounded-md" /> */}
               {/* DataTableViewOptions ("View" button) */}
-              <Skeleton className="h-9 w-20 rounded-md" />
+              <Skeleton className="h-8 w-20 rounded-md" />
               {/* Clear All Button */}
-              <Skeleton className="h-9 w-[110px] rounded-md" />
+              <Skeleton className="h-8 w-[100px] rounded-md" />
               {/* Selection Actions Dropdown (conditional) */}
               {/* <Skeleton className="h-9 w-40 rounded-md" /> */}
             </div>

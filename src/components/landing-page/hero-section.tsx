@@ -26,7 +26,12 @@ export function HeroSection() {
   return (
     <div className="w-full container mx-auto pb-[250px] overflow-hidden">
       <div className="z-0 flex gap-8 py-20 md:py-40 lg:py-40 items-center justify-center relative flex-col">
-        <div className="-z-10 bg-primary w-1/2 lg:w-3/4 max-w-[1200px] h-[450px] rounded-2xl blur-3xl opacity-25 absolute -bottom-[250px]" />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 0.25, scale: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+          className="-z-10 bg-primary w-1/2 lg:w-3/4 max-w-[1200px] h-[450px] rounded-2xl blur-3xl absolute -bottom-[250px]"
+        />
         <BlurFade delay={0.25} inView>
           <div>
             <Button variant="secondary" size="sm" className="gap-4">

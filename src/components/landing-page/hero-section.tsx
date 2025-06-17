@@ -34,10 +34,17 @@ export function HeroSection() {
         />
         <BlurFade delay={0.25} inView>
           <div>
-            <Button variant="secondary" size="sm" className="gap-4">
-              <Link href={"#features"} className="flex items-center gap-2">
-                Learn why Serium stands out <MoveRight className="w-4 h-4" />
-              </Link>
+            <Button
+              variant="secondary"
+              size="sm"
+              className="gap-4"
+              onClick={() =>
+                document
+                  .getElementById("features")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              Learn why Serium stands out <MoveRight className="w-4 h-4" />
             </Button>
           </div>
         </BlurFade>

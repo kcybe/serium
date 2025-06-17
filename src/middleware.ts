@@ -11,6 +11,7 @@ const PUBLIC_ROUTES = [
   "/privacy",
   "/terms",
 ] as const;
+const alwaysAllowed = ["/", "/privacy", "/terms"];
 const DEFAULT_AUTH_REDIRECT = "/dashboard";
 const DEFAULT_UNAUTH_REDIRECT = "/sign-in";
 
@@ -40,7 +41,7 @@ export default async function authMiddleware(request: NextRequest) {
   }
 
   // Handle authenticated users on public routes
-  if (isPublicRoute && path !== "/") {
+  if (isPublicRoute && !alwaysAllowed.includes(path)) {
     return NextResponse.redirect(new URL(DEFAULT_AUTH_REDIRECT, request.url));
   }
 

@@ -63,7 +63,7 @@ export default function FeaturesSection() {
                 <div className="mb-4 flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10 text-primary">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-white">
+                <h3 className="text-lg font-semibold text-black dark:text-white">
                   {feature.title}
                 </h3>
                 <p className="mt-2 text-sm font-mono text-muted-foreground leading-relaxed">
